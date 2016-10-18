@@ -34,29 +34,33 @@ namespace FaceClient
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
             string[] args = new string[1] { "arg" };
-            try
-            {
-                ic = Ice.Util.initialize(ref args);
-                if (ic == null)
-                {
-                    Debug.Assert(false, "初始化失败");
-                    return;
-                }
+            //try
+            //{
+            //    ic = Ice.Util.initialize(ref args);
+            //    if (ic == null)
+            //    {
+            //        Debug.Assert(false, "初始化失败");
+            //        return;
+            //    }
 
-                Ice.ObjectPrx pxy = ic.stringToProxy("myface:default -p 9996");
-                facePxy = FaceRecognitionPrxHelper.checkedCast(pxy);
-                if (facePxy == null)
-                {
-                    Debug.Assert(false, "代理为空");
-                    return;
-                }
-            }
+            //    Ice.ObjectPrx pxy = ic.stringToProxy("myface:default -p 9996");
+            //    facePxy = FaceRecognitionPrxHelper.checkedCast(pxy);
+            //    if (facePxy == null)
+            //    {
+            //        Debug.Assert(false, "代理为空");
+            //        return;
+            //    }
+            //}
+            //catch (System.Exception ex)
+            //{
+            //    Debug.Assert(false, "初始化失败");
+            //    return;
+            //}
 
-            catch (System.Exception ex)
-            {
-                Debug.Assert(false, "初始化失败");
-                return;
-            }
+            Client client = new Client();
+            client.main(args, "config.client");
+            ic = client.ic;
+            facePxy = client.proxy;
         }
 
         private string GetUUID()
