@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudAPI">
+      <HintPath>E:\Work\Person\IDAuthenticate\CloudAPI\bin\Debug\CloudAPI.dll</HintPath>
+    </Reference>
+    <Reference Include="Common">
+      <HintPath>E:\Work\Person\IDAuthenticate\CloudAPI\bin\Debug\Common.dll</HintPath>
+    </Reference>
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
@@ -46,11 +52,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="generated\FaceServer.cs" />
+    <Compile Include="MyFace.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="config.server">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="FaceServer.ice" />
   </ItemGroup>
   <ItemGroup />

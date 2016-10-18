@@ -9,37 +9,41 @@ using System.Threading;
 
 namespace server_callback
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    class callbacksender : Demo.CallbackSenderDisp_
+    public sealed class CallbackSenderI : CallbackSenderDisp_
     {
-        public override void initializeCallback(CallbackReceiverPrx proxy, Current current__)
+        public override void initiateCallback(CallbackReceiverPrx proxy, Ice.Current current)
         {
-            Console.Out.WriteLine("initialize callback");
+            System.Console.Out.WriteLine("initiating callback");
             try
             {
-                System.Threading.Tasks.Task.Factory.StartNew(() =>
+                Task.Factory.StartNew(() =>
                 {
-                    while(true)
+                    while (true)
                     {
                         proxy.callback();
-                        Thread.Sleep(1000);
                         Console.Out.WriteLine("call back");
+                        Thread.Sleep(1000);
                     }
                 });
-                
+              
             }
-            catch(System.Exception ex)
+            catch (System.Exception ex)
             {
-                Console.Error.WriteLine(ex);
+                System.Console.Error.WriteLine(ex);
             }
         }
 
-        public override void shutdownDynamicDetect(Current current__)
+        public override void shutdown(Ice.Current current)
         {
-            Console.Out.WriteLine("shutting down...");
-            current__.adapter.getCommunicator().shutdown();
+            System.Console.Out.WriteLine("Shutting down...");
+            try
+            {
+                current.adapter.getCommunicator().shutdown();
+            }
+            catch (System.Exception ex)
+            {
+                System.Console.Error.WriteLine(ex);
+            }
         }
     }
 }

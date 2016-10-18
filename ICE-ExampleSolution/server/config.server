@@ -1,0 +1,19 @@
+﻿#
+#
+#example 1
+#Face.Endpoints = default -p 9996
+
+#example 2
+#Face.Endpoints = default -h 192.168.1.116 -p 9996
+
+#example 3
+#如果服务端ip的方式为localhost，则客户端ip的方式也必须为localhost
+#Face.Endpoints = default -h localhost -p 9996
+
+#example 4 
+#指定协议的类型 tcp
+#Face.Endpoints = tcp -h 192.168.1.116 -p 9996
+
+#example 4 
+#指定协议的类型 udp
+Face.Endpoints = tcp -p 9996:udp -p 9996

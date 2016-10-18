@@ -67,10 +67,10 @@ namespace Demo
     public delegate void Callback_CallbackReceiver_callback();
 
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
-    public delegate void Callback_CallbackSender_initializeCallback();
+    public delegate void Callback_CallbackSender_initiateCallback();
 
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
-    public delegate void Callback_CallbackSender_shutdownDynamicDetect();
+    public delegate void Callback_CallbackSender_shutdown();
 }
 
 namespace Demo
@@ -96,33 +96,33 @@ namespace Demo
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
     public interface CallbackSenderPrx : Ice.ObjectPrx
     {
-        void initializeCallback(Demo.CallbackReceiverPrx proxy);
+        void initiateCallback(Demo.CallbackReceiverPrx proxy);
 
-        void initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__);
+        void initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__);
 
-        Ice.AsyncResult<Demo.Callback_CallbackSender_initializeCallback> begin_initializeCallback(Demo.CallbackReceiverPrx proxy);
+        Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy);
 
-        Ice.AsyncResult<Demo.Callback_CallbackSender_initializeCallback> begin_initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__);
+        Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__);
 
-        Ice.AsyncResult begin_initializeCallback(Demo.CallbackReceiverPrx proxy, Ice.AsyncCallback cb__, object cookie__);
+        Ice.AsyncResult begin_initiateCallback(Demo.CallbackReceiverPrx proxy, Ice.AsyncCallback cb__, object cookie__);
 
-        Ice.AsyncResult begin_initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__);
+        Ice.AsyncResult begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__);
 
-        void end_initializeCallback(Ice.AsyncResult r__);
+        void end_initiateCallback(Ice.AsyncResult r__);
 
-        void shutdownDynamicDetect();
+        void shutdown();
 
-        void shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__);
+        void shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__);
 
-        Ice.AsyncResult<Demo.Callback_CallbackSender_shutdownDynamicDetect> begin_shutdownDynamicDetect();
+        Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown();
 
-        Ice.AsyncResult<Demo.Callback_CallbackSender_shutdownDynamicDetect> begin_shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__);
+        Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__);
 
-        Ice.AsyncResult begin_shutdownDynamicDetect(Ice.AsyncCallback cb__, object cookie__);
+        Ice.AsyncResult begin_shutdown(Ice.AsyncCallback cb__, object cookie__);
 
-        Ice.AsyncResult begin_shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__);
+        Ice.AsyncResult begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__);
 
-        void end_shutdownDynamicDetect(Ice.AsyncResult r__);
+        void end_shutdown(Ice.AsyncResult r__);
     }
 }
 
@@ -143,17 +143,17 @@ namespace Demo
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
     public interface CallbackSenderOperations_
     {
-        void initializeCallback(Demo.CallbackReceiverPrx proxy, Ice.Current current__);
+        void initiateCallback(Demo.CallbackReceiverPrx proxy, Ice.Current current__);
 
-        void shutdownDynamicDetect(Ice.Current current__);
+        void shutdown(Ice.Current current__);
     }
 
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
     public interface CallbackSenderOperationsNC_
     {
-        void initializeCallback(Demo.CallbackReceiverPrx proxy);
+        void initiateCallback(Demo.CallbackReceiverPrx proxy);
 
-        void shutdownDynamicDetect();
+        void shutdown();
     }
 }
 
@@ -388,77 +388,77 @@ namespace Demo
     {
         #region Synchronous operations
 
-        public void initializeCallback(Demo.CallbackReceiverPrx proxy)
+        public void initiateCallback(Demo.CallbackReceiverPrx proxy)
         {
-            this.initializeCallback(proxy, null, false);
+            this.initiateCallback(proxy, null, false);
         }
 
-        public void initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__)
+        public void initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__)
         {
-            this.initializeCallback(proxy, ctx__, true);
+            this.initiateCallback(proxy, ctx__, true);
         }
 
-        private void initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> context__, bool explicitCtx__)
+        private void initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> context__, bool explicitCtx__)
         {
-            end_initializeCallback(begin_initializeCallback(proxy, context__, explicitCtx__, true, null, null));
+            end_initiateCallback(begin_initiateCallback(proxy, context__, explicitCtx__, true, null, null));
         }
 
-        public void shutdownDynamicDetect()
+        public void shutdown()
         {
-            this.shutdownDynamicDetect(null, false);
+            this.shutdown(null, false);
         }
 
-        public void shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__)
+        public void shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__)
         {
-            this.shutdownDynamicDetect(ctx__, true);
+            this.shutdown(ctx__, true);
         }
 
-        private void shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> context__, bool explicitCtx__)
+        private void shutdown(_System.Collections.Generic.Dictionary<string, string> context__, bool explicitCtx__)
         {
-            end_shutdownDynamicDetect(begin_shutdownDynamicDetect(context__, explicitCtx__, true, null, null));
+            end_shutdown(begin_shutdown(context__, explicitCtx__, true, null, null));
         }
 
         #endregion
 
         #region Asynchronous operations
 
-        public Ice.AsyncResult<Demo.Callback_CallbackSender_initializeCallback> begin_initializeCallback(Demo.CallbackReceiverPrx proxy)
+        public Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy)
         {
-            return begin_initializeCallback(proxy, null, false, false, null, null);
+            return begin_initiateCallback(proxy, null, false, false, null, null);
         }
 
-        public Ice.AsyncResult<Demo.Callback_CallbackSender_initializeCallback> begin_initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__)
+        public Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__)
         {
-            return begin_initializeCallback(proxy, ctx__, true, false, null, null);
+            return begin_initiateCallback(proxy, ctx__, true, false, null, null);
         }
 
-        public Ice.AsyncResult begin_initializeCallback(Demo.CallbackReceiverPrx proxy, Ice.AsyncCallback cb__, object cookie__)
+        public Ice.AsyncResult begin_initiateCallback(Demo.CallbackReceiverPrx proxy, Ice.AsyncCallback cb__, object cookie__)
         {
-            return begin_initializeCallback(proxy, null, false, false, cb__, cookie__);
+            return begin_initiateCallback(proxy, null, false, false, cb__, cookie__);
         }
 
-        public Ice.AsyncResult begin_initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__)
+        public Ice.AsyncResult begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__)
         {
-            return begin_initializeCallback(proxy, ctx__, true, false, cb__, cookie__);
+            return begin_initiateCallback(proxy, ctx__, true, false, cb__, cookie__);
         }
 
-        private const string __initializeCallback_name = "initializeCallback";
+        private const string __initiateCallback_name = "initiateCallback";
 
-        public void end_initializeCallback(Ice.AsyncResult r__)
+        public void end_initiateCallback(Ice.AsyncResult r__)
         {
-            end__(r__, __initializeCallback_name);
+            end__(r__, __initiateCallback_name);
         }
 
-        private Ice.AsyncResult<Demo.Callback_CallbackSender_initializeCallback> begin_initializeCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
+        private Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
-            IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_initializeCallback> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_initializeCallback>(__initializeCallback_name, initializeCallback_completed__, cookie__);
+            IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_initiateCallback> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_initiateCallback>(__initiateCallback_name, initiateCallback_completed__, cookie__);
             if(cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
             try
             {
-                result__.prepare(__initializeCallback_name, Ice.OperationMode.Normal, ctx__, explicitContext__, synchronous__);
+                result__.prepare(__initiateCallback_name, Ice.OperationMode.Normal, ctx__, explicitContext__, synchronous__);
                 IceInternal.BasicStream os__ = result__.startWriteParams(Ice.FormatType.DefaultFormat);
                 Demo.CallbackReceiverPrxHelper.write__(os__, proxy);
                 result__.endWriteParams();
@@ -471,7 +471,7 @@ namespace Demo
             return result__;
         }
 
-        private void initializeCallback_completed__(Demo.Callback_CallbackSender_initializeCallback cb__)
+        private void initiateCallback_completed__(Demo.Callback_CallbackSender_initiateCallback cb__)
         {
             if(cb__ != null)
             {
@@ -479,43 +479,43 @@ namespace Demo
             }
         }
 
-        public Ice.AsyncResult<Demo.Callback_CallbackSender_shutdownDynamicDetect> begin_shutdownDynamicDetect()
+        public Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown()
         {
-            return begin_shutdownDynamicDetect(null, false, false, null, null);
+            return begin_shutdown(null, false, false, null, null);
         }
 
-        public Ice.AsyncResult<Demo.Callback_CallbackSender_shutdownDynamicDetect> begin_shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__)
+        public Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__)
         {
-            return begin_shutdownDynamicDetect(ctx__, true, false, null, null);
+            return begin_shutdown(ctx__, true, false, null, null);
         }
 
-        public Ice.AsyncResult begin_shutdownDynamicDetect(Ice.AsyncCallback cb__, object cookie__)
+        public Ice.AsyncResult begin_shutdown(Ice.AsyncCallback cb__, object cookie__)
         {
-            return begin_shutdownDynamicDetect(null, false, false, cb__, cookie__);
+            return begin_shutdown(null, false, false, cb__, cookie__);
         }
 
-        public Ice.AsyncResult begin_shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__)
+        public Ice.AsyncResult begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__)
         {
-            return begin_shutdownDynamicDetect(ctx__, true, false, cb__, cookie__);
+            return begin_shutdown(ctx__, true, false, cb__, cookie__);
         }
 
-        private const string __shutdownDynamicDetect_name = "shutdownDynamicDetect";
+        private const string __shutdown_name = "shutdown";
 
-        public void end_shutdownDynamicDetect(Ice.AsyncResult r__)
+        public void end_shutdown(Ice.AsyncResult r__)
         {
-            end__(r__, __shutdownDynamicDetect_name);
+            end__(r__, __shutdown_name);
         }
 
-        private Ice.AsyncResult<Demo.Callback_CallbackSender_shutdownDynamicDetect> begin_shutdownDynamicDetect(_System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
+        private Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
-            IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdownDynamicDetect> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdownDynamicDetect>(__shutdownDynamicDetect_name, shutdownDynamicDetect_completed__, cookie__);
+            IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdown> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdown>(__shutdown_name, shutdown_completed__, cookie__);
             if(cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
             try
             {
-                result__.prepare(__shutdownDynamicDetect_name, Ice.OperationMode.Normal, ctx__, explicitContext__, synchronous__);
+                result__.prepare(__shutdown_name, Ice.OperationMode.Normal, ctx__, explicitContext__, synchronous__);
                 result__.writeEmptyParams();
                 result__.invoke();
             }
@@ -526,7 +526,7 @@ namespace Demo
             return result__;
         }
 
-        private void shutdownDynamicDetect_completed__(Demo.Callback_CallbackSender_shutdownDynamicDetect cb__)
+        private void shutdown_completed__(Demo.Callback_CallbackSender_shutdown cb__)
         {
             if(cb__ != null)
             {
@@ -822,19 +822,19 @@ namespace Demo
     {
         #region Slice operations
 
-        public void initializeCallback(Demo.CallbackReceiverPrx proxy)
+        public void initiateCallback(Demo.CallbackReceiverPrx proxy)
         {
-            initializeCallback(proxy, Ice.ObjectImpl.defaultCurrent);
+            initiateCallback(proxy, Ice.ObjectImpl.defaultCurrent);
         }
 
-        public abstract void initializeCallback(Demo.CallbackReceiverPrx proxy, Ice.Current current__);
+        public abstract void initiateCallback(Demo.CallbackReceiverPrx proxy, Ice.Current current__);
 
-        public void shutdownDynamicDetect()
+        public void shutdown()
         {
-            shutdownDynamicDetect(Ice.ObjectImpl.defaultCurrent);
+            shutdown(Ice.ObjectImpl.defaultCurrent);
         }
 
-        public abstract void shutdownDynamicDetect(Ice.Current current__);
+        public abstract void shutdown(Ice.Current current__);
 
         #endregion
 
@@ -886,24 +886,24 @@ namespace Demo
         #region Operation dispatch
 
         [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011")]
-        public static Ice.DispatchStatus initializeCallback___(CallbackSender obj__, IceInternal.Incoming inS__, Ice.Current current__)
+        public static Ice.DispatchStatus initiateCallback___(CallbackSender obj__, IceInternal.Incoming inS__, Ice.Current current__)
         {
             Ice.ObjectImpl.checkMode__(Ice.OperationMode.Normal, current__.mode);
             IceInternal.BasicStream is__ = inS__.startReadParams();
             Demo.CallbackReceiverPrx proxy;
             proxy = Demo.CallbackReceiverPrxHelper.read__(is__);
             inS__.endReadParams();
-            obj__.initializeCallback(proxy, current__);
+            obj__.initiateCallback(proxy, current__);
             inS__.writeEmptyParams__();
             return Ice.DispatchStatus.DispatchOK;
         }
 
         [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011")]
-        public static Ice.DispatchStatus shutdownDynamicDetect___(CallbackSender obj__, IceInternal.Incoming inS__, Ice.Current current__)
+        public static Ice.DispatchStatus shutdown___(CallbackSender obj__, IceInternal.Incoming inS__, Ice.Current current__)
         {
             Ice.ObjectImpl.checkMode__(Ice.OperationMode.Normal, current__.mode);
             inS__.readEmptyParams();
-            obj__.shutdownDynamicDetect(current__);
+            obj__.shutdown(current__);
             inS__.writeEmptyParams__();
             return Ice.DispatchStatus.DispatchOK;
         }
@@ -914,8 +914,8 @@ namespace Demo
             "ice_ids",
             "ice_isA",
             "ice_ping",
-            "initializeCallback",
-            "shutdownDynamicDetect"
+            "initiateCallback",
+            "shutdown"
         };
 
         public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
@@ -946,11 +946,11 @@ namespace Demo
                 }
                 case 4:
                 {
-                    return initializeCallback___(this, inS__, current__);
+                    return initiateCallback___(this, inS__, current__);
                 }
                 case 5:
                 {
-                    return shutdownDynamicDetect___(this, inS__, current__);
+                    return shutdown___(this, inS__, current__);
                 }
             }
 

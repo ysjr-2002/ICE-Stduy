@@ -4,18 +4,12 @@
 //
 // **********************************************************************
 
-#pragma once
+using Demo;
 
-module Demo
+public sealed class CallbackReceiverI : CallbackReceiverDisp_
 {
-	interface CallbackReceiver
-	{
-		void callback();
-	};
-
-	interface CallbackSender
-	{
-		void initiateCallback(CallbackReceiver* proxy);
-		void shutdown();
-	};
-};
+    public override void callback(Ice.Current current)
+    {
+        System.Console.Out.WriteLine("received callback");
+    }
+}
