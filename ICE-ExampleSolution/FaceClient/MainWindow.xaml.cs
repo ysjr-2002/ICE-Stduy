@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using Ice;
 using FaceRecognitionModule;
 using System.Diagnostics;
+using System.Threading;
 
 namespace FaceClient
 {
@@ -30,6 +31,8 @@ namespace FaceClient
             InitializeComponent();
             this.Loaded += MainWindow_Loaded;
         }
+
+        private Client client = null;
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
@@ -57,10 +60,18 @@ namespace FaceClient
             //    return;
             //}
 
-            Client client = new Client();
-            client.main(args, "config.client");
-            ic = client.ic;
-            facePxy = client.proxy;
+            Task.Factory.StartNew(() =>
+            {
+                client = new Client(Item);
+                client.main(args, "config.client");
+            });
+
+            Task.Factory.StartNew(() =>
+            {
+                Thread.Sleep(1000);
+                this.ic = client.ic;
+                this.facePxy = client.facePxy;
+            });
         }
 
         private string GetUUID()
@@ -87,18 +98,18 @@ namespace FaceClient
 
         private void btnOneCompareOne_Click(object sender, RoutedEventArgs e)
         {
-            var data = System.IO.File.ReadAllBytes("F:\\girl.jpg");
-            var comepareResult = facePxy.compare(data, data);
-            if (comepareResult == null)
-            {
-                Debug.Assert(false, "比对异常");
-                return;
-            }
+            //var data = System.IO.File.ReadAllBytes("F:\\girl.jpg");
+            //var comepareResult = facePxy.compare(data, data);
+            //if (comepareResult == null)
+            //{
+            //    Debug.Assert(false, "比对异常");
+            //    return;
+            //}
 
-            lbResult.Items.Clear();
-            Item("code:" + comepareResult.code);
-            Item("message:" + comepareResult.message);
-            Item("similarity:" + comepareResult.similarity);
+            //lbResult.Items.Clear();
+            //Item("code:" + comepareResult.code);
+            //Item("message:" + comepareResult.message);
+            //Item("similarity:" + comepareResult.similarity);
 
             #region 比对
             //facePxy.begin_compare(data, data).whenCompleted((comepareResult) =>
@@ -123,6 +134,8 @@ namespace FaceClient
             //});
             //Item("调用结束"); 
             #endregion
+
+            client.Compare();
         }
 
         private void btnFaceCapture_Click(object sender, RoutedEventArgs e)
