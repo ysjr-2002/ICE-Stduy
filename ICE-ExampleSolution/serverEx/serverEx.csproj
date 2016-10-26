@@ -36,6 +36,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CloudAPI">
+      <HintPath>E:\Work\Person\IDAuthenticate\CloudAPI\bin\Debug\CloudAPI.dll</HintPath>
+    </Reference>
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>

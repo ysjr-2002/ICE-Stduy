@@ -19,6 +19,15 @@ namespace serverEx
 
             Console.Out.WriteLine("server start...");
 
+            var task = CloudAPI.MegviiCloud.Login();
+            if (task.Result)
+            {
+                var taskSatus = CloudAPI.MegviiCloud.GetAccountStatus();
+                var status = taskSatus.Result;
+                Console.Out.WriteLine("剩余调用次数:" + status.data.limitation.quota);
+                Console.Out.WriteLine("cloud compare service start...");
+            }
+
             ic.waitForShutdown();
             Console.Out.WriteLine("wait to shutdown...");
         }

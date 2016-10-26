@@ -5,8 +5,8 @@
         xmlns:local="clr-namespace:FaceClientEx"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="MainWindow"
-        Width="525"
-        Height="350"
+        Width="550"
+        Height="530"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
     <Window.Resources>
@@ -22,20 +22,29 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <Button Click="btnOneCompareOne_Click" Content="compare" />
-            <!--<Button Click="btnFaceCapture_Click" Content="staticDetect" />
-            <Button Click="btnSignaturecode_Click" Content="convertSignatureCode" />
+            <Button Click="btnstaticDetect_Click" Content="staticDetect" />
+            <Button Click="btnconvertSignatureCode_Click" Content="convertSignatureCode" />
             <Button Click="btnQueryPerson_Click" Content="queryPerson" />
 
             <Button Click="btncreateorUpdatePerson_Click" Content="createorUpdatePerson" />
-            <Button Click="btnremovePerson_Click" Content="removePerson" />
+            <Button Click="btndeletePerson_Click" Content="deletePerson" />
+            <GroupBox Header="deletePersonTag">
+                <StackPanel>
+                    <CheckBox Name="ckbClearPersonTag" Content="All" Margin="5,0" />
+                    <Button Click="btndeletePersonTags_Click" Content="deletePersonTags" />
+                </StackPanel>
+            </GroupBox>
 
-            <Button Click="btnupdatePersonTag_Click" Content="updatePersonTag" />
-            <Button Click="btnremovePersonTag_Click" Content="removePersonTag" />
+            <Button Click="btndeletePersonsByTags_Click" Content="deletePersonsByTags" />
 
+            <CheckBox Name="ckbCallback"
+                      Margin="5,0"
+                      Content="callback" />
             <Button Click="btndynamicDetect_Click" Content="dynamicDetect" />
+            <Button Click="btnqueryQueue_Click" Content="queryQueue" />
             <Button Click="btnstopDynamicDetect_Click" Content="stopDynamicDetect" />
 
-            <Button Click="btnverifySignaturecode_Click" Content="verifySignaturecode" />-->
+            <Button Click="btnverifySignaturecode_Click" Content="verifySignaturecode" />
         </StackPanel>
 
         <ListBox Name="lbResult" Grid.Column="1" />
