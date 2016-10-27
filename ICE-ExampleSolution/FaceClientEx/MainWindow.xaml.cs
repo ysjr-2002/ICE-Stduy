@@ -18,6 +18,7 @@ using System.Xml;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using Common;
 
 namespace FaceClientEx
 {
@@ -63,7 +64,7 @@ namespace FaceClientEx
                     Debug.Assert(false, "初始化失败");
                     return;
                 }
-                Ice.ObjectPrx pxy = ic.stringToProxy("myface:default -p 9996");
+                Ice.ObjectPrx pxy = ic.stringToProxy("myface:tcp -h localhost -p 9996");
                 facePxy = FaceRecognitionPrxHelper.checkedCast(pxy);
                 if (facePxy == null)
                 {
@@ -71,7 +72,7 @@ namespace FaceClientEx
                     return;
                 }
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
                 Debug.Assert(false, "初始化失败");
                 return;
@@ -109,10 +110,10 @@ namespace FaceClientEx
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
-            var code = doc.SelectSingleNode("/xml/code");
-            var similarity = doc.SelectSingleNode("/xml/similarity");
-            Item("code->" + code.InnerText);
-            Item("similarity->" + similarity.InnerText);
+            var code = doc.GetNodeText("code");
+            var similarity = doc.GetNodeText("similarity");
+            Item("code->" + code);
+            Item("similarity->" + similarity);
         }
 
         private void btnstaticDetect_Click(object sender, RoutedEventArgs e)
@@ -121,12 +122,31 @@ namespace FaceClientEx
             var image1 = Convert.ToBase64String(buffer1);
 
             var sb = new StringBuilder();
-            sb.Append(Element("imgData", image1));
-            sb.Append(Element("threshold", "0.5"));
-            sb.Append(Element("maxImageCount", "56"));
+            sb.Append("imgData".ElementText(image1));
+            sb.Append("threshold".ElementText("0.5"));
+            sb.Append("maxImageCount".ElementText("56"));
             var data = sb.ToString();
+
             var xml = GetXml("staticDetect", data);
             var content = facePxy.send(xml);
+
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content);
+
+            var code = doc.GetNodeText("code");
+            Item("code->" + code);
+
+            var persons = doc.SelectNodes("/xml/persons/person");
+            Item("人脸数量->" + persons.Count);
+            foreach (XmlNode f in persons)
+            {
+                Item("imgData->" + f.GetNodeText("imgData"));
+                Item("imgWidth->" + f.GetNodeText("imgWidth"));
+                Item("imgHeight->" + f.GetNodeText("imgHeight"));
+                Item("posX->" + f.GetNodeText("posX"));
+                Item("posY->" + f.GetNodeText("posY"));
+                Item("quality->" + f.GetNodeText("quality"));
+            }
         }
 
         private void btnconvertSignatureCode_Click(object sender, RoutedEventArgs e)
@@ -143,27 +163,27 @@ namespace FaceClientEx
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
-            var code = doc.SelectSingleNode("/xml/code");
-            var signatureCode = doc.SelectSingleNode("/xml/signatureCode");
-            Item("code->" + code.InnerText);
+            var code = doc.GetNodeText("code");
+            var signatureCode = doc.GetNodeText("signatureCode");
+            var buffer = Convert.FromBase64String(signatureCode);
 
-            var buffer = Convert.FromBase64String(signatureCode.InnerText);
+            Item("code->" + code);
             Item("signatureCode->" + buffer.Length);
         }
 
         private void btnQueryPerson_Click(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
-            sb.Append(Element("id", "1113"));
-            sb.Append(Element("uuid", "72297c8842604c059b05d28bfb11d10b"));
-            sb.Append(Element("code", "350321198003212221"));
-            sb.Append("<tags>");
-            sb.Append(Element("tag", "WAY1"));
-            sb.Append(Element("tag", "黄种"));
-            sb.Append(Element("tag", "BLACK"));
-            sb.Append("</tags>");
-            sb.Append(Element("offset", "0"));
-            sb.Append(Element("size", "10"));
+            sb.Append("id".ElementText("1113"));
+            sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
+            sb.Append("code".ElementText("350321198003212221"));
+            sb.Append("tags".ElementBegin());
+            sb.Append("tag".ElementText("WAY1"));
+            sb.Append("tag".ElementText("黄种"));
+            sb.Append("tag".ElementText("BLACK"));
+            sb.Append("tags".ElementEnd());
+            sb.Append("offset".ElementText("0"));
+            sb.Append("size".ElementText("10"));
             var data = sb.ToString();
             var xml = GetXml("queryPersons", data);
             var content = facePxy.send(xml);
@@ -176,8 +196,8 @@ namespace FaceClientEx
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
 
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
-            var totalCount = doc.SelectSingleNode("/xml/totalCount").InnerText;
+            var code = doc.GetNodeText("code");
+            var totalCount = doc.GetNodeText("totalCount");
 
             Item("code->" + code);
             Item("totalCount->" + totalCount);
@@ -213,21 +233,21 @@ namespace FaceClientEx
             image3 = "";
 
             var sb = new StringBuilder();
-            sb.Append(Element("uuid", "72297c8842604c059b05d28bfb11d10b"));
-            sb.Append(Element("code", "350321198003212221"));
-            sb.Append(Element("name", "黄测试"));
-            sb.Append(Element("descrption", "{'race':'白人','gender':'男'}"));
-            sb.Append(Element("imgData1", image1));
-            sb.Append(Element("signatureCode1", image1));
-            sb.Append(Element("imgData2", image2));
-            sb.Append(Element("signatureCode2", image2));
-            sb.Append(Element("imgData3", image3));
-            sb.Append(Element("signatureCode3", image3));
-            sb.Append("<tags>");
-            sb.Append(Element("tag", "VIP"));
-            sb.Append(Element("tag", "国内旅客"));
-            sb.Append(Element("tag", "20161024-CZ3108"));
-            sb.Append("</tags>");
+            sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
+            sb.Append("code".ElementText("350321198003212221"));
+            sb.Append("name".ElementText("黄测试"));
+            sb.Append("descrption".ElementText("{'race':'白人','gender':'男'}"));
+            sb.Append("imgData1".ElementText(image1));
+            sb.Append("signatureCode1".ElementText(image1));
+            sb.Append("imgData2".ElementText(image2));
+            sb.Append("signatureCode2".ElementText(image2));
+            sb.Append("imgData3".ElementText(image3));
+            sb.Append("signatureCode3".ElementText(image3));
+            sb.Append("tags".ElementBegin());
+            sb.Append("tag".ElementText("VIP"));
+            sb.Append("tag".ElementText("国内旅客"));
+            sb.Append("tag".ElementText("20161024-CZ3108"));
+            sb.Append("tags".ElementEnd());
             var data = sb.ToString();
 
             var xml = GetXml("createOrUpdatePerson", data);
@@ -236,8 +256,8 @@ namespace FaceClientEx
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
 
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
-            var faceId = doc.SelectSingleNode("/xml/faceId").InnerText;
+            var code = doc.GetNodeText("code");
+            var faceId = doc.GetNodeText("faceId");
 
             Item("code->" + code);
             Item("faceId->" + faceId);
@@ -254,24 +274,24 @@ namespace FaceClientEx
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
 
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
+            var code = doc.GetNodeText("code");
             Item("code->" + code);
         }
 
         private void btndeletePersonTags_Click(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
-            sb.Append(Element("uuid", "72297c8842604c059b05d28bfb11d10b"));
+            sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
             if (!ckbClearPersonTag.IsChecked.Value)
             {
-                sb.Append("<tags>");
-                sb.Append(Element("tag", "1"));
-                sb.Append(Element("tag", "2"));
-                sb.Append(Element("tag", "3"));
-                sb.Append(Element("tag", "4"));
-                sb.Append(Element("tag", "5"));
-                sb.Append(Element("tag", "6"));
-                sb.Append("</tags>");
+                sb.Append("tags".ElementBegin());
+                sb.Append("tag".ElementText("1"));
+                sb.Append("tag".ElementText("2"));
+                sb.Append("tag".ElementText("3"));
+                sb.Append("tag".ElementText("4"));
+                sb.Append("tag".ElementText("5"));
+                sb.Append("tag".ElementText("6"));
+                sb.Append("tags".ElementEnd());
             }
             var data = sb.ToString();
             var xml = GetXml("deletePersonTags", data);
@@ -279,7 +299,7 @@ namespace FaceClientEx
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
+            var code = doc.GetNodeText("code");
             Item("code->" + code);
         }
 
@@ -291,20 +311,21 @@ namespace FaceClientEx
         private void btndeletePersonsByTags_Click(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
-            sb.Append("<tags>");
-            sb.Append(Element("tag", "VIP"));
-            sb.Append(Element("tag", "国内旅客"));
-            sb.Append(Element("tag", "国际旅客"));
-            sb.Append(Element("tag", "黑人"));
-            sb.Append("</tags>");
+            sb.Append("tags".ElementBegin());
+            sb.Append("tag".ElementText("VIP"));
+            sb.Append("tag".ElementText("国内旅客"));
+            sb.Append("tag".ElementText("国际旅客"));
+            sb.Append("tag".ElementText("黑人"));
+            sb.Append("tags".ElementEnd());
             var data = sb.ToString();
+
             var xml = GetXml("deletePersonsByTags", data);
             var content = facePxy.send(xml);
 
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
-            var affectCount = doc.SelectSingleNode("/xml/affectCount").InnerText;
+            var code = doc.GetNodeText("code");
+            var affectCount = doc.GetNodeText("affectCount");
             Item("code->" + code);
             Item("affectCount->" + affectCount);
         }
@@ -313,19 +334,19 @@ namespace FaceClientEx
         private void btndynamicDetect_Click(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
-            sb.Append(Element("threshold", "0.5"));
-            sb.Append(Element("rtspId", "1"));
-            sb.Append(Element("rtspPath", "rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream"));
-            sb.Append("<responseType>");
+            sb.Append("threshold".ElementText("0.5"));
+            sb.Append("rtspId".ElementText("1"));
+            sb.Append("rtspPath".ElementText("rtsp://admin:12345@192.0.0.64:554/h264/ch1/main/av_stream"));
+            sb.Append("responseType".ElementBegin());
             if (ckbCallback.IsChecked.Value)
-                sb.Append(Element("type", "callback"));
+                sb.Append("type".ElementText("callback"));
             else
-                sb.Append(Element("type", "messageQueue"));
+                sb.Append("type".ElementText("messageQueue"));
 
-            sb.Append(Element("size", "10"));
-            sb.Append("</responseType>");
-            sb.Append(Element("maxImageCount", "3"));
-            sb.Append(Element("frames", "5"));
+            sb.Append("size".ElementText("10"));
+            sb.Append("responseType".ElementEnd());
+            sb.Append("maxImageCount".ElementText("3"));
+            sb.Append("frames".ElementText("5"));
             var data = sb.ToString();
             var xml = GetXml("dynamicDetect", data);
 
@@ -334,8 +355,7 @@ namespace FaceClientEx
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(content);
 
-            var code = doc.SelectSingleNode("/xml/code").InnerText;
-
+            var code = doc.GetNodeText("code");
             Item("code->" + code);
 
             if (ckbCallback.IsChecked.Value)
@@ -373,6 +393,8 @@ namespace FaceClientEx
                         Thread.Sleep(1000);
                     });
                     wait.Wait();
+
+                    Item("query next...");
                 }
             });
         }
@@ -387,8 +409,9 @@ namespace FaceClientEx
             }
 
             var sb = new StringBuilder();
-            sb.Append(Element("rtspId", "9999"));
+            sb.Append("rtspId".ElementText("9999"));
             var data = sb.ToString();
+
             var xml = GetXml("shutdownDynamicDetect", data);
             var content = facePxy.send(xml);
         }
@@ -400,15 +423,54 @@ namespace FaceClientEx
         private void btnverifySignaturecode_Click(object sender, RoutedEventArgs e)
         {
             var sb = new StringBuilder();
+
+            sb.Append("signatureCode".ElementText("signatureCode"));
+            sb.Append("threshold".ElementText("0.56"));
+            sb.Append("size".ElementText("100"));
+
+            sb.Append("tags".ElementBegin());
+            sb.Append("tag".ElementText("1"));
+            sb.Append("tag".ElementText("2"));
+            sb.Append("tags".ElementEnd());
+
             var data = sb.ToString();
             var xml = GetXml("verifySignatureCode", data);
             var content = facePxy.send(xml);
-        }
-    }
 
-    public class compareResult
-    {
-        public int code { get; set; }
-        public float similarity { get; set; }
+            XmlDocument doc = new XmlDocument();
+            doc.LoadXml(content);
+
+            var code = doc.GetNodeText("code");
+            Item("code->" + code);
+
+
+            var persons = doc.SelectNodes("/xml/result/matchPerson");
+            Item("匹配人物数量->" + persons.Count);
+
+            foreach (XmlNode p in persons)
+            {
+                Item("similarity->" + p.GetNodeText("similarity"));
+                Item("faceId->" + p.GetNodeText("faceId"));
+                Item("uuid->" + p.GetNodeText("uuid"));
+                Item("name->" + p.GetNodeText("name"));
+                Item("descrption->" + p.GetNodeText("descrption"));
+
+                var tags = p.SelectNodes("tags/tag");
+                Item("人物标签数量->" + tags.Count);
+                foreach (XmlNode tag in tags)
+                {
+                    Item("tag->" + tag.InnerText);
+                }
+
+                Item("人脸1->" + p.GetNodeText("imgData1"));
+                Item("人脸2->" + p.GetNodeText("imgData2"));
+                Item("人脸3->" + p.GetNodeText("imgData3"));
+            }
+        }
+
+        private void btnClear_Click(object sender, RoutedEventArgs e)
+        {
+            lbResult.Items.Clear();
+        }
     }
 }

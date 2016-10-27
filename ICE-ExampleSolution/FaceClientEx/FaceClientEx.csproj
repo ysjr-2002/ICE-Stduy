@@ -68,7 +68,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ConnectorDisp.cs" />
+    <Compile Include="Core\ConnectorDisp.cs" />
     <Compile Include="generated\FaceServer_1.5.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -103,6 +103,12 @@
     </None>
     <AppDesigner Include="Properties\" />
     <None Include="document\v0.6.docx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Share\Share.csproj">
+      <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
+      <Name>Share</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
