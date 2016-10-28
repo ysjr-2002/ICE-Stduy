@@ -1,0 +1,10 @@
+﻿#
+#
+#
+#
+#
+#
+Ice.MessageMaxSize=2048
+
+#
+Face.Proxy=myface:tcp -h localhost -p 9996

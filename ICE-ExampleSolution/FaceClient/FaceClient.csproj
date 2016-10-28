@@ -101,9 +101,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="人脸识别系统接口需求_v0.6.docx" />
-    <None Include="系统接口需求.docx" />
-    <None Include="需要澄清的功能.docx" />
+    <None Include="document\人脸识别系统接口需求_v0.6.docx" />
+    <None Include="document\系统接口需求.docx" />
+    <None Include="document\需要澄清的功能.docx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

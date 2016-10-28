@@ -98,7 +98,12 @@ namespace FaceClient
 
         private void btnOneCompareOne_Click(object sender, RoutedEventArgs e)
         {
-            //var data = System.IO.File.ReadAllBytes("F:\\girl.jpg");
+            var path = "f:\\face.jpg";
+            if (System.IO.File.Exists(path))
+            {
+                var t = "";
+            }
+            var data = System.IO.File.ReadAllBytes(path);
             //var comepareResult = facePxy.compare(data, data);
             //if (comepareResult == null)
             //{
@@ -112,27 +117,27 @@ namespace FaceClient
             //Item("similarity:" + comepareResult.similarity);
 
             #region 比对
-            //facePxy.begin_compare(data, data).whenCompleted((comepareResult) =>
-            //{
-            //    if (comepareResult == null)
-            //    {
-            //        Debug.Assert(false, "比对异常");
-            //        return;
-            //    }
+            facePxy.begin_compare(data, data).whenCompleted((comepareResult) =>
+            {
+                if (comepareResult == null)
+                {
+                    Debug.Assert(false, "比对异常");
+                    return;
+                }
 
-            //    this.Dispatcher.Invoke(new Action(() =>
-            //    {
-            //        lbResult.Items.Clear();
-            //        Item("code:" + comepareResult.code);
-            //        Item("message:" + comepareResult.message);
-            //        Item("similarity:" + comepareResult.similarity);
-            //    }));
-            //},
-            //(ex) =>
-            //{
-            //    Item("调用异常:" + ex.Message);
-            //});
-            //Item("调用结束"); 
+                this.Dispatcher.Invoke(new Action(() =>
+                {
+                    lbResult.Items.Clear();
+                    Item("code:" + comepareResult.code);
+                    Item("message:" + comepareResult.message);
+                    Item("similarity:" + comepareResult.similarity);
+                }));
+            },
+            (ex) =>
+            {
+                Item("调用异常:" + ex.Message);
+            });
+            Item("调用结束");
             #endregion
 
             client.Compare();

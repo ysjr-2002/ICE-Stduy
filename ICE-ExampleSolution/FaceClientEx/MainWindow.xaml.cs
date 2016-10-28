@@ -19,6 +19,7 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
 using Common;
+using System.Net.Sockets;
 
 namespace FaceClientEx
 {
@@ -33,6 +34,7 @@ namespace FaceClientEx
         public MainWindow()
         {
             InitializeComponent();
+
             this.Loaded += MainWindow_Loaded;
         }
 
@@ -53,30 +55,55 @@ namespace FaceClientEx
             }
         }
 
+        private Connect connect = null;
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            try
+            #region code run
+            //try
+            //{
+            //    var args = new string[] { "" };
+            //    Ice.Properties properties = Ice.Util.createProperties();
+            //    //单位KB
+            //    properties.setProperty("Ice.MessageSizeMax", "2048");
+            //    Ice.InitializationData initData = new Ice.InitializationData();
+            //    initData.properties = properties;
+            //    ic = Ice.Util.initialize(initData);
+
+            //    if (ic == null)
+            //    {
+            //        Debug.Assert(false, "初始化失败");
+            //        return;
+            //    }
+            //    Ice.ObjectPrx pxy = ic.stringToProxy("myface:tcp -h localhost -p 9996");
+            //    facePxy = FaceRecognitionPrxHelper.checkedCast(pxy);
+            //    if (facePxy == null)
+            //    {
+            //        Debug.Assert(false, "代理为空");
+            //        return;
+            //    }
+            //}
+            //catch (System.Exception)
+            //{
+            //    Debug.Assert(false, "初始化失败");
+            //    return;
+            //} 
+            #endregion
+
+            #region config run
+            Task.Factory.StartNew(() =>
             {
-                var args = new string[] { "" };
-                ic = Ice.Util.initialize(ref args);
-                if (ic == null)
-                {
-                    Debug.Assert(false, "初始化失败");
-                    return;
-                }
-                Ice.ObjectPrx pxy = ic.stringToProxy("myface:tcp -h localhost -p 9996");
-                facePxy = FaceRecognitionPrxHelper.checkedCast(pxy);
-                if (facePxy == null)
-                {
-                    Debug.Assert(false, "代理为空");
-                    return;
-                }
-            }
-            catch (System.Exception)
+                connect = new FaceClientEx.Connect();
+                var args = new string[] { "ysj" };
+                connect.main(args, "config.client");
+            });
+
+            Task.Factory.StartNew(() =>
             {
-                Debug.Assert(false, "初始化失败");
-                return;
-            }
+                Thread.Sleep(1000);
+                facePxy = connect.pxy;
+            });
+
+            #endregion
         }
 
         private string GetXml(string type, string data)
@@ -94,26 +121,52 @@ namespace FaceClientEx
 
         private void btnOneCompareOne_Click(object sender, RoutedEventArgs e)
         {
-            var xml = GetXml("compare", "<srcImgData><![CDATA[{0}]]></srcImgData><destImgData><![CDATA[{1}]]></destImgData>");
+            try
+            {
+                var xml = GetXml("compare", "<srcImgData><![CDATA[{0}]]></srcImgData><destImgData><![CDATA[{1}]]></destImgData>");
 
-            var buffer1 = System.IO.File.ReadAllBytes(@"C:\Users\ysj\Desktop\Face\face.jpg");
-            var image1 = Convert.ToBase64String(buffer1);
+                var buffer1 = System.IO.File.ReadAllBytes(@"f:\face.jpg");
+                //var buffer1 = new byte[298250];
+                var image1 = Convert.ToBase64String(buffer1);
 
-            var buffer2 = System.IO.File.ReadAllBytes(@"C:\Users\ysj\Desktop\Face\face.jpg");
-            var image2 = Convert.ToBase64String(buffer2);
+                var buffer2 = System.IO.File.ReadAllBytes(@"f:\face.jpg");
+                var image2 = Convert.ToBase64String(buffer2);
 
-            xml = string.Format(xml, image1, image2);
+                xml = string.Format(xml, image1, image2);
 
-            var content = facePxy.send(xml);
+                var temp = System.Text.Encoding.UTF8.GetBytes(xml);
 
-            Item("image len->" + buffer1.Length);
+                var x = 1024 * 1024 - temp.Length;
 
-            XmlDocument doc = new XmlDocument();
-            doc.LoadXml(content);
-            var code = doc.GetNodeText("code");
-            var similarity = doc.GetNodeText("similarity");
-            Item("code->" + code);
-            Item("similarity->" + similarity);
+                //var content = facePxy.send(xml);
+
+                Stopwatch sw = Stopwatch.StartNew();
+                Ice.AsyncResult result = facePxy.begin_send(xml).whenCompleted((arg) =>
+                {
+                    sw.Stop();
+                    var ss = sw.ElapsedMilliseconds;
+                    var content = arg;
+                    Item("back->" + ss);
+                },
+                (ex) =>
+                {
+                    var msg = ex.StackTrace;
+                    Item("error->" + msg);
+                });
+
+                Item("image len->" + buffer1.Length);
+
+                //XmlDocument doc = new XmlDocument();
+                //doc.LoadXml(content);
+                //var code = doc.GetNodeText("code");
+                //var similarity = doc.GetNodeText("similarity");
+                //Item("code->" + code);
+                //Item("similarity->" + similarity);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("error");
+            }
         }
 
         private void btnstaticDetect_Click(object sender, RoutedEventArgs e)

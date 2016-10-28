@@ -16,8 +16,9 @@ namespace server
             Console.Out.WriteLine("compare---->");
             Console.Out.WriteLine(string.Format("Image size:{0} {1}", srcImg.Length, destImg.Length));
 
-            var similarity = CloudAPI.MegviiCloud.Compare(srcImg, destImg);
+            //var similarity = CloudAPI.MegviiCloud.Compare(srcImg, destImg);
 
+            var similarity = 0.3f;
             CompareResult cr = new CompareResult();
             cr.similarity = (float)similarity;
             cr.code = 200;

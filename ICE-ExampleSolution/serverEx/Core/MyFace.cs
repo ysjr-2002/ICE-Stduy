@@ -213,7 +213,8 @@ namespace serverEx
             print("image1 length=" + image1.Length);
             print("image2 length=" + image2.Length);
 
-            var similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
+            var similarity = 0.8f;
+            //similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
 
             var sb = new StringBuilder();
             sb.Append("<xml>");

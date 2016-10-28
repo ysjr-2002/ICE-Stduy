@@ -41,6 +41,7 @@
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
@@ -68,6 +69,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Connect.cs" />
     <Compile Include="Core\ConnectorDisp.cs" />
     <Compile Include="generated\FaceServer_1.5.cs" />
     <Compile Include="MainWindow.xaml.cs">
@@ -94,6 +96,9 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
+    <None Include="config.client">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="document\客户对人脸检测的要求.docx" />
     <None Include="document\客户对我们的要求.docx" />
     <None Include="generated\FaceServer_1.5.ice" />
