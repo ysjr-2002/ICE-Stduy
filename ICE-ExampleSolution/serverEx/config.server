@@ -9,5 +9,4 @@ Ice.MessageSizeMax=2048
 
 #
 Face1.Endpoints=default -h localhost -p 9996
-
 Face2.Endpoints=default -h localhost -p 9995

@@ -50,6 +50,13 @@ namespace serverEx
         public override string send(string xml, Current current__)
         {
             var content = "";
+
+            var conn = current__.con;
+            var endPoint = conn.getEndpoint();
+            var ip = current__.con.ToString();
+
+            print("ip->" + ip);
+
             content = ParseXml(xml);
             return content;
         }
@@ -213,8 +220,8 @@ namespace serverEx
             print("image1 length=" + image1.Length);
             print("image2 length=" + image2.Length);
 
-            var similarity = 0.8f;
-            //similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
+            var similarity = 0.8d;
+            similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
 
             var sb = new StringBuilder();
             sb.Append("<xml>");
