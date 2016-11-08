@@ -99,6 +99,7 @@
     <None Include="config.client">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="document\人脸识别系统接口需求_v1.0.docx" />
     <None Include="document\客户对人脸检测的要求.docx" />
     <None Include="document\客户对我们的要求.docx" />
     <None Include="generated\FaceServer_1.5.ice" />
