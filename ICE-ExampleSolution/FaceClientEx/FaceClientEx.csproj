@@ -64,6 +64,9 @@
     <Compile Include="RtspWindow.xaml.cs">
       <DependentUpon>RtspWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SignatureCodeWindow.xaml.cs">
+      <DependentUpon>SignatureCodeWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TestWindow.xaml.cs">
       <DependentUpon>TestWindow.xaml</DependentUpon>
     </Compile>
@@ -101,6 +104,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="RtspWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignatureCodeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
