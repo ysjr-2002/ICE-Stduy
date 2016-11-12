@@ -17,7 +17,6 @@ using System.Xml;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
-using Common;
 using System.Net.Sockets;
 
 namespace FaceClientEx

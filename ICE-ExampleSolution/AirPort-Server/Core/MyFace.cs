@@ -1,15 +1,14 @@
-﻿using System;
+﻿using FaceRecognitionModule;
+using Ice;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using FaceRecognitionModule;
-using Ice;
-using System.IO;
-using System.Xml;
 using System.Threading;
+using System.Threading.Tasks;
+using System.Xml;
 
-namespace serverEx
+namespace AirPort_Server.Core
 {
     class MyFace : FaceRecognitionDisp_
     {
@@ -49,13 +48,11 @@ namespace serverEx
         public override string send(string xml, Current current__)
         {
             var content = "";
-
             var conn = current__.con;
             var endPoint = conn.getEndpoint();
             var ip = current__.con.ToString();
 
             print("ip->" + ip);
-
             content = ParseXml(xml);
             return content;
         }
@@ -220,7 +217,7 @@ namespace serverEx
             print("image2 length=" + image2.Length);
 
             var similarity = 0.8d;
-            similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
+            //similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
 
             var sb = new StringBuilder();
             sb.Append("<xml>");

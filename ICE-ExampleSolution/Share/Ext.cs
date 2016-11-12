@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Xml;
 
-namespace Common
+namespace System
 {
     public static class Ext
     {
@@ -49,6 +51,29 @@ namespace Common
         public static string ElementText(this string name, string value)
         {
             return string.Format("<{0}>{1}</{0}>", name, value);
+        }
+
+        public static ImageSource ToImageSource(this string filePath)
+        {
+            using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))
+            {
+                byte[] buffer = new byte[fs.Length];
+                fs.Read(buffer, 0, buffer.Length);
+                fs.Close();
+                fs.Dispose();
+
+                System.Windows.Media.Imaging.BitmapImage bitmapImage =
+                    new System.Windows.Media.Imaging.BitmapImage();
+                using (System.IO.MemoryStream ms = new System.IO.MemoryStream(buffer))
+                {
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = ms;
+                    bitmapImage.CacheOption = System.Windows.Media.Imaging.BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+                }
+                return bitmapImage;
+            }
         }
     }
 }
