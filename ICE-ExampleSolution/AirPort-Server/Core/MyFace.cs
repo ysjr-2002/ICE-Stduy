@@ -1,4 +1,5 @@
-﻿using FaceRecognitionModule;
+﻿using AirPort_Server.WebAPI;
+using FaceRecognitionModule;
 using Ice;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,11 @@ namespace AirPort_Server.Core
         private ConnectionListenerPrx clientPxy = null;
         private Queue<string> queue = new Queue<string>();
 
+        private FaceServices fs = null;
+
         public MyFace()
         {
+            fs = new FaceServices();
             print("create a server object");
         }
 
@@ -144,25 +148,30 @@ namespace AirPort_Server.Core
             print("threshold->" + threshold);
             print("maxImageCount->" + maxImageCount);
 
+            var result = fs.Detect(image, false, false);
+
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
             sb.Append("persons".ElementBegin());
 
-            var count = 2;
+            var count = result.Faces.Length;
             print("检测数量->" + count);
-            for (int i = 0; i < count; i++)
+            foreach (var face in result.Faces)
             {
+                //for (int i = 0; i < count; i++)
+                //{
                 sb.Append("person".ElementBegin());
 
-                sb.Append("imgData".ElementText("imgData"));
-                sb.Append("imgWidth".ElementText("350"));
-                sb.Append("imgHeight".ElementText("120"));
-                sb.Append("posX".ElementText("20"));
-                sb.Append("posY".ElementText("10"));
-                sb.Append("quality".ElementText("0.8532"));
+                sb.Append("imgData".ElementText(face.crop.image));
+                sb.Append("posX".ElementText(face.Rect.Left.ToString()));
+                sb.Append("posY".ElementText(face.Rect.Top.ToString()));
+                sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
+                sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
+                sb.Append("quality".ElementText(face.Quality.ToString()));
 
                 sb.Append("person".ElementEnd());
+                //}
             }
 
             sb.Append("persons".ElementEnd());
@@ -217,7 +226,7 @@ namespace AirPort_Server.Core
             print("image2 length=" + image2.Length);
 
             var similarity = 0.8d;
-            //similarity = CloudAPI.MegviiCloud.Compare(image1, image2);
+            similarity = fs.Compare(image1, image2);
 
             var sb = new StringBuilder();
             sb.Append("<xml>");
@@ -233,10 +242,12 @@ namespace AirPort_Server.Core
             var buffer = imgData.ToByteBuffer();
             print("Image Length->" + buffer.Length);
 
+            var feature = fs.Feature(buffer, 0.9f, false);
+
             var sb = new StringBuilder();
             sb.Append("<xml>");
             sb.Append("<code>0</code>");
-            sb.Append("<signatureCode>" + imgData + "</signatureCode>");
+            sb.Append("<signatureCode>" + feature.Feature + "</signatureCode>");
             sb.Append("</xml>");
             return sb.ToString();
         }

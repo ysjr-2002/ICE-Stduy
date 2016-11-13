@@ -45,7 +45,7 @@ namespace AirPort_Client.Core
             }
         }
 
-        public string Send(string xml)
+        public string send(string xml)
         {
             return facePxy.send(xml);
         }

@@ -68,12 +68,16 @@
     <Compile Include="FaceDetectWindow.xaml.cs">
       <DependentUpon>FaceDetectWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="GroupWindow.xaml.cs">
+      <DependentUpon>GroupWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RtspWindow.xaml.cs">
       <DependentUpon>RtspWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="SignatureCodeWindow.xaml.cs">
       <DependentUpon>SignatureCodeWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PopupWindowBase.cs" />
     <Page Include="CompareWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,6 +85,10 @@
     <Page Include="FaceDetectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="GroupWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

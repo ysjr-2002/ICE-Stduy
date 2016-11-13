@@ -17,7 +17,7 @@ namespace AirPort_Client
     /// <summary>
     /// RtspWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class RtspWindow : Window
+    public partial class RtspWindow
     {
         public RtspWindow()
         {

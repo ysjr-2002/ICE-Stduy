@@ -1,8 +1,12 @@
 ﻿using AirPort_Server.Core;
+using AirPort_Server.WebAPI;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Web.Script.Serialization;
 
 namespace AirPort_Server
 {
@@ -10,23 +14,28 @@ namespace AirPort_Server
     {
         static void Main(string[] args)
         {
-            {
-                Ice.Properties properties = Ice.Util.createProperties();
-                //单位KB
-                properties.setProperty("Ice.MessageSizeMax", "2048");
-                Ice.InitializationData initData = new Ice.InitializationData();
-                initData.properties = properties;
-                var ic = Ice.Util.initialize(initData);
+            //var data = System.IO.File.ReadAllBytes(@"C:\Users\Shaojie\Desktop\face2.jpg");
+            //var fs = new FaceServices();
+            //fs.Feature(data, 0.9f, false);
+            //fs.Detect(data, false, true);
+            //fs.Compare(data, data);
+            //Console.Read();
 
-                //var ic = Ice.Util.initialize(ref args);
-                Ice.Object servant = new MyFace();
-                Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints("FaceAdapter", "default -p 9996");
-                adapter.add(servant, ic.stringToIdentity("myface"));
-                adapter.activate();
-                Console.Out.WriteLine("server start...");
-                Console.Out.WriteLine("wait to shutdown...");
-                ic.waitForShutdown();
-            }
+            Ice.Properties properties = Ice.Util.createProperties();
+            //单位KB
+            properties.setProperty("Ice.MessageSizeMax", "2048");
+            Ice.InitializationData initData = new Ice.InitializationData();
+            initData.properties = properties;
+            var ic = Ice.Util.initialize(initData);
+
+            //var ic = Ice.Util.initialize(ref args);
+            Ice.Object servant = new MyFace();
+            Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints("FaceAdapter", "default -p 9996");
+            adapter.add(servant, ic.stringToIdentity("myface"));
+            adapter.activate();
+            Console.Out.WriteLine("server start...");
+            Console.Out.WriteLine("wait to shutdown...");
+            ic.waitForShutdown();
         }
     }
 }

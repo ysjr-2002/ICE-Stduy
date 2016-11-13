@@ -99,10 +99,6 @@ namespace FaceClient
         private void btnOneCompareOne_Click(object sender, RoutedEventArgs e)
         {
             var path = "f:\\face.jpg";
-            if (System.IO.File.Exists(path))
-            {
-                var t = "";
-            }
             var data = System.IO.File.ReadAllBytes(path);
             //var comepareResult = facePxy.compare(data, data);
             //if (comepareResult == null)

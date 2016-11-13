@@ -124,42 +124,22 @@ namespace FaceClientEx
                 var xml = GetXml("compare", "<srcImgData><![CDATA[{0}]]></srcImgData><destImgData><![CDATA[{1}]]></destImgData>");
 
                 var buffer1 = System.IO.File.ReadAllBytes(@"f:\face.jpg");
-                //var buffer1 = new byte[298250];
                 var image1 = Convert.ToBase64String(buffer1);
 
                 var buffer2 = System.IO.File.ReadAllBytes(@"f:\face.jpg");
                 var image2 = Convert.ToBase64String(buffer2);
 
                 xml = string.Format(xml, image1, image2);
-
                 var temp = System.Text.Encoding.UTF8.GetBytes(xml);
 
-                var x = 1024 * 1024 - temp.Length;
+                var content = facePxy.send(xml);
 
-                //var content = facePxy.send(xml);
-
-                Stopwatch sw = Stopwatch.StartNew();
-                Ice.AsyncResult result = facePxy.begin_send(xml).whenCompleted((arg) =>
-                {
-                    sw.Stop();
-                    var ss = sw.ElapsedMilliseconds;
-                    var content = arg;
-                    Item("back->" + ss);
-                },
-                (ex) =>
-                {
-                    var msg = ex.StackTrace;
-                    Item("error->" + msg);
-                });
-
-                Item("image len->" + buffer1.Length);
-
-                //XmlDocument doc = new XmlDocument();
-                //doc.LoadXml(content);
-                //var code = doc.GetNodeText("code");
-                //var similarity = doc.GetNodeText("similarity");
-                //Item("code->" + code);
-                //Item("similarity->" + similarity);
+                XmlDocument doc = new XmlDocument();
+                doc.LoadXml(content);
+                var code = doc.GetNodeText("code");
+                var similarity = doc.GetNodeText("similarity");
+                Item("code->" + code);
+                Item("similarity->" + similarity);
             }
             catch (Exception)
             {

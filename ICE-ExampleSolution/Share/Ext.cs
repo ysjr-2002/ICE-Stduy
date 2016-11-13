@@ -53,6 +53,11 @@ namespace System
             return string.Format("<{0}>{1}</{0}>", name, value);
         }
 
+        public static string ToBase64(this byte[] data)
+        {
+            return Convert.ToBase64String(data);
+        }
+
         public static ImageSource ToImageSource(this string filePath)
         {
             using (FileStream fs = new FileStream(filePath, FileMode.Open, FileAccess.Read))

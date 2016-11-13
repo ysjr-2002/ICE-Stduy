@@ -23,7 +23,7 @@ namespace AirPort_Client
     /// </summary>
     public partial class MainWindow : Window
     {
-        ClientProxy client = null;
+        ClientProxy clientProxy = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,19 +32,19 @@ namespace AirPort_Client
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            client = new ClientProxy();
-            client.Connect();
+            clientProxy = new ClientProxy();
+            clientProxy.Connect();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FaceDetectWindow face = new FaceDetectWindow(client);
+            FaceDetectWindow face = new FaceDetectWindow(clientProxy);
             face.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            CompareWindow compare = new CompareWindow();
+            CompareWindow compare = new CompareWindow(clientProxy);
             compare.ShowDialog();
         }
 
@@ -52,6 +52,18 @@ namespace AirPort_Client
         {
             RtspWindow rtsp = new RtspWindow();
             rtsp.ShowDialog();
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            GroupWindow group = new GroupWindow();
+            group.ShowDialog();
+        }
+
+        private void Button_Click_4(object sender, RoutedEventArgs e)
+        {
+            SignatureCodeWindow sign = new AirPort_Client.SignatureCodeWindow(clientProxy);
+            sign.ShowDialog();
         }
     }
 }

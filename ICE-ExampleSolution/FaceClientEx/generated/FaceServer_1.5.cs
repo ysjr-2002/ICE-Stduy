@@ -214,7 +214,7 @@ namespace FaceRecognitionModule
         private Ice.AsyncResult<FaceRecognitionModule.Callback_ConnectionListener_onRecv> begin_onRecv(string xmlContent, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             IceInternal.OnewayOutgoingAsync<FaceRecognitionModule.Callback_ConnectionListener_onRecv> result__ = getOnewayOutgoingAsync<FaceRecognitionModule.Callback_ConnectionListener_onRecv>(__onRecv_name, onRecv_completed__, cookie__);
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -226,7 +226,7 @@ namespace FaceRecognitionModule
                 result__.endWriteParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -235,7 +235,7 @@ namespace FaceRecognitionModule
 
         private void onRecv_completed__(FaceRecognitionModule.Callback_ConnectionListener_onRecv cb__)
         {
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__();
             }
@@ -247,12 +247,12 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx checkedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             ConnectionListenerPrx r = b as ConnectionListenerPrx;
-            if((r == null) && b.ice_isA(ice_staticId()))
+            if ((r == null) && b.ice_isA(ice_staticId()))
             {
                 ConnectionListenerPrxHelper h = new ConnectionListenerPrxHelper();
                 h.copyFrom__(b);
@@ -263,12 +263,12 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx checkedCast(Ice.ObjectPrx b, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             ConnectionListenerPrx r = b as ConnectionListenerPrx;
-            if((r == null) && b.ice_isA(ice_staticId(), ctx))
+            if ((r == null) && b.ice_isA(ice_staticId(), ctx))
             {
                 ConnectionListenerPrxHelper h = new ConnectionListenerPrxHelper();
                 h.copyFrom__(b);
@@ -279,21 +279,21 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx checkedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId()))
+                if (bb.ice_isA(ice_staticId()))
                 {
                     ConnectionListenerPrxHelper h = new ConnectionListenerPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -301,21 +301,21 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx checkedCast(Ice.ObjectPrx b, string f, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId(), ctx))
+                if (bb.ice_isA(ice_staticId(), ctx))
                 {
                     ConnectionListenerPrxHelper h = new ConnectionListenerPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -323,12 +323,12 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx uncheckedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             ConnectionListenerPrx r = b as ConnectionListenerPrx;
-            if(r == null)
+            if (r == null)
             {
                 ConnectionListenerPrxHelper h = new ConnectionListenerPrxHelper();
                 h.copyFrom__(b);
@@ -339,7 +339,7 @@ namespace FaceRecognitionModule
 
         public static ConnectionListenerPrx uncheckedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
@@ -372,7 +372,7 @@ namespace FaceRecognitionModule
         public static ConnectionListenerPrx read__(IceInternal.BasicStream is__)
         {
             Ice.ObjectPrx proxy = is__.readProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 ConnectionListenerPrxHelper result = new ConnectionListenerPrxHelper();
                 result.copyFrom__(proxy);
@@ -455,7 +455,7 @@ namespace FaceRecognitionModule
         private Ice.AsyncResult<FaceRecognitionModule.Callback_FaceRecognition_initConnectionListener> begin_initConnectionListener(FaceRecognitionModule.ConnectionListenerPrx listener, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             IceInternal.OnewayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_initConnectionListener> result__ = getOnewayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_initConnectionListener>(__initConnectionListener_name, initConnectionListener_completed__, cookie__);
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -467,7 +467,7 @@ namespace FaceRecognitionModule
                 result__.endWriteParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -476,7 +476,7 @@ namespace FaceRecognitionModule
 
         private void initConnectionListener_completed__(FaceRecognitionModule.Callback_FaceRecognition_initConnectionListener cb__)
         {
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__();
             }
@@ -509,13 +509,13 @@ namespace FaceRecognitionModule
             IceInternal.OutgoingAsync outAsync__ = IceInternal.OutgoingAsync.check(r__, this, __send_name);
             try
             {
-                if(!outAsync__.wait())
+                if (!outAsync__.wait())
                 {
                     try
                     {
                         outAsync__.throwUserException();
                     }
-                    catch(Ice.UserException ex__)
+                    catch (Ice.UserException ex__)
                     {
                         throw new Ice.UnknownUserException(ex__.ice_name(), ex__);
                     }
@@ -535,8 +535,8 @@ namespace FaceRecognitionModule
         private Ice.AsyncResult<FaceRecognitionModule.Callback_FaceRecognition_send> begin_send(string xml, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             checkAsyncTwowayOnly__(__send_name);
-            IceInternal.TwowayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_send> result__ =  getTwowayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_send>(__send_name, send_completed__, cookie__);
-            if(cb__ != null)
+            IceInternal.TwowayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_send> result__ = getTwowayOutgoingAsync<FaceRecognitionModule.Callback_FaceRecognition_send>(__send_name, send_completed__, cookie__);
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -548,7 +548,7 @@ namespace FaceRecognitionModule
                 result__.endWriteParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -562,15 +562,15 @@ namespace FaceRecognitionModule
             {
                 ret__ = end_send(r__);
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
-                if(excb__ != null)
+                if (excb__ != null)
                 {
                     excb__(ex__);
                 }
                 return;
             }
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__(ret__);
             }
@@ -582,12 +582,12 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx checkedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             FaceRecognitionPrx r = b as FaceRecognitionPrx;
-            if((r == null) && b.ice_isA(ice_staticId()))
+            if ((r == null) && b.ice_isA(ice_staticId()))
             {
                 FaceRecognitionPrxHelper h = new FaceRecognitionPrxHelper();
                 h.copyFrom__(b);
@@ -598,12 +598,12 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx checkedCast(Ice.ObjectPrx b, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             FaceRecognitionPrx r = b as FaceRecognitionPrx;
-            if((r == null) && b.ice_isA(ice_staticId(), ctx))
+            if ((r == null) && b.ice_isA(ice_staticId(), ctx))
             {
                 FaceRecognitionPrxHelper h = new FaceRecognitionPrxHelper();
                 h.copyFrom__(b);
@@ -614,21 +614,21 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx checkedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId()))
+                if (bb.ice_isA(ice_staticId()))
                 {
                     FaceRecognitionPrxHelper h = new FaceRecognitionPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -636,21 +636,21 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx checkedCast(Ice.ObjectPrx b, string f, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId(), ctx))
+                if (bb.ice_isA(ice_staticId(), ctx))
                 {
                     FaceRecognitionPrxHelper h = new FaceRecognitionPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -658,12 +658,12 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx uncheckedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             FaceRecognitionPrx r = b as FaceRecognitionPrx;
-            if(r == null)
+            if (r == null)
             {
                 FaceRecognitionPrxHelper h = new FaceRecognitionPrxHelper();
                 h.copyFrom__(b);
@@ -674,7 +674,7 @@ namespace FaceRecognitionModule
 
         public static FaceRecognitionPrx uncheckedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
@@ -707,7 +707,7 @@ namespace FaceRecognitionModule
         public static FaceRecognitionPrx read__(IceInternal.BasicStream is__)
         {
             Ice.ObjectPrx proxy = is__.readProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 FaceRecognitionPrxHelper result = new FaceRecognitionPrxHelper();
                 result.copyFrom__(proxy);
@@ -739,7 +739,7 @@ namespace FaceRecognitionModule
 
         #region Slice type-related members
 
-        public static new readonly string[] ids__ = 
+        public static new readonly string[] ids__ =
         {
             "::FaceRecognitionModule::ConnectionListener",
             "::Ice::Object"
@@ -809,33 +809,33 @@ namespace FaceRecognitionModule
         public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
         {
             int pos = _System.Array.BinarySearch(all__, current__.operation, IceUtilInternal.StringUtil.OrdinalStringComparer);
-            if(pos < 0)
+            if (pos < 0)
             {
                 throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
             }
 
-            switch(pos)
+            switch (pos)
             {
                 case 0:
-                {
-                    return Ice.ObjectImpl.ice_id___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_id___(this, inS__, current__);
+                    }
                 case 1:
-                {
-                    return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
+                    }
                 case 2:
-                {
-                    return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
+                    }
                 case 3:
-                {
-                    return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
+                    }
                 case 4:
-                {
-                    return onRecv___(this, inS__, current__);
-                }
+                    {
+                        return onRecv___(this, inS__, current__);
+                    }
             }
 
             _System.Diagnostics.Debug.Assert(false);
@@ -885,7 +885,7 @@ namespace FaceRecognitionModule
 
         #region Slice type-related members
 
-        public static new readonly string[] ids__ = 
+        public static new readonly string[] ids__ =
         {
             "::FaceRecognitionModule::FaceRecognition",
             "::Ice::Object"
@@ -971,37 +971,37 @@ namespace FaceRecognitionModule
         public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
         {
             int pos = _System.Array.BinarySearch(all__, current__.operation, IceUtilInternal.StringUtil.OrdinalStringComparer);
-            if(pos < 0)
+            if (pos < 0)
             {
                 throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
             }
 
-            switch(pos)
+            switch (pos)
             {
                 case 0:
-                {
-                    return Ice.ObjectImpl.ice_id___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_id___(this, inS__, current__);
+                    }
                 case 1:
-                {
-                    return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
+                    }
                 case 2:
-                {
-                    return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
+                    }
                 case 3:
-                {
-                    return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
+                    }
                 case 4:
-                {
-                    return initConnectionListener___(this, inS__, current__);
-                }
+                    {
+                        return initConnectionListener___(this, inS__, current__);
+                    }
                 case 5:
-                {
-                    return send___(this, inS__, current__);
-                }
+                    {
+                        return send___(this, inS__, current__);
+                    }
             }
 
             _System.Diagnostics.Debug.Assert(false);

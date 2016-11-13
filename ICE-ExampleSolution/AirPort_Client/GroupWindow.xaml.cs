@@ -12,14 +12,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace FaceClientEx
+namespace AirPort_Client
 {
     /// <summary>
-    /// RtspWindow.xaml 的交互逻辑
+    /// GroupWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class RtspWindow : Window
+    public partial class GroupWindow
     {
-        public RtspWindow()
+        public GroupWindow()
         {
             InitializeComponent();
         }

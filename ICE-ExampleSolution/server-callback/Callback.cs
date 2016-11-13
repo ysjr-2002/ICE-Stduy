@@ -214,7 +214,7 @@ namespace Demo
         private Ice.AsyncResult<Demo.Callback_CallbackReceiver_callback> begin_callback(_System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackReceiver_callback> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackReceiver_callback>(__callback_name, callback_completed__, cookie__);
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -224,7 +224,7 @@ namespace Demo
                 result__.writeEmptyParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -233,7 +233,7 @@ namespace Demo
 
         private void callback_completed__(Demo.Callback_CallbackReceiver_callback cb__)
         {
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__();
             }
@@ -245,12 +245,12 @@ namespace Demo
 
         public static CallbackReceiverPrx checkedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackReceiverPrx r = b as CallbackReceiverPrx;
-            if((r == null) && b.ice_isA(ice_staticId()))
+            if ((r == null) && b.ice_isA(ice_staticId()))
             {
                 CallbackReceiverPrxHelper h = new CallbackReceiverPrxHelper();
                 h.copyFrom__(b);
@@ -261,12 +261,12 @@ namespace Demo
 
         public static CallbackReceiverPrx checkedCast(Ice.ObjectPrx b, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackReceiverPrx r = b as CallbackReceiverPrx;
-            if((r == null) && b.ice_isA(ice_staticId(), ctx))
+            if ((r == null) && b.ice_isA(ice_staticId(), ctx))
             {
                 CallbackReceiverPrxHelper h = new CallbackReceiverPrxHelper();
                 h.copyFrom__(b);
@@ -277,21 +277,21 @@ namespace Demo
 
         public static CallbackReceiverPrx checkedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId()))
+                if (bb.ice_isA(ice_staticId()))
                 {
                     CallbackReceiverPrxHelper h = new CallbackReceiverPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -299,21 +299,21 @@ namespace Demo
 
         public static CallbackReceiverPrx checkedCast(Ice.ObjectPrx b, string f, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId(), ctx))
+                if (bb.ice_isA(ice_staticId(), ctx))
                 {
                     CallbackReceiverPrxHelper h = new CallbackReceiverPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -321,12 +321,12 @@ namespace Demo
 
         public static CallbackReceiverPrx uncheckedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackReceiverPrx r = b as CallbackReceiverPrx;
-            if(r == null)
+            if (r == null)
             {
                 CallbackReceiverPrxHelper h = new CallbackReceiverPrxHelper();
                 h.copyFrom__(b);
@@ -337,7 +337,7 @@ namespace Demo
 
         public static CallbackReceiverPrx uncheckedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
@@ -370,7 +370,7 @@ namespace Demo
         public static CallbackReceiverPrx read__(IceInternal.BasicStream is__)
         {
             Ice.ObjectPrx proxy = is__.readProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 CallbackReceiverPrxHelper result = new CallbackReceiverPrxHelper();
                 result.copyFrom__(proxy);
@@ -452,7 +452,7 @@ namespace Demo
         private Ice.AsyncResult<Demo.Callback_CallbackSender_initiateCallback> begin_initiateCallback(Demo.CallbackReceiverPrx proxy, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_initiateCallback> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_initiateCallback>(__initiateCallback_name, initiateCallback_completed__, cookie__);
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -464,7 +464,7 @@ namespace Demo
                 result__.endWriteParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -473,7 +473,7 @@ namespace Demo
 
         private void initiateCallback_completed__(Demo.Callback_CallbackSender_initiateCallback cb__)
         {
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__();
             }
@@ -509,7 +509,7 @@ namespace Demo
         private Ice.AsyncResult<Demo.Callback_CallbackSender_shutdown> begin_shutdown(_System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
         {
             IceInternal.OnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdown> result__ = getOnewayOutgoingAsync<Demo.Callback_CallbackSender_shutdown>(__shutdown_name, shutdown_completed__, cookie__);
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 result__.whenCompletedWithAsyncCallback(cb__);
             }
@@ -519,7 +519,7 @@ namespace Demo
                 result__.writeEmptyParams();
                 result__.invoke();
             }
-            catch(Ice.Exception ex__)
+            catch (Ice.Exception ex__)
             {
                 result__.abort(ex__);
             }
@@ -528,7 +528,7 @@ namespace Demo
 
         private void shutdown_completed__(Demo.Callback_CallbackSender_shutdown cb__)
         {
-            if(cb__ != null)
+            if (cb__ != null)
             {
                 cb__();
             }
@@ -540,12 +540,12 @@ namespace Demo
 
         public static CallbackSenderPrx checkedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackSenderPrx r = b as CallbackSenderPrx;
-            if((r == null) && b.ice_isA(ice_staticId()))
+            if ((r == null) && b.ice_isA(ice_staticId()))
             {
                 CallbackSenderPrxHelper h = new CallbackSenderPrxHelper();
                 h.copyFrom__(b);
@@ -556,12 +556,12 @@ namespace Demo
 
         public static CallbackSenderPrx checkedCast(Ice.ObjectPrx b, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackSenderPrx r = b as CallbackSenderPrx;
-            if((r == null) && b.ice_isA(ice_staticId(), ctx))
+            if ((r == null) && b.ice_isA(ice_staticId(), ctx))
             {
                 CallbackSenderPrxHelper h = new CallbackSenderPrxHelper();
                 h.copyFrom__(b);
@@ -572,21 +572,21 @@ namespace Demo
 
         public static CallbackSenderPrx checkedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId()))
+                if (bb.ice_isA(ice_staticId()))
                 {
                     CallbackSenderPrxHelper h = new CallbackSenderPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -594,21 +594,21 @@ namespace Demo
 
         public static CallbackSenderPrx checkedCast(Ice.ObjectPrx b, string f, _System.Collections.Generic.Dictionary<string, string> ctx)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             Ice.ObjectPrx bb = b.ice_facet(f);
             try
             {
-                if(bb.ice_isA(ice_staticId(), ctx))
+                if (bb.ice_isA(ice_staticId(), ctx))
                 {
                     CallbackSenderPrxHelper h = new CallbackSenderPrxHelper();
                     h.copyFrom__(bb);
                     return h;
                 }
             }
-            catch(Ice.FacetNotExistException)
+            catch (Ice.FacetNotExistException)
             {
             }
             return null;
@@ -616,12 +616,12 @@ namespace Demo
 
         public static CallbackSenderPrx uncheckedCast(Ice.ObjectPrx b)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
             CallbackSenderPrx r = b as CallbackSenderPrx;
-            if(r == null)
+            if (r == null)
             {
                 CallbackSenderPrxHelper h = new CallbackSenderPrxHelper();
                 h.copyFrom__(b);
@@ -632,7 +632,7 @@ namespace Demo
 
         public static CallbackSenderPrx uncheckedCast(Ice.ObjectPrx b, string f)
         {
-            if(b == null)
+            if (b == null)
             {
                 return null;
             }
@@ -665,7 +665,7 @@ namespace Demo
         public static CallbackSenderPrx read__(IceInternal.BasicStream is__)
         {
             Ice.ObjectPrx proxy = is__.readProxy();
-            if(proxy != null)
+            if (proxy != null)
             {
                 CallbackSenderPrxHelper result = new CallbackSenderPrxHelper();
                 result.copyFrom__(proxy);
@@ -697,7 +697,7 @@ namespace Demo
 
         #region Slice type-related members
 
-        public static new readonly string[] ids__ = 
+        public static new readonly string[] ids__ =
         {
             "::Demo::CallbackReceiver",
             "::Ice::Object"
@@ -764,33 +764,33 @@ namespace Demo
         public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
         {
             int pos = _System.Array.BinarySearch(all__, current__.operation, IceUtilInternal.StringUtil.OrdinalStringComparer);
-            if(pos < 0)
+            if (pos < 0)
             {
                 throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
             }
 
-            switch(pos)
+            switch (pos)
             {
                 case 0:
-                {
-                    return callback___(this, inS__, current__);
-                }
+                    {
+                        return callback___(this, inS__, current__);
+                    }
                 case 1:
-                {
-                    return Ice.ObjectImpl.ice_id___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_id___(this, inS__, current__);
+                    }
                 case 2:
-                {
-                    return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
+                    }
                 case 3:
-                {
-                    return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
+                    }
                 case 4:
-                {
-                    return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
+                    }
             }
 
             _System.Diagnostics.Debug.Assert(false);
@@ -840,7 +840,7 @@ namespace Demo
 
         #region Slice type-related members
 
-        public static new readonly string[] ids__ = 
+        public static new readonly string[] ids__ =
         {
             "::Demo::CallbackSender",
             "::Ice::Object"
@@ -921,37 +921,37 @@ namespace Demo
         public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
         {
             int pos = _System.Array.BinarySearch(all__, current__.operation, IceUtilInternal.StringUtil.OrdinalStringComparer);
-            if(pos < 0)
+            if (pos < 0)
             {
                 throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
             }
 
-            switch(pos)
+            switch (pos)
             {
                 case 0:
-                {
-                    return Ice.ObjectImpl.ice_id___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_id___(this, inS__, current__);
+                    }
                 case 1:
-                {
-                    return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
+                    }
                 case 2:
-                {
-                    return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
+                    }
                 case 3:
-                {
-                    return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
-                }
+                    {
+                        return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
+                    }
                 case 4:
-                {
-                    return initiateCallback___(this, inS__, current__);
-                }
+                    {
+                        return initiateCallback___(this, inS__, current__);
+                    }
                 case 5:
-                {
-                    return shutdown___(this, inS__, current__);
-                }
+                    {
+                        return shutdown___(this, inS__, current__);
+                    }
             }
 
             _System.Diagnostics.Debug.Assert(false);
