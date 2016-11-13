@@ -11,10 +11,11 @@ namespace AirPort_Server.FaceResult
     /// </summary>
     public class FeatureResult
     {
+        //特征提取人脸
         public Face Face { get; set; }
-
+        //特征码
         public string Feature { get; set; }
-
+        //人脸位置信息
         public Rect Rect { get; set; }
     }
     /// <summary>
