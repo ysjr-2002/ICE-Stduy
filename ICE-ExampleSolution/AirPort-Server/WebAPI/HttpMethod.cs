@@ -8,13 +8,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
 
-namespace AirPort_Server.WebAPI
+namespace AirPort.Server.WebAPI
 {
     class HttpMethod
     {
         public static void Get(string url)
         {
-            var wr = MyWebRequest.CreateGet(url);
+            var wr = HttpRequest.Get(url);
             var response = wr.GetResponse();
             var stream = response.GetResponseStream();
 
@@ -30,7 +30,7 @@ namespace AirPort_Server.WebAPI
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
-            HttpWebRequest request = (HttpWebRequest)MyWebRequest.CreateImage(url, boundary);
+            HttpWebRequest request = (HttpWebRequest)HttpRequest.PostImage(url, boundary);
             WebResponse response = null;
 
             StringBuilder sb = new StringBuilder();
@@ -97,7 +97,7 @@ namespace AirPort_Server.WebAPI
             string boundary = "---------------------------" + DateTime.Now.Ticks.ToString("x");
             byte[] boundarybytes = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "\r\n");
 
-            HttpWebRequest request = (HttpWebRequest)MyWebRequest.CreateImage(url, boundary);
+            HttpWebRequest request = (HttpWebRequest)HttpRequest.PostImage(url, boundary);
             WebResponse response = null;
 
             StringBuilder sb = new StringBuilder();

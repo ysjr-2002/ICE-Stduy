@@ -12,33 +12,32 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Common;
-using AirPort_Client.Core;
+using AirPort.Client.Core;
+using System.Diagnostics;
 
-namespace AirPort_Client
+namespace AirPort.Client
 {
     /// <summary>
-    /// SignatureCodeWindow.xaml 的交互逻辑
+    /// 特征码提取
     /// </summary>
     public partial class SignatureCodeWindow
     {
-        private ClientProxy facePxy = null;
         private string imagefile = "";
-        public SignatureCodeWindow(ClientProxy facePxy)
+        public SignatureCodeWindow()
         {
             InitializeComponent();
-            this.facePxy = facePxy;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnChoiceImage_Click(object sender, RoutedEventArgs e)
         {
-            imagefile = Util.OpenFileDialog();
+            imagefile = Utility.OpenFileDialog();
             if (imagefile.IsEmpty())
                 return;
 
             imageFace.Source = imagefile.ToImageSource();
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btnExtract_Click(object sender, RoutedEventArgs e)
         {
             var buffer1 = System.IO.File.ReadAllBytes(imagefile);
             var image1 = Convert.ToBase64String(buffer1);
@@ -48,13 +47,17 @@ namespace AirPort_Client
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("convertSignatureCode", data);
-            var content = facePxy.send(xml);
+
+            Stopwatch sw = Stopwatch.StartNew();
+            var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
 
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             var signatureCode = doc.GetNodeText("signatureCode");
 
             txtfeature.Text = signatureCode;
+            lbltimeInfo.Content = sw.ElapsedMilliseconds + "毫秒";
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -213,8 +214,8 @@ namespace serverEx
             var sourceContent = doc.GetNodeText("srcImgData");
             var destContent = doc.GetNodeText("destImgData");
 
-            var image1 = sourceContent.ToByteBuffer();
-            var image2 = destContent.ToByteBuffer();
+            var image1 = sourceContent.Base64ToByte();
+            var image2 = destContent.Base64ToByte();
 
             print("image1 length=" + image1.Length);
             print("image2 length=" + image2.Length);
@@ -233,7 +234,7 @@ namespace serverEx
         private string convertSignatureCode(XmlDocument doc)
         {
             var imgData = doc.GetNodeText("imgData");
-            var buffer = imgData.ToByteBuffer();
+            var buffer = imgData.Base64ToByte();
             print("Image Length->" + buffer.Length);
 
             var sb = new StringBuilder();

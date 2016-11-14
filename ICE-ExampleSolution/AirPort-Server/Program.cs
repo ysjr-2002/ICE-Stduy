@@ -1,5 +1,5 @@
-﻿using AirPort_Server.Core;
-using AirPort_Server.WebAPI;
+﻿using AirPort.Server.Core;
+using AirPort.Server.WebAPI;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -8,19 +8,12 @@ using System.Linq;
 using System.Text;
 using System.Web.Script.Serialization;
 
-namespace AirPort_Server
+namespace AirPort.Server
 {
     class Program
     {
         static void Main(string[] args)
         {
-            //var data = System.IO.File.ReadAllBytes(@"C:\Users\Shaojie\Desktop\face2.jpg");
-            //var fs = new FaceServices();
-            //fs.Feature(data, 0.9f, false);
-            //fs.Detect(data, false, true);
-            //fs.Compare(data, data);
-            //Console.Read();
-
             Ice.Properties properties = Ice.Util.createProperties();
             //单位KB
             properties.setProperty("Ice.MessageSizeMax", "2048");

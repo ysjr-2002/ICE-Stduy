@@ -1,4 +1,4 @@
-﻿using AirPort_Client.Core;
+﻿using AirPort.Client.Core;
 using Common;
 using System;
 using System.Collections.Generic;
@@ -16,26 +16,24 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 
-namespace AirPort_Client
+namespace AirPort.Client
 {
     /// <summary>
     /// 1:1比对
     /// </summary>
     public partial class CompareWindow
     {
-        private ClientProxy facePxy = null;
         private string imagefile1 = "";
         private string imagefile2 = "";
 
-        public CompareWindow(ClientProxy proxy)
+        public CompareWindow()
         {
             InitializeComponent();
-            this.facePxy = proxy;
         }
 
         private void btnImage1_Click(object sender, RoutedEventArgs e)
         {
-            imagefile1 = Util.OpenFileDialog();
+            imagefile1 = Utility.OpenFileDialog();
             if (imagefile1.IsEmpty())
                 return;
 
@@ -44,7 +42,7 @@ namespace AirPort_Client
 
         private void btnImage2_Click(object sender, RoutedEventArgs e)
         {
-            imagefile2 = Util.OpenFileDialog();
+            imagefile2 = Utility.OpenFileDialog();
             if (imagefile2.IsEmpty())
                 return;
 
@@ -73,7 +71,7 @@ namespace AirPort_Client
                 var temp = System.Text.Encoding.UTF8.GetBytes(xml);
 
                 Stopwatch sw = Stopwatch.StartNew();
-                var content = facePxy.send(xml);
+                var content = FaceServices.FaceProxy.send(xml);
                 sw.Stop();
 
 

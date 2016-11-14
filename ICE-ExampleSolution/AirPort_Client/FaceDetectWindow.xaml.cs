@@ -1,4 +1,4 @@
-﻿using AirPort_Client.Core;
+﻿using AirPort.Client.Core;
 using Common;
 using FaceRecognitionModule;
 using System;
@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 
-namespace AirPort_Client
+namespace AirPort.Client
 {
     /// <summary>
     /// 旷世为提供参数(但是应用层可以处理
@@ -25,17 +25,15 @@ namespace AirPort_Client
     public partial class FaceDetectWindow
     {
         private string filepath = "";
-        private ClientProxy proxy;
 
-        public FaceDetectWindow(ClientProxy proxy)
+        public FaceDetectWindow()
         {
             InitializeComponent();
-            this.proxy = proxy;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            filepath = Util.OpenFileDialog();
+            filepath = Utility.OpenFileDialog();
             if (filepath.IsEmpty())
                 return;
 
@@ -54,7 +52,7 @@ namespace AirPort_Client
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("staticDetect", data);
-            var content = proxy.send(xml);
+            var content = FaceServices.FaceProxy.send(xml);
 
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");

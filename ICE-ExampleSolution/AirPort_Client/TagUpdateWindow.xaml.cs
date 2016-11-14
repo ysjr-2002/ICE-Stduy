@@ -15,11 +15,11 @@ using System.Windows.Shapes;
 namespace AirPort.Client
 {
     /// <summary>
-    /// RtspWindow.xaml 的交互逻辑
+    /// TagUpdateWindow.xaml 的交互逻辑
     /// </summary>
-    public partial class RtspWindow
+    public partial class TagUpdateWindow
     {
-        public RtspWindow()
+        public TagUpdateWindow()
         {
             InitializeComponent();
         }

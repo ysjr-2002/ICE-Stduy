@@ -1,4 +1,4 @@
-﻿using AirPort_Server.WebAPI;
+﻿using AirPort.Server.WebAPI;
 using FaceRecognitionModule;
 using Ice;
 using System;
@@ -8,8 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-
-namespace AirPort_Server.Core
+using Common;
+namespace AirPort.Server.Core
 {
     class MyFace : FaceRecognitionDisp_
     {
@@ -219,8 +219,8 @@ namespace AirPort_Server.Core
             var sourceContent = doc.GetNodeText("srcImgData");
             var destContent = doc.GetNodeText("destImgData");
 
-            var image1 = sourceContent.ToByteBuffer();
-            var image2 = destContent.ToByteBuffer();
+            var image1 = sourceContent.Base64ToByte();
+            var image2 = destContent.Base64ToByte();
 
             print("image1 length=" + image1.Length);
             print("image2 length=" + image2.Length);
@@ -239,7 +239,7 @@ namespace AirPort_Server.Core
         private string convertSignatureCode(XmlDocument doc)
         {
             var imgData = doc.GetNodeText("imgData");
-            var buffer = imgData.ToByteBuffer();
+            var buffer = imgData.Base64ToByte();
             print("Image Length->" + buffer.Length);
 
             var feature = fs.Feature(buffer, 0.9f, false);

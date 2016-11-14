@@ -39,11 +39,15 @@
     <Reference Include="CloudAPI">
       <HintPath>E:\Work\Person\IDAuthenticate\CloudAPI\bin\Debug\CloudAPI.dll</HintPath>
     </Reference>
+    <Reference Include="Common">
+      <HintPath>..\AirPort-Server\dll\Common.dll</HintPath>
+    </Reference>
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -72,10 +76,13 @@
     <Content Include="webscoket\websocket-sharp.dll" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Share\Funs.csproj">
+    <ProjectReference Include="..\Share\XmlExt.csproj">
       <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
-      <Name>Funs</Name>
+      <Name>XmlExt</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dll\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

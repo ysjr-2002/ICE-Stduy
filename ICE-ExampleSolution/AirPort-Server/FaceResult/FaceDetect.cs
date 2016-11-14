@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirPort_Server
+namespace AirPort.Server
 {
     public class face_quality
     {

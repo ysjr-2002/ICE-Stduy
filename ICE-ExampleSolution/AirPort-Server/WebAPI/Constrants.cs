@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirPort_Server.WebAPI
+namespace AirPort.Server.WebAPI
 {
     class Constrants
     {

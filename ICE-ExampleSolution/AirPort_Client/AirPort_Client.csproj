@@ -7,8 +7,8 @@
     <ProjectGuid>{539C4298-0EFB-42FA-BD85-2C424D2C41FA}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AirPort_Client</RootNamespace>
-    <AssemblyName>AirPort_Client</AssemblyName>
+    <RootNamespace>AirPort.Client</RootNamespace>
+    <AssemblyName>AirPort.Client</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -23,6 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,8 +42,29 @@
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.Practices.Prism.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Prism.UnityExtensions, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.Practices.Prism.UnityExtensions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -61,15 +83,30 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BatchDeleteWindow.xaml.cs">
+      <DependentUpon>BatchDeleteWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CompareWindow.xaml.cs">
       <DependentUpon>CompareWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Core\ClientProxy.cs" />
+    <Compile Include="Core\FaceProxy.cs" />
+    <Compile Include="Core\FaceServices.cs" />
+    <Compile Include="Core\ContextData.cs" />
     <Compile Include="FaceDetectWindow.xaml.cs">
       <DependentUpon>FaceDetectWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="GroupWindow.xaml.cs">
       <DependentUpon>GroupWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Core\AppBoot.cs" />
+    <Compile Include="PersonDeleteWindow.xaml.cs">
+      <DependentUpon>PersonDeleteWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonSaveWindow.xaml.cs">
+      <DependentUpon>PersonSaveWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonWareHouseWindow.xaml.cs">
+      <DependentUpon>PersonWareHouseWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="RtspWindow.xaml.cs">
       <DependentUpon>RtspWindow.xaml</DependentUpon>
@@ -77,7 +114,14 @@
     <Compile Include="SignatureCodeWindow.xaml.cs">
       <DependentUpon>SignatureCodeWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PopupWindowBase.cs" />
+    <Compile Include="Core\PopupWindowBase.cs" />
+    <Compile Include="TagUpdateWindow.xaml.cs">
+      <DependentUpon>TagUpdateWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="BatchDeleteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CompareWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -103,6 +147,18 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PersonDeleteWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonSaveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonWareHouseWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="RtspWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -110,6 +166,10 @@
     <Page Include="SignatureCodeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="TagUpdateWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\general.xaml">
       <SubType>Designer</SubType>
@@ -144,14 +204,19 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Share\Funs.csproj">
+    <ProjectReference Include="..\Share\XmlExt.csproj">
       <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
-      <Name>Funs</Name>
+      <Name>XmlExt</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
+    <Content Include="dll\Microsoft.Practices.Prism.dll" />
+    <Content Include="dll\Microsoft.Practices.Prism.UnityExtensions.dll" />
+    <Content Include="dll\Microsoft.Practices.ServiceLocation.dll" />
+    <Content Include="dll\Microsoft.Practices.Unity.dll" />
+    <Content Include="dll\System.Windows.Interactivity.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

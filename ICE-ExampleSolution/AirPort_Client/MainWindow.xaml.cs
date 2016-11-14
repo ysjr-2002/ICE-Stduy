@@ -1,10 +1,11 @@
-﻿using AirPort_Client.Core;
+﻿using AirPort.Client.Core;
 using FaceRecognitionModule;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -16,14 +17,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace AirPort_Client
+namespace AirPort.Client
 {
     /// <summary>
     /// MainWindow.xaml 的交互逻辑
     /// </summary>
     public partial class MainWindow : Window
     {
-        ClientProxy clientProxy = null;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,19 +32,17 @@ namespace AirPort_Client
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            clientProxy = new ClientProxy();
-            clientProxy.Connect();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            FaceDetectWindow face = new FaceDetectWindow(clientProxy);
+            FaceDetectWindow face = new FaceDetectWindow();
             face.ShowDialog();
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            CompareWindow compare = new CompareWindow(clientProxy);
+            CompareWindow compare = new CompareWindow();
             compare.ShowDialog();
         }
 
@@ -56,14 +54,56 @@ namespace AirPort_Client
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            GroupWindow group = new GroupWindow();
+            PersonWareHouseWindow group = new PersonWareHouseWindow();
             group.ShowDialog();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            SignatureCodeWindow sign = new AirPort_Client.SignatureCodeWindow(clientProxy);
+            SignatureCodeWindow sign = new AirPort.Client.SignatureCodeWindow();
             sign.ShowDialog();
+        }
+
+        private void Button_Click_5(object sender, RoutedEventArgs e)
+        {
+            User user = new User("thread");
+            Thread thread1 = new Thread(user.Test);
+            thread1.Name = "thread1";
+
+            Thread thread2 = new Thread(user.Test);
+            thread2.Name = "thread2";
+
+            Thread thread3 = new Thread(user.Test);
+            thread3.Name = "thread3";
+
+            Thread thread4 = new Thread(user.Test);
+            thread4.Name = "thread4";
+
+            thread1.Start();
+            thread2.Start();
+            thread3.Start();
+            thread4.Start();
+        }
+    }
+
+    public class User
+    {
+        private System.Threading.Semaphore semahore = new System.Threading.Semaphore(2, 2);
+
+        public User(string name)
+        {
+            Name = name;
+        }
+
+        public string Name { get; set; }
+
+        public void Test()
+        {
+            Console.WriteLine("排队:" + Thread.CurrentThread.Name);
+            semahore.WaitOne();
+            Console.WriteLine(Thread.CurrentThread.Name);
+            Thread.Sleep(5000);
+            semahore.Release();
         }
     }
 }

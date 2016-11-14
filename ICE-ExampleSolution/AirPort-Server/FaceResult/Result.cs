@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirPort_Server.FaceResult
+namespace AirPort.Server.FaceResult
 {
     /// <summary>
     /// 特征提取

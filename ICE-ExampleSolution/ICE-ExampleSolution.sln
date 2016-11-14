@@ -27,11 +27,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "serverEx", "serverEx\server
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FaceClientEx", "FaceClientEx\FaceClientEx.csproj", "{BF7A2C76-0F2E-4BB3-8D97-8836BDDAF033}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Funs", "Share\Funs.csproj", "{1847DE81-EA14-4555-8760-50BDA89A85D1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlExt", "Share\XmlExt.csproj", "{1847DE81-EA14-4555-8760-50BDA89A85D1}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AirPort", "AirPort", "{D809F3D2-8271-4FBA-8C39-26A16694306F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirPort-Server", "AirPort-Server\AirPort-Server.csproj", "{AB791C48-3F7D-443E-8AC3-CEF47D8C274B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirPort_Server", "AirPort-Server\AirPort_Server.csproj", "{AB791C48-3F7D-443E-8AC3-CEF47D8C274B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AirPort_Client", "AirPort_Client\AirPort_Client.csproj", "{539C4298-0EFB-42FA-BD85-2C424D2C41FA}"
 EndProject

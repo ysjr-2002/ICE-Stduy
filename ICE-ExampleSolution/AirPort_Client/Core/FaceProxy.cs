@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirPort_Client.Core
+namespace AirPort.Client.Core
 {
-    public class ClientProxy
+    public class FaceProxy
     {
         private Ice.Communicator ic;
         private FaceRecognitionPrx facePxy = null;

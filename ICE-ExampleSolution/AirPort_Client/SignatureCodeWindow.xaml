@@ -1,8 +1,8 @@
-﻿<local:PopupWindowBase x:Class="AirPort_Client.SignatureCodeWindow"
+﻿<local:PopupWindowBase x:Class="AirPort.Client.SignatureCodeWindow"
                        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                       xmlns:local="clr-namespace:AirPort_Client"
+                       xmlns:local="clr-namespace:AirPort.Client"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                        Title="特征码提取"
                        mc:Ignorable="d">
@@ -16,23 +16,28 @@
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
 
-            <Button Click="Button_Click" Content="选择图片" />
-            <Button Click="Button_Click_1" Content="提取" />
+            <Button Click="btnChoiceImage_Click" Content="选择图片" />
+            <Button Click="btnExtract_Click" Content="提取" />
         </StackPanel>
 
         <Image Name="imageFace" Grid.Row="1" />
-        <TextBox Name="txtfeature"
-                 Grid.Row="2"
-                 Width="700"
-                 Height="200"
-                 HorizontalAlignment="Stretch"
-                 AcceptsReturn="True"
-                 TextWrapping="Wrap"
-                 VerticalScrollBarVisibility="Visible" />
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <Label Width="80"
+                   HorizontalContentAlignment="Right"
+                   Content="特征码：" />
+            <TextBox Name="txtfeature"
+                     Width="670"
+                     Height="200"
+                     HorizontalAlignment="Stretch"
+                     AcceptsReturn="True"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Visible" />
+        </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Label Content="耗时：" />
-            <Label Content="30ms" />
-            <TextBox />
+            <Label Width="80"
+                   HorizontalContentAlignment="Right"
+                   Content="处理时间：" />
+            <Label Name="lbltimeInfo" Content="" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

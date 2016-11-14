@@ -1,4 +1,4 @@
-﻿using AirPort_Server.FaceResult;
+﻿using AirPort.Server.FaceResult;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AirPort_Server.WebAPI
+namespace AirPort.Server.WebAPI
 {
     class FaceServices
     {

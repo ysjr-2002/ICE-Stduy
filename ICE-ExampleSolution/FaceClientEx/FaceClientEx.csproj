@@ -115,9 +115,9 @@
     <None Include="document\v0.6.docx" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Share\Funs.csproj">
+    <ProjectReference Include="..\Share\XmlExt.csproj">
       <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
-      <Name>Funs</Name>
+      <Name>XmlExt</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

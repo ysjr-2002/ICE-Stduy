@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace AirPort_Client
+namespace AirPort.Client
 {
     /// <summary>
     /// GroupWindow.xaml 的交互逻辑
