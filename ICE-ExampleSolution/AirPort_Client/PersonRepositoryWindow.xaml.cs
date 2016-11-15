@@ -21,11 +21,11 @@ using System.Xml;
 namespace AirPort.Client
 {
     /// <summary>
-    /// 
+    /// 人像库
     /// </summary>
-    public partial class PersonWareHouseWindow
+    public partial class PersonRepositoryWindow
     {
-        public PersonWareHouseWindow()
+        public PersonRepositoryWindow()
         {
             InitializeComponent();
             this.Loaded += PersonWareHouseWindow_Loaded;

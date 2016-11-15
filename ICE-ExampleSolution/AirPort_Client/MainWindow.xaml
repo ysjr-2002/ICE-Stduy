@@ -6,24 +6,47 @@
         xmlns:local="clr-namespace:AirPort.Client"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Title="MainWindow"
-        Width="600"
-        Height="350"
+        Width="700"
+        Height="600"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d">
+    <Window.Resources>
+        <Style x:Key="LargeTileStyle" TargetType="Controls:Tile">
+            <Setter Property="Height" Value="125" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="TitleFontSize" Value="12" />
+            <Setter Property="VerticalTitleAlignment" Value="Center" />
+            <Setter Property="HorizontalTitleAlignment" Value="Center" />
+            <Setter Property="Controls:ControlsHelper.MouseOverBorderBrush" Value="Goldenrod" />
+        </Style>
+    </Window.Resources>
 
-    <UniformGrid>
-        <Controls:Tile Content="特征码提取" ></Controls:Tile>
-        <Controls:Tile Content="人脸检测"></Controls:Tile>
-        <Controls:Tile Content="1:1比对"></Controls:Tile>
-        <Controls:Tile Content="人脸动态检测"></Controls:Tile>
-        <Controls:Tile Content="人像库"></Controls:Tile>
-        <Controls:Tile Content="1:N查询"></Controls:Tile>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <!--<Button Click="Button_Click_4" Content="特征码提取" />
-            <Button Click="Button_Click" Content="人脸检测" />
-            <Button Click="Button_Click_1" Content="1:1比对" />
-            <Button Click="Button_Click_2" Content="人脸动态检测" />
-            <Button Click="Button_Click_3" Content="人像库" />
-            <Button Click="Button_Click_5" Content="1:N查询" />-->
-    </UniformGrid>
+        <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
+            <Controls:Tile Title="特征码提取"
+                           Click="Button_Click_4"
+                           Style="{StaticResource LargeTileStyle}" />
+            <Controls:Tile Title="人脸检测"
+                           Click="Button_Click"
+                           Style="{StaticResource LargeTileStyle}" />
+            <Controls:Tile Click="Button_Click_1"
+                           Content="1:1比对"
+                           Style="{StaticResource LargeTileStyle}" />
+            <Controls:Tile Click="Button_Click_2"
+                           Content="人脸动态检测"
+                           Style="{StaticResource LargeTileStyle}" />
+            <Controls:Tile Click="Button_Click_3"
+                           Content="人像库"
+                           Style="{StaticResource LargeTileStyle}" />
+            <Controls:Tile Click="Button_Click_5"
+                           Content="1:N查询"
+                           Style="{StaticResource LargeTileStyle}" />
+        </WrapPanel>
+    </Grid>
 </Window>

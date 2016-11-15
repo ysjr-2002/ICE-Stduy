@@ -37,12 +37,16 @@
             <Button HorizontalAlignment="Left"
                     Click="btnCompare_Click"
                     Content="比对" />
-            <StackPanel Orientation="Horizontal">
-                <Label Content="相似度：" />
+            <StackPanel Height="35"
+                        Margin="5,0,0,0"
+                        Orientation="Horizontal">
+                <Label Width="80" Content="相似度：" />
                 <Label Name="lblSmilary" />
             </StackPanel>
-            <StackPanel Orientation="Horizontal">
-                <Label Content="耗时：" />
+            <StackPanel Height="35"
+                        Margin="5,0,0,0"
+                        Orientation="Horizontal">
+                <Label Width="80" Content="耗时：" />
                 <Label Name="lbltime" />
             </StackPanel>
         </StackPanel>

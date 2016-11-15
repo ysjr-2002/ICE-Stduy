@@ -54,8 +54,8 @@ namespace AirPort.Client
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            PersonWareHouseWindow group = new PersonWareHouseWindow();
-            group.ShowDialog();
+            PersonRepositoryWindow repository = new PersonRepositoryWindow();
+            repository.ShowDialog();
         }
 
         private void Button_Click_4(object sender, RoutedEventArgs e)

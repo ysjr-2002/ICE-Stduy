@@ -12,6 +12,8 @@ namespace AirPort.Client
     public class PopupWindowBase : Window
     {
         protected const int status_ok = 200;
+        protected const string community_error = "通讯异常！";
+        protected const string callElapsed_Template = "{0}ms";
 
         public PopupWindowBase()
         {

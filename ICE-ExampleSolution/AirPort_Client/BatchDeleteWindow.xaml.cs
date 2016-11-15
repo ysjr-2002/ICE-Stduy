@@ -1,4 +1,5 @@
-﻿using AirPort.Client.Core;
+﻿using Common;
+using AirPort.Client.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,14 +71,16 @@ namespace AirPort.Client
 
             var xml = XmlParse.GetXml("deletePersonsByTags", data);
             var content = FaceServices.FaceProxy.send(xml);
-
+            if (content.IsEmpty())
+            {
+                return;
+            }
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             var affectCount = doc.GetNodeText("affectCount");
 
             Item("code->" + code);
             Item("affectCount->" + affectCount);
-
             TipDialog("删除记录数->" + affectCount);
         }
 

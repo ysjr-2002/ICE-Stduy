@@ -99,9 +99,6 @@
     <Compile Include="FaceDetectWindow.xaml.cs">
       <DependentUpon>FaceDetectWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GroupWindow.xaml.cs">
-      <DependentUpon>GroupWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Core\AppBoot.cs" />
     <Compile Include="Model\PersonInfo.cs" />
     <Compile Include="PersonDeleteTagWindow.xaml.cs">
@@ -116,8 +113,8 @@
     <Compile Include="PersonUpdateTagWindow.xaml.cs">
       <DependentUpon>PersonUpdateTagWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PersonWareHouseWindow.xaml.cs">
-      <DependentUpon>PersonWareHouseWindow.xaml</DependentUpon>
+    <Compile Include="PersonRepositoryWindow.xaml.cs">
+      <DependentUpon>PersonRepositoryWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="RtspWindow.xaml.cs">
       <DependentUpon>RtspWindow.xaml</DependentUpon>
@@ -128,9 +125,6 @@
     <Compile Include="Core\PopupWindowBase.cs" />
     <Compile Include="SignatureSearchWindow.xaml.cs">
       <DependentUpon>SignatureSearchWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="TagUpdateWindow.xaml.cs">
-      <DependentUpon>TagUpdateWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="BatchDeleteWindow.xaml">
       <SubType>Designer</SubType>
@@ -143,10 +137,6 @@
     <Page Include="FaceDetectWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GroupWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -177,7 +167,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PersonWareHouseWindow.xaml">
+    <Page Include="PersonRepositoryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -190,10 +180,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="SignatureSearchWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="TagUpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -239,6 +225,7 @@
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
     <Content Include="dll\MahApps.Metro.dll" />
+    <Content Include="dll\MahApps.Metro.Resources.dll" />
     <Content Include="dll\Microsoft.Practices.Prism.dll" />
     <Content Include="dll\Microsoft.Practices.Prism.UnityExtensions.dll" />
     <Content Include="dll\Microsoft.Practices.ServiceLocation.dll" />

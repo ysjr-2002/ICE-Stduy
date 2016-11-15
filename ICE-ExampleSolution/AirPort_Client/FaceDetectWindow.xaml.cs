@@ -52,8 +52,16 @@ namespace AirPort.Client
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("staticDetect", data);
+            Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
+            lbltimeinfo.Content = string.Format(callElapsed_Template, sw.ElapsedMilliseconds);
 
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             Item("code->" + code);
@@ -96,7 +104,7 @@ namespace AirPort.Client
             faceImage.Source = render;
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void btnDetect_click(object sender, RoutedEventArgs e)
         {
             Send();
         }

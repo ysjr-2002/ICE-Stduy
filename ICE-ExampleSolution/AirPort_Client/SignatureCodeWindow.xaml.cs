@@ -51,13 +51,17 @@ namespace AirPort.Client
             Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
             sw.Stop();
+            lbltimeInfo.Content = string.Format(callElapsed_Template, sw.ElapsedMilliseconds);
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
 
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             var signatureCode = doc.GetNodeText("signatureCode");
-
             txtfeature.Text = signatureCode;
-            lbltimeInfo.Content = sw.ElapsedMilliseconds + "毫秒";
         }
     }
 }

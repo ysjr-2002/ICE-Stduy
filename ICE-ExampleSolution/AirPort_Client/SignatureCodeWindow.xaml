@@ -10,8 +10,8 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition />
-            <RowDefinition />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
@@ -22,9 +22,7 @@
 
         <Image Name="imageFace" Grid.Row="1" />
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <Label Width="80"
-                   HorizontalContentAlignment="Right"
-                   Content="特征码：" />
+            <Label Width="80" Content="特征码：" />
             <TextBox Name="txtfeature"
                      Width="670"
                      Height="200"
@@ -34,10 +32,10 @@
                      VerticalScrollBarVisibility="Visible" />
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
-            <Label Width="80"
-                   HorizontalContentAlignment="Right"
-                   Content="处理时间：" />
-            <Label Name="lbltimeInfo" Content="" />
+            <Label Width="80" Content="处理时间：" />
+            <Label Name="lbltimeInfo"
+                   VerticalAlignment="Center"
+                   HorizontalContentAlignment="Left" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>
