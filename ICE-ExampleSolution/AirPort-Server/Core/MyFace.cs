@@ -373,20 +373,23 @@ namespace AirPort.Server.Core
             print("返回10条记录");
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
-            sb.Append(Element("code", "0"));
-            sb.Append(Element("totalCount", "5689"));
+            sb.Append("code".ElementText("0"));
+            sb.Append("totalCount".ElementText("5689"));
             sb.Append("persons".ElementBegin());
             for (int i = 0; i < 10; i++)
             {
                 sb.Append("person".ElementBegin());
-                sb.Append(Element("faceId", "1112"));
-                sb.Append(Element("uuid", "72297c8842604c059b05d28bfb11d10b"));
-                sb.Append(Element("code", "350321198003212221"));
-                sb.Append(Element("name", "杨绍杰"));
-                sb.Append(Element("descrption", "{'race:白人','gender':'男'}"));
-                sb.Append(Element("imgData1", "imgData1"));
-                sb.Append(Element("imgData2", "imgData2"));
-                sb.Append(Element("imgData3", "imgData3"));
+                sb.Append("faceId".ElementText("1112"));
+                sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
+                sb.Append("code".ElementText("350321198003212221"));
+                sb.Append("name".ElementText("杨绍杰"));
+                sb.Append("descrption".ElementText("{'race:白人','gender':'男'}"));
+                sb.Append("imgData1".ElementText("imgData1"));
+                sb.Append("hasSignatureCode1".ElementText("1"));
+                sb.Append("imgData2".ElementText("imgData2"));
+                sb.Append("hasSignatureCode2".ElementText("1"));
+                sb.Append("imgData3".ElementText("imgData3"));
+                sb.Append("hasSignatureCode3".ElementText("0"));
                 sb.Append("person".ElementEnd());
             }
             sb.Append("persons".ElementEnd());

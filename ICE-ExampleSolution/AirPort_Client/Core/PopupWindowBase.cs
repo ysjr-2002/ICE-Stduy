@@ -1,4 +1,5 @@
-﻿using Common.Log;
+﻿using Common;
+using Common.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace AirPort.Client
 {
     public class PopupWindowBase : Window
     {
+        protected const int status_ok = 200;
+
         public PopupWindowBase()
         {
             this.Width = 800;

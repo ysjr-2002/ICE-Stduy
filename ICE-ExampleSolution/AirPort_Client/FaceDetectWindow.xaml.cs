@@ -56,7 +56,7 @@ namespace AirPort.Client
 
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
-            //Item("code->" + code);
+            Item("code->" + code);
 
             var persons = doc.SelectNodes("/xml/persons/person");
             lblfacecount.Content = persons.Count;
@@ -94,11 +94,6 @@ namespace AirPort.Client
             render.Render(visual);
 
             faceImage.Source = render;
-        }
-
-        private void Item(string str)
-        {
-            Trace.WriteLine(str);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)

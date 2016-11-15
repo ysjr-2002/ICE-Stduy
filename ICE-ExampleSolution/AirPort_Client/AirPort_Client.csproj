@@ -42,6 +42,10 @@
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\MahApps.Metro.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Prism, Version=4.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>dll\Microsoft.Practices.Prism.dll</HintPath>
@@ -99,11 +103,18 @@
       <DependentUpon>GroupWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\AppBoot.cs" />
+    <Compile Include="Model\PersonInfo.cs" />
+    <Compile Include="PersonDeleteTagWindow.xaml.cs">
+      <DependentUpon>PersonDeleteTagWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PersonDeleteWindow.xaml.cs">
       <DependentUpon>PersonDeleteWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PersonSaveWindow.xaml.cs">
       <DependentUpon>PersonSaveWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PersonUpdateTagWindow.xaml.cs">
+      <DependentUpon>PersonUpdateTagWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="PersonWareHouseWindow.xaml.cs">
       <DependentUpon>PersonWareHouseWindow.xaml</DependentUpon>
@@ -115,6 +126,9 @@
       <DependentUpon>SignatureCodeWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\PopupWindowBase.cs" />
+    <Compile Include="SignatureSearchWindow.xaml.cs">
+      <DependentUpon>SignatureSearchWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="TagUpdateWindow.xaml.cs">
       <DependentUpon>TagUpdateWindow.xaml</DependentUpon>
     </Compile>
@@ -147,11 +161,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PersonDeleteTagWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PersonDeleteWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PersonSaveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonUpdateTagWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -166,6 +188,10 @@
     <Page Include="SignatureCodeWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="SignatureSearchWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="TagUpdateWindow.xaml">
       <SubType>Designer</SubType>
@@ -212,6 +238,7 @@
   <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
+    <Content Include="dll\MahApps.Metro.dll" />
     <Content Include="dll\Microsoft.Practices.Prism.dll" />
     <Content Include="dll\Microsoft.Practices.Prism.UnityExtensions.dll" />
     <Content Include="dll\Microsoft.Practices.ServiceLocation.dll" />

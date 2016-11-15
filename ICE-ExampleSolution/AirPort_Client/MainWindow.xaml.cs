@@ -60,29 +60,14 @@ namespace AirPort.Client
 
         private void Button_Click_4(object sender, RoutedEventArgs e)
         {
-            SignatureCodeWindow sign = new AirPort.Client.SignatureCodeWindow();
+            SignatureCodeWindow sign = new SignatureCodeWindow();
             sign.ShowDialog();
         }
 
         private void Button_Click_5(object sender, RoutedEventArgs e)
         {
-            User user = new User("thread");
-            Thread thread1 = new Thread(user.Test);
-            thread1.Name = "thread1";
-
-            Thread thread2 = new Thread(user.Test);
-            thread2.Name = "thread2";
-
-            Thread thread3 = new Thread(user.Test);
-            thread3.Name = "thread3";
-
-            Thread thread4 = new Thread(user.Test);
-            thread4.Name = "thread4";
-
-            thread1.Start();
-            thread2.Start();
-            thread3.Start();
-            thread4.Start();
+            SignatureSearchWindow search = new SignatureSearchWindow();
+            search.ShowDialog();
         }
     }
 

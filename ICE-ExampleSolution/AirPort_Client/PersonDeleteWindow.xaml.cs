@@ -21,28 +21,29 @@ namespace AirPort.Client
     /// </summary>
     public partial class PersonDeleteWindow
     {
-        public PersonDeleteWindow()
+        private string uuid = "";
+        public PersonDeleteWindow(string uuid)
         {
             InitializeComponent();
+            this.uuid = uuid;
+            this.txtuuid.Text = uuid;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (txtName.Text.IsEmpty())
+            if (txtuuid.Text.IsEmpty())
             {
                 WarnDialog("请输入用户业务标识！");
                 return;
             }
-
             delete();
-
             this.DialogResult = true;
         }
 
         private void delete()
         {
             var sb = new StringBuilder();
-            sb.Append(("uuid".ElementText(txtName.Text)));
+            sb.Append(("uuid".ElementText(txtuuid.Text)));
             var data = sb.ToString();
             var xml = XmlParse.GetXml("deletePerson", data);
             var content = FaceServices.FaceProxy.send(xml);
