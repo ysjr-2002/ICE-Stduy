@@ -231,6 +231,7 @@
     <Content Include="dll\Microsoft.Practices.ServiceLocation.dll" />
     <Content Include="dll\Microsoft.Practices.Unity.dll" />
     <Content Include="dll\System.Windows.Interactivity.dll" />
+    <Resource Include="face.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

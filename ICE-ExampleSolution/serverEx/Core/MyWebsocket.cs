@@ -41,7 +41,6 @@ namespace serverEx.Core
 
                 Trace.WriteLine(m.Data);
             };
-
             ws.Connect();
         }
 
