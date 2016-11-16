@@ -1,4 +1,5 @@
 ﻿using AirPort.Server.Core;
+using AirPort.Server.Repository;
 using AirPort.Server.WebAPI;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,8 @@ namespace AirPort.Server
             var ic = Ice.Util.initialize(initData);
 
             //var ic = Ice.Util.initialize(ref args);
-            Ice.Object servant = new MyFace();
+            PeresonDB db = new PeresonDB();
+            Ice.Object servant = new MyFace(db);
             Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints("FaceAdapter", "default -p 9996");
             adapter.add(servant, ic.stringToIdentity("myface"));
             adapter.activate();

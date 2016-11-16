@@ -12,17 +12,27 @@ namespace AirPort.Server.WebAPI
 {
     class HttpMethod
     {
-        public static void Get(string url)
+        public static T Get<T>(string url, Dictionary<string, string> param)
         {
-            var wr = HttpRequest.Get(url);
-            var response = wr.GetResponse();
-            var stream = response.GetResponseStream();
+            var preSignStr = HttpCore.CreateLinkString(param);
+            var httpGetUrl = string.Concat(url, "?" + preSignStr);
+            var wr = HttpRequest.Get(httpGetUrl);
+            try
+            {
+                var response = wr.GetResponse();
+                var stream = response.GetResponseStream();
 
-            StreamReader sr = new StreamReader(stream);
-            var content = sr.ReadToEnd();
-            sr.Close();
-            Console.WriteLine(content);
-            Trace.WriteLine(content);
+                StreamReader sr = new StreamReader(stream);
+                var content = sr.ReadToEnd();
+                sr.Close();
+
+                JavaScriptSerializer serialize = new JavaScriptSerializer();
+                return serialize.Deserialize<T>(content);
+            }
+            catch (Exception)
+            {
+                return default(T);
+            }
         }
 
         public static T Post<T>(string url, byte[] data, Dictionary<string, string> param)

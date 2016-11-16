@@ -9,6 +9,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Common;
+using AirPort.Server.Repository;
+
 namespace AirPort.Server.Core
 {
     class MyFace : FaceRecognitionDisp_
@@ -19,10 +21,13 @@ namespace AirPort.Server.Core
         private Queue<string> queue = new Queue<string>();
 
         private FaceServices fs = null;
+        private const string group = "byairport";
 
-        public MyFace()
+        private PeresonDB db = null;
+        public MyFace(PeresonDB db)
         {
             fs = new FaceServices();
+            this.db = db;
             print("create a server object");
         }
 
@@ -197,6 +202,8 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
             print("frames->" + frames);
 
+            fs.GetVideo(rtspPath, threshold.ToFloat());
+
             return ResponseOk();
         }
 
@@ -254,6 +261,27 @@ namespace AirPort.Server.Core
 
         private string createOrUpdatePerson(XmlDocument doc)
         {
+            var tags = GetNodes(doc, "tags/tag");
+            print("人物标签");
+            foreach (XmlNode tag in tags)
+            {
+                print("tag->" + tag.InnerText);
+            }
+
+            var faceId = Save(doc);
+
+            //Post("", signatureCode1, imgData1.Base64ToByte());
+
+            var sb = new StringBuilder();
+            sb.Append("<xml>");
+            sb.Append("<code>0</code>");
+            sb.Append("<faceId>" + faceId + "</faceId>");
+            sb.Append("</xml>");
+            return sb.ToString();
+        }
+
+        private string Save(XmlDocument doc)
+        {
             var uuid = doc.GetNodeText("uuid");
             var code = doc.GetNodeText("code");
             var name = doc.GetNodeText("name");
@@ -270,19 +298,29 @@ namespace AirPort.Server.Core
             print("name->" + name);
             print("descrption->" + descrption);
 
-            var tags = GetNodes(doc, "tags/tag");
-            print("人物标签");
-            foreach (XmlNode tag in tags)
-            {
-                print("tag->" + tag.InnerText);
-            }
+            persons person = new persons();
+            person.FaceID = Guid.NewGuid().ToString("N");
+            person.UUID = uuid;
+            person.Code = code;
+            person.Name = name;
+            person.Description = descrption;
+            person.ImageData1 = imgData1;
+            person.SignatureCode1 = signatureCode1;
+            person.ImageData2 = imgData2;
+            person.SignatureCode2 = signatureCode2;
 
-            var sb = new StringBuilder();
-            sb.Append("<xml>");
-            sb.Append("<code>0</code>");
-            sb.Append("<faceId>are you ok?</faceId>");
-            sb.Append("</xml>");
-            return sb.ToString();
+            person.ImageData3 = imgData3;
+            person.SignatureCode3 = signatureCode3;
+            person.CreateTime = DateTime.Now;
+
+            this.db.Add(person);
+
+            return person.FaceID;
+        }
+
+        private void Post(string tag, string feature, byte[] data)
+        {
+            fs.GroupPost(group, tag, "", 0, false, data);
         }
 
         private string updatePersonTags(XmlDocument doc)

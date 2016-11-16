@@ -42,14 +42,14 @@
             <RowDefinition Height="40" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="180" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Label Grid.Row="0"
                Grid.Column="0"
-               Content="UUID：" />
-        <TextBox Name="txtUUID"
+               Content="唯一标识：" />
+        <TextBox Name="txtuuid"
                  Grid.Row="0"
                  Grid.Column="1"
                  HorizontalAlignment="Left" />
@@ -117,8 +117,8 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <Button Click="btnSave_Click" Content="保存" />
-            <Button Click="btnClose_Click" Content="关闭" />
+            <Button Click="btnSave_click" Content="保存" />
+            <Button Click="btnClose_click" Content="关闭" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

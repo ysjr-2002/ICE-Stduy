@@ -14,8 +14,7 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-
+        <StackPanel Grid.Row="0" Margin="80,0,0,0" Orientation="Horizontal">
             <Button Click="btnChoiceImage_Click" Content="选择图片" />
             <Button Click="btnExtract_Click" Content="提取" />
         </StackPanel>

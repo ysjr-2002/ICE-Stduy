@@ -45,6 +45,14 @@ namespace AirPort.Client.Core
             }
         }
 
+        public Ice.Communicator Ic
+        {
+            get
+            {
+                return ic;
+            }
+        }
+
         public string send(string xml)
         {
             try
@@ -55,6 +63,11 @@ namespace AirPort.Client.Core
             {
                 return string.Empty;
             }
+        }
+
+        public void initConnectionListener(ConnectionListenerPrx listener)
+        {
+            facePxy.initConnectionListener(listener);
         }
     }
 }

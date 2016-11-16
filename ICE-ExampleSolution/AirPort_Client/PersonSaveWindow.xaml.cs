@@ -55,11 +55,24 @@ namespace AirPort.Client
             tagIndex++;
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_click(object sender, RoutedEventArgs e)
         {
+            if (txtuuid.Text.IsEmpty())
+            {
+                WarnDialog("请输入业务编号！");
+                txtuuid.Focus();
+                return;
+            }
+            if (txtCode.Text.IsEmpty())
+            {
+                WarnDialog("请输入唯一标识！");
+                txtCode.Focus();
+                return;
+            }
             if (txtName.Text.IsEmpty())
             {
                 WarnDialog("请输入名称！");
+                txtName.Focus();
                 return;
             }
             send();
@@ -78,7 +91,7 @@ namespace AirPort.Client
             var image3 = Convert.ToBase64String(buffer3);
 
             var sb = new StringBuilder();
-            sb.Append("uuid".ElementText(txtUUID.Text));
+            sb.Append("uuid".ElementText(txtuuid.Text));
             sb.Append("code".ElementText(txtCode.Text));
             sb.Append("name".ElementText(txtName.Text));
             sb.Append("descrption".ElementText(""));
@@ -104,9 +117,10 @@ namespace AirPort.Client
             var faceId = doc.GetNodeText("faceId");
             Item("code->" + code);
             Item("faceId->" + faceId);
+            MessageBox.Show(faceId);
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void btnClose_click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }

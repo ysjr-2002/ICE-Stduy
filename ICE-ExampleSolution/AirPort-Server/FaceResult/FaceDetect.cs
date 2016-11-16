@@ -94,4 +94,44 @@ namespace AirPort.Server
 
         public int Height { get; set; }
     }
+
+    public class GroupFaceAttrs
+    {
+        public int Age { get; set; }
+
+        public face_quality face_quality { get; set; }
+
+        public Gender gender { get; set; }
+
+        public EyeStatus left_eye_status { get; set; }
+
+        public Pose pose { get; set; }
+
+        public EyeStatus right_eye_status { get; set; }
+    }
+
+    public class GroupFace
+    {
+        public GroupFaceAttrs Attrs { get; set; }
+
+        public int Quality { get; set; }
+
+        public Rect Rect { get; set; }
+    }
+
+    public class Group
+    {
+        public string group { get; set; }
+
+        public Photo photo { get; set; }
+    }
+
+    public class Photo
+    {
+        public string Id { get; set; }
+
+        public string Score { get; set; }
+
+        public string Tag { get; set; }
+    }
 }

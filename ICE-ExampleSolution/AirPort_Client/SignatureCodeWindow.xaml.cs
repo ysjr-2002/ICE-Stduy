@@ -39,15 +39,20 @@ namespace AirPort.Client
 
         private void btnExtract_Click(object sender, RoutedEventArgs e)
         {
-            var buffer1 = System.IO.File.ReadAllBytes(imagefile);
-            var image1 = Convert.ToBase64String(buffer1);
+            if (imagefile.IsEmpty())
+            {
+                WarnDialog("请选择一张图片！ ");
+                return;
+            }
+
+            var buffer = imagefile.FileToByte();
+            var base64Image = buffer.ToBase64();
 
             var sb = new StringBuilder();
-            sb.Append("imgData".ElementText(image1));
+            sb.Append("imgData".ElementText(base64Image));
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("convertSignatureCode", data);
-
             Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
             sw.Stop();

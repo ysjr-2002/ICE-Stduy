@@ -65,7 +65,7 @@ namespace AirPort.Client
             return tags;
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_click(object sender, RoutedEventArgs e)
         {
             if (txtuuid.Text.IsEmpty())
             {
@@ -96,7 +96,11 @@ namespace AirPort.Client
             var data = sb.ToString();
             var xml = XmlParse.GetXml("deletePersonTags", data);
             var content = FaceServices.FaceProxy.send(xml);
-
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             Item("code->" + code);
@@ -107,7 +111,7 @@ namespace AirPort.Client
             }
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void btnClose_click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }

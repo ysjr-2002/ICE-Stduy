@@ -12,7 +12,7 @@ namespace AirPort.Server.WebAPI
     {
         public void GetVersion()
         {
-            HttpMethod.Get(Constrants.url_version);
+            //HttpMethod.Get(Constrants.url_version);
         }
         /// <summary>
         /// 提取特征码
@@ -27,10 +27,8 @@ namespace AirPort.Server.WebAPI
             param.Add("image_maxsize", "0");
             param.Add("crop", crop.ToString());
 
-            var result = HttpMethod.Post<FeatureResult>(Constrants.url_extract, image, param);
-            Console.WriteLine("特征码:" + result.Feature.Length);
-            Console.WriteLine(result.Feature);
-            return result;
+            var featureResult = HttpMethod.Post<FeatureResult>(Constrants.url_extract, image, param);
+            return featureResult;
         }
         /// <summary>
         /// 1:1比对
@@ -43,8 +41,8 @@ namespace AirPort.Server.WebAPI
             param.Add("image_maxsize1", "0");
             param.Add("image_maxsize2", "0");
 
-            var result = HttpMethod.Post<CompareResult>(Constrants.url_compare, image1, image2, param);
-            return result.score;
+            var compareResult = HttpMethod.Post<CompareResult>(Constrants.url_compare, image1, image2, param);
+            return compareResult.score;
         }
         /// <summary>
         /// 人脸检测
@@ -59,65 +57,65 @@ namespace AirPort.Server.WebAPI
             param.Add("analyze", "true");
             param.Add("crop", "true");
 
-            Stopwatch sw = Stopwatch.StartNew();
-            var result = HttpMethod.Post<DetectResult>(Constrants.url_detect, image, param);
-            sw.Stop();
-            Console.WriteLine(sw.ElapsedMilliseconds);
-
-            return result;
+            var detectResult = HttpMethod.Post<DetectResult>(Constrants.url_detect, image, param);
+            return detectResult;
         }
 
-        public void Group_Delete()
-        {
-
-        }
-
-        public void Group_Get(string group, string cursor)
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("group", "5000");
-            param.Add("cursor", cursor);
-        }
-
-        public void GroupPost(string group, string tag, string feature, int image_maxsize, string crop, byte[] image)
+        public PostResult GroupPost(string group, string tag, string feature, int image_maxsize, bool crop, byte[] image)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("group", group);
             param.Add("tag", tag);
             param.Add("feature", feature);
-            param.Add("image_maxsize", image_maxsize.ToString());
-            param.Add("crop", crop);
-        }
-
-        public void GGroupDelete(string group, string photo)
-        {
-
-        }
-
-        public void GGroupGet(string group, string photo)
-        {
-
+            //param.Add("image_maxsize", image_maxsize.ToString());
+            //param.Add("crop", crop.ToString());
+            var postResult = HttpMethod.Post<PostResult>(Constrants.url_g, image, param);
+            return postResult;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="group">可多个</param>
+        /// <param name="group">byairport</param>
         /// <param name="feature"></param>
         /// <param name="image_maxsize"></param>
-        /// <param name="limit"></param>
+        /// <param name="limit">返回数量</param>
         /// <param name="filter"></param>
         /// <param name="crop"></param>
         /// <param name="image"></param>
-        public void Search(string group, string feature, int image_maxsize, int limit, string filter, bool crop, byte[] image)
+        public SearchResut Search(string group, string feature, int image_maxsize, int limit, string filter, bool crop, byte[] image)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("group", group);
-            param.Add("feature", feature);
-            param.Add("image_maxsize", image_maxsize.ToString());
+            //param.Add("feature", feature);
+            //param.Add("image_maxsize", image_maxsize.ToString());
             param.Add("limit", limit.ToString());
-            param.Add("filter", filter);
-            param.Add("crop", crop.ToString());
+            //param.Add("filter", filter);
+            //param.Add("crop", crop.ToString());
+
+            var searchResult = HttpMethod.Post<SearchResut>(Constrants.url_search, image, param);
+            return searchResult;
+        }
+
+        public VideoResult GetVideo(string url, float threshold)
+        {
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("url", url);
+            //抓拍的人脸张数（根据业务传）
+            param.Add("limit", "10000");
+            param.Add("crop", "face");
+            //不转只进行抓拍
+            //param.Add("group", "");
+            //param.Add("threshold", threshold.ToString());
+            //抓图间隔
+            param.Add("interval", "1000");
+            //抓拍人脸的最小大小
+            param.Add("facemin", "100");
+            //websocket名称
+            param.Add("name", "snap");
+
+            var videoResult = HttpMethod.Get<VideoResult>(Constrants.url_search, param);
+            return videoResult;
         }
     }
 }

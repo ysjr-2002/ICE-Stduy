@@ -131,7 +131,11 @@ namespace AirPort.Client
 
             var xml = XmlParse.GetXml("queryPersons", data);
             var content = FaceServices.FaceProxy.send(xml);
-
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
             ShowQueryResult(content);
         }
 

@@ -122,6 +122,12 @@ namespace AirPort.Client
         {
             filepath = string.Empty;
             imgSource.Source = null;
+
+            var tags = tagContainer.Children.OfType<CheckBox>();
+            foreach (var tag in tags)
+            {
+                tag.IsChecked = false;
+            }
         }
     }
 }

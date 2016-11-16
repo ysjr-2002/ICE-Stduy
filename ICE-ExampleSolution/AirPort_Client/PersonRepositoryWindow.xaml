@@ -20,20 +20,28 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+
+            <RowDefinition Height="auto" />
             <RowDefinition Height="70" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <StackPanel Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Click="Button_Click" Content="人像入库" />
 
             <Button Click="btnDeletePerson_Click" Content="删除(单个)" />
             <Button Click="btnBatchDelete_Click" Content="删除(批量)" />
             <Button Click="btnUpdateTag_Click" Content="更新标签" />
-            <Button Click="btnDeleteTag_Click" Content="删除标签" />
+            <Button Click="btnDeleteTag_Click" Content="删除标签" Margin="5,5,5,0" VerticalAlignment="Top" />
         </StackPanel>
 
-        <Grid Grid.Row="1">
+        <Path Grid.Row="1" Stroke="Red" Margin="0,2">
+            <Path.Data>
+                <LineGeometry StartPoint="0,0" EndPoint="1920,1" />
+            </Path.Data>
+        </Path>
+
+        <Grid Grid.Row="2">
             <Grid.RowDefinitions>
                 <RowDefinition />
                 <RowDefinition />
@@ -75,7 +83,7 @@
 
         </Grid>
 
-        <GroupBox Grid.Row="2" Header="人像信息">
+        <GroupBox Grid.Row="3" Header="人像信息">
             <DataGrid Name="dgPersons"
                       AutoGenerateColumns="False"
                       Background="#fcfcfc">

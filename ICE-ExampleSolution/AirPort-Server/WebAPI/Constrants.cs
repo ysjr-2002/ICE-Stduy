@@ -23,8 +23,15 @@ namespace AirPort.Server.WebAPI
         /// </summary>
         public static string url_detect = domain + "/detect";
         public static string url_g = domain + "/g";
+        /// <summary>
+        /// 入库
+        /// </summary>
+        public static string url_gpost = domain + "/g/group";
+
         public static string url_gdelete = domain + "/g/group";
 
         public static string url_version = domain + "/version";
+
+        public static string url_search = domain + "/search";
     }
 }

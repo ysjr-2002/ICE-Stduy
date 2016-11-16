@@ -38,4 +38,34 @@ namespace AirPort.Server.FaceResult
 
         public float score { get; set; }
     }
+
+    /// <summary>
+    /// 入库结果
+    /// </summary>
+    public class PostResult
+    {
+        public GroupFace face { get; set; }
+
+        public int id { get; set; }
+
+        public Rect image_rect { get; set; }
+    }
+
+    /// <summary>
+    /// 搜索结果
+    /// </summary>
+    public class SearchResut
+    {
+        public GroupFace face { get; set; }
+
+        public Group[] groups { get; set; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public class VideoResult
+    {
+
+    }
 }
