@@ -15,6 +15,10 @@ namespace AirPort.Server
     {
         static void Main(string[] args)
         {
+            Console.Title = "Server";
+            PersonDB db = new PersonDB();
+            db.Test();
+
             Ice.Properties properties = Ice.Util.createProperties();
             //单位KB
             properties.setProperty("Ice.MessageSizeMax", "2048");
@@ -23,7 +27,6 @@ namespace AirPort.Server
             var ic = Ice.Util.initialize(initData);
 
             //var ic = Ice.Util.initialize(ref args);
-            PeresonDB db = new PeresonDB();
             Ice.Object servant = new MyFace(db);
             Ice.ObjectAdapter adapter = ic.createObjectAdapterWithEndpoints("FaceAdapter", "default -p 9996");
             adapter.add(servant, ic.stringToIdentity("myface"));

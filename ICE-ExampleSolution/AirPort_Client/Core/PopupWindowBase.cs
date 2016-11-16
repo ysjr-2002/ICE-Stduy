@@ -17,8 +17,9 @@ namespace AirPort.Client
 
         public PopupWindowBase()
         {
-            this.Width = 800;
-            this.Height = 600;
+            this.Width = 1024;
+            this.Height = 768;
+            //this.Topmost = true;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.ShowInTaskbar = false;
         }

@@ -13,10 +13,10 @@ namespace AirPort.Server.Repository
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class personrepositoryEntities1 : DbContext
+    public partial class personrepositoryEntities : DbContext
     {
-        public personrepositoryEntities1()
-            : base("name=personrepositoryEntities1")
+        public personrepositoryEntities()
+            : base("name=personrepositoryEntities")
         {
         }
     
@@ -25,7 +25,7 @@ namespace AirPort.Server.Repository
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<persons> persons { get; set; }
-        public virtual DbSet<tags> tags { get; set; }
+        public virtual DbSet<person> persons { get; set; }
+        public virtual DbSet<tag> tags { get; set; }
     }
 }

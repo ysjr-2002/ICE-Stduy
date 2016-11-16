@@ -12,7 +12,7 @@ namespace AirPort.Server.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class tags
+    public partial class tag
     {
         public int ID { get; set; }
         public string Code { get; set; }

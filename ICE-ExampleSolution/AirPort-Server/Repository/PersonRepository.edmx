@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="personrepositoryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="personrepositoryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="persons">
           <Key>
             <PropertyRef Name="FaceID" />
@@ -36,11 +36,12 @@
           <EntitySet Name="persons" EntityType="Self.persons" Schema="personrepository" store:Type="Tables" />
           <EntitySet Name="tags" EntityType="Self.tags" Schema="personrepository" store:Type="Tables" />
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="personrepositoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="persons">
+        <EntityType Name="person">
           <Key>
             <PropertyRef Name="FaceID" />
           </Key>
@@ -49,16 +50,16 @@
           <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Gender" Type="Boolean" />
-          <Property Name="ImageData1" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="SignatureCode1" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="ImageData2" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="SignatureCode2" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
-          <Property Name="ImageData3" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="SignatureCode3" Type="String" MaxLength="65535" FixedLength="false" Unicode="false" />
+          <Property Name="ImageData1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SignatureCode1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="ImageData2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SignatureCode2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="ImageData3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="SignatureCode3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" />
         </EntityType>
-        <EntityType Name="tags">
+        <EntityType Name="tag">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -67,18 +68,18 @@
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="personrepositoryEntities1" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="persons" EntityType="Self.persons" />
-          <EntitySet Name="tags" EntityType="Self.tags" />
+        <EntityContainer Name="personrepositoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="persons" EntityType="Self.person" />
+          <EntitySet Name="tags" EntityType="Self.tag" />
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="personrepositoryModelStoreContainer" CdmEntityContainer="personrepositoryEntities1">
+        <EntityContainerMapping StorageEntityContainer="personrepositoryModelStoreContainer" CdmEntityContainer="personrepositoryEntities">
           <EntitySetMapping Name="persons">
-            <EntityTypeMapping TypeName="personrepositoryModel.persons">
+            <EntityTypeMapping TypeName="personrepositoryModel.person">
               <MappingFragment StoreEntitySet="persons">
                 <ScalarProperty Name="FaceID" ColumnName="FaceID" />
                 <ScalarProperty Name="UUID" ColumnName="UUID" />
@@ -97,7 +98,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="tags">
-            <EntityTypeMapping TypeName="personrepositoryModel.tags">
+            <EntityTypeMapping TypeName="personrepositoryModel.tag">
               <MappingFragment StoreEntitySet="tags">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Code" ColumnName="Code" />
@@ -120,7 +121,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="无" />

@@ -44,7 +44,7 @@ namespace AirPort.Client
             }
         }
 
-        private void btnSave_Click(object sender, RoutedEventArgs e)
+        private void btnSave_click(object sender, RoutedEventArgs e)
         {
             delTags.Clear();
             foreach (CheckBox item in tagContainer.Children)

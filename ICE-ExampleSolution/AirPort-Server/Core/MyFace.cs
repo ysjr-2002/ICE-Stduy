@@ -23,8 +23,8 @@ namespace AirPort.Server.Core
         private FaceServices fs = null;
         private const string group = "byairport";
 
-        private PeresonDB db = null;
-        public MyFace(PeresonDB db)
+        private PersonDB db = null;
+        public MyFace(PersonDB db)
         {
             fs = new FaceServices();
             this.db = db;
@@ -298,7 +298,7 @@ namespace AirPort.Server.Core
             print("name->" + name);
             print("descrption->" + descrption);
 
-            persons person = new persons();
+            person person = new person();
             person.FaceID = Guid.NewGuid().ToString("N");
             person.UUID = uuid;
             person.Code = code;
@@ -364,6 +364,9 @@ namespace AirPort.Server.Core
             var uuid = doc.GetNodeText("uuid");
             print("uuid->" + uuid);
 
+            person p = new Repository.person { UUID = uuid };
+            db.Delete(p);
+
             return ResponseOk();
         }
 
@@ -408,31 +411,43 @@ namespace AirPort.Server.Core
             print("size->" + size);
 
 
-            print("返回10条记录");
+            var persons = db.Search();
+            var count = persons.Count();
+            print("返回" + count + "条记录");
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
-            sb.Append("totalCount".ElementText("5689"));
+            sb.Append("totalCount".ElementText(count.ToString()));
             sb.Append("persons".ElementBegin());
-            for (int i = 0; i < 10; i++)
+
+            foreach (var p in persons)
             {
                 sb.Append("person".ElementBegin());
-                sb.Append("faceId".ElementText("1112"));
-                sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
-                sb.Append("code".ElementText("350321198003212221"));
-                sb.Append("name".ElementText("杨绍杰"));
-                sb.Append("descrption".ElementText("{'race:白人','gender':'男'}"));
-                sb.Append("imgData1".ElementText("imgData1"));
-                sb.Append("hasSignatureCode1".ElementText("1"));
-                sb.Append("imgData2".ElementText("imgData2"));
-                sb.Append("hasSignatureCode2".ElementText("1"));
-                sb.Append("imgData3".ElementText("imgData3"));
-                sb.Append("hasSignatureCode3".ElementText("0"));
+                sb.Append("faceId".ElementText(p.FaceID));
+                sb.Append("uuid".ElementText(p.UUID));
+                sb.Append("code".ElementText(p.Code));
+                sb.Append("name".ElementText(p.Name));
+                sb.Append("descrption".ElementText(p.Description));
+                sb.Append("imgData1".ElementText(p.ImageData1));
+                sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.SignatureCode1)));
+                sb.Append("imgData2".ElementText(p.ImageData2));
+                sb.Append("hasSignatureCode2".ElementText(hasSignaturecode(p.SignatureCode2)));
+                sb.Append("imgData3".ElementText(p.ImageData3));
+                sb.Append("hasSignatureCode3".ElementText(hasSignaturecode(p.SignatureCode3)));
                 sb.Append("person".ElementEnd());
             }
+
             sb.Append("persons".ElementEnd());
             sb.Append("xml".ElementEnd());
             return sb.ToString();
+        }
+
+        private string hasSignaturecode(string val)
+        {
+            if (val.IsEmpty())
+                return "0";
+            else
+                return val.Length > 0 ? "1" : "0";
         }
 
         private string verifySignatureCode(XmlDocument doc)

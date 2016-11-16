@@ -69,6 +69,11 @@ namespace AirPort.Client
             SignatureSearchWindow search = new SignatureSearchWindow();
             search.ShowDialog();
         }
+
+        private void Image_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 
     public class User

@@ -12,7 +12,7 @@ namespace AirPort.Server.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class persons
+    public partial class person
     {
         public string FaceID { get; set; }
         public string UUID { get; set; }

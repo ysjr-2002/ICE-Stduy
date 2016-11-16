@@ -8,11 +8,13 @@ namespace AirPort.Server.Repository
 {
     public interface IRepository<T>
     {
+        void Test();
+
         void Add(T t);
 
         void Update(T t);
 
-        void Delete(int faceId);
+        void Delete(T t);
 
         IEnumerable<T> Search();
     }

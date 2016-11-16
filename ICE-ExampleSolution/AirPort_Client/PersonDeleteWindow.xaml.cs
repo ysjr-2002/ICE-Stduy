@@ -55,7 +55,7 @@ namespace AirPort.Client
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             Item("code->" + code);
-            if (code == "200")
+            if (code.ToInt32() == status_ok)
             {
                 TipDialog("删除成功！");
             }

@@ -55,13 +55,13 @@
     <Reference Include="Ice">
       <HintPath>..\..\..\..\ZeroC\Ice-3.6.3\Assemblies\Ice.dll</HintPath>
     </Reference>
-    <Reference Include="MySql.Data, Version=6.9.8.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MySql.Data.6.9.8\lib\net45\MySql.Data.dll</HintPath>
+    <Reference Include="MySql.Data, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.6.9.9\lib\net45\MySql.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
-    <Reference Include="MySql.Data.Entity.EF6, Version=6.8.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MySql.Data.Entity.6.9.8\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.9.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
+      <HintPath>..\packages\MySql.Data.Entity.6.9.9\lib\net45\MySql.Data.Entity.EF6.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -86,27 +86,27 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\IRepository.cs" />
-    <Compile Include="Repository\PeresonDB.cs" />
-    <Compile Include="Repository\PersonRepository.Context.cs">
+    <Compile Include="Repository\person.cs">
+      <DependentUpon>personrepository.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\PersonDB.cs" />
+    <Compile Include="Repository\personrepository.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PersonRepository.Context.tt</DependentUpon>
+      <DependentUpon>personrepository.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repository\PersonRepository.cs">
+    <Compile Include="Repository\personrepository.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PersonRepository.tt</DependentUpon>
+      <DependentUpon>personrepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repository\PersonRepository.Designer.cs">
+    <Compile Include="Repository\personrepository.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>PersonRepository.edmx</DependentUpon>
+      <DependentUpon>personrepository.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Repository\persons.cs">
-      <DependentUpon>PersonRepository.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Repository\tags.cs">
-      <DependentUpon>PersonRepository.tt</DependentUpon>
+    <Compile Include="Repository\tag.cs">
+      <DependentUpon>personrepository.tt</DependentUpon>
     </Compile>
     <Compile Include="WebAPI\Constrants.cs" />
     <Compile Include="WebAPI\FaceServices.cs" />
@@ -121,15 +121,13 @@
     <None Include="Document\人脸识别系统接口需求_v1.0.docx" />
     <None Include="Document\接口.docx" />
     <None Include="Document\接口说明.docx" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
-    <EntityDeploy Include="Repository\PersonRepository.edmx">
+    <None Include="packages.config" />
+    <EntityDeploy Include="Repository\personrepository.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>PersonRepository.Designer.cs</LastGenOutput>
+      <LastGenOutput>personrepository.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="Repository\PersonRepository.edmx.diagram">
-      <DependentUpon>PersonRepository.edmx</DependentUpon>
+    <None Include="Repository\personrepository.edmx.diagram">
+      <DependentUpon>personrepository.edmx</DependentUpon>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -141,15 +139,15 @@
   <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
-    <Content Include="Repository\PersonRepository.Context.tt">
+    <Content Include="Repository\personrepository.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PersonRepository.edmx</DependentUpon>
-      <LastGenOutput>PersonRepository.Context.cs</LastGenOutput>
+      <DependentUpon>personrepository.edmx</DependentUpon>
+      <LastGenOutput>personrepository.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Repository\PersonRepository.tt">
+    <Content Include="Repository\personrepository.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>PersonRepository.edmx</DependentUpon>
-      <LastGenOutput>PersonRepository.cs</LastGenOutput>
+      <DependentUpon>personrepository.edmx</DependentUpon>
+      <LastGenOutput>personrepository.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup />

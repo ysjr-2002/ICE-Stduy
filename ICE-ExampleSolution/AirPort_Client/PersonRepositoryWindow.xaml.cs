@@ -54,35 +54,62 @@ namespace AirPort.Client
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             PersonSaveWindow person = new PersonSaveWindow();
-            person.ShowDialog();
+            var result = person.ShowDialog().Value;
+            if (result)
+                queryPersons();
         }
 
         //删除(单个)
         private void btnDeletePerson_Click(object sender, RoutedEventArgs e)
         {
-            PersonDeleteWindow person = new PersonDeleteWindow(string.Empty);
-            person.ShowDialog();
+            var uuid = "";
+            if (dgPersons.SelectedItem != null)
+            {
+                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+            }
+            PersonDeleteWindow person = new PersonDeleteWindow(uuid);
+            var result = person.ShowDialog().Value;
+            if (result)
+                queryPersons();
         }
 
         //删除(批量)
         private void btnBatchDelete_Click(object sender, RoutedEventArgs e)
         {
             BatchDeleteWindow batch = new BatchDeleteWindow();
-            batch.ShowDialog();
+            var result = batch.ShowDialog().Value;
+            if (result)
+                queryPersons();
         }
 
         //更新
         private void btnUpdateTag_Click(object sender, RoutedEventArgs e)
         {
-            PersonUpdateTagWindow updateTag = new PersonUpdateTagWindow(string.Empty);
-            updateTag.ShowDialog();
+            var uuid = "";
+            if (dgPersons.SelectedItem != null)
+            {
+                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+            }
+
+            PersonUpdateTagWindow updateTag = new PersonUpdateTagWindow(uuid);
+            var result = updateTag.ShowDialog().Value;
+            if (result)
+                queryPersons();
         }
 
         //删除人像标签
         private void btnDeleteTag_Click(object sender, RoutedEventArgs e)
         {
-            PersonDeleteTagWindow tag = new PersonDeleteTagWindow(string.Empty);
-            tag.ShowDialog();
+            var uuid = "";
+            if (dgPersons.SelectedItem != null)
+            {
+                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+            }
+
+            PersonDeleteTagWindow tag = new PersonDeleteTagWindow(uuid);
+            var result = tag.ShowDialog().Value;
+            if (result)
+                queryPersons();
         }
 
 
