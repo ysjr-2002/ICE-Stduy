@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="personrepositoryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="personrepositoryModel.Store" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.5" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="persons">
           <Key>
             <PropertyRef Name="FaceID" />
@@ -16,63 +16,66 @@
           <Property Name="Gender" Type="bit" />
           <Property Name="ImageData1" Type="longtext" />
           <Property Name="SignatureCode1" Type="longtext" />
+          <Property Name="HasSignatureCode1" Type="bit" />
           <Property Name="ImageData2" Type="longtext" />
           <Property Name="SignatureCode2" Type="longtext" />
+          <Property Name="HasSignatureCode2" Type="bit" />
           <Property Name="ImageData3" Type="longtext" />
           <Property Name="SignatureCode3" Type="longtext" />
+          <Property Name="HasSignatureCode3" Type="bit" />
           <Property Name="Description" Type="varchar" MaxLength="255" />
           <Property Name="CreateTime" Type="datetime" Precision="0" Nullable="false" />
         </EntityType>
-        <EntityType Name="tags">
+        <EntityType Name="persontags">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="TagID" />
           </Key>
-          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Code" Type="varchar" MaxLength="255" />
-          <Property Name="Name" Type="varchar" MaxLength="255" />
-          <Property Name="Remark" Type="varchar" MaxLength="255" />
+          <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FaceID" Type="varchar" MaxLength="255" />
+          <Property Name="TagName" Type="varchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="personrepositoryModelStoreContainer">
           <EntitySet Name="persons" EntityType="Self.persons" Schema="personrepository" store:Type="Tables" />
-          <EntitySet Name="tags" EntityType="Self.tags" Schema="personrepository" store:Type="Tables" />
+          <EntitySet Name="persontags" EntityType="Self.persontags" Schema="personrepository" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="personrepositoryModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="personrepositoryEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="persons" EntityType="personrepositoryModel.person" />
+          <EntitySet Name="persontags" EntityType="personrepositoryModel.persontag" />
+        </EntityContainer>
         <EntityType Name="person">
           <Key>
             <PropertyRef Name="FaceID" />
           </Key>
-          <Property Name="FaceID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="UUID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FaceID" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="UUID" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Code" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="Gender" Type="Boolean" />
           <Property Name="ImageData1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="SignatureCode1" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="HasSignatureCode1" Type="Boolean" />
           <Property Name="ImageData2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="SignatureCode2" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="HasSignatureCode2" Type="Boolean" />
           <Property Name="ImageData3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
           <Property Name="SignatureCode3" Type="String" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Name="HasSignatureCode3" Type="Boolean" />
           <Property Name="Description" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Name="CreateTime" Type="DateTime" Nullable="false" />
         </EntityType>
-        <EntityType Name="tag">
+        <EntityType Name="persontag">
           <Key>
-            <PropertyRef Name="ID" />
+            <PropertyRef Name="TagID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Code" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Name" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FaceID" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="TagName" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityContainer Name="personrepositoryEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="persons" EntityType="Self.person" />
-          <EntitySet Name="tags" EntityType="Self.tag" />
-        </EntityContainer>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -81,29 +84,31 @@
           <EntitySetMapping Name="persons">
             <EntityTypeMapping TypeName="personrepositoryModel.person">
               <MappingFragment StoreEntitySet="persons">
-                <ScalarProperty Name="FaceID" ColumnName="FaceID" />
-                <ScalarProperty Name="UUID" ColumnName="UUID" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="ImageData1" ColumnName="ImageData1" />
-                <ScalarProperty Name="SignatureCode1" ColumnName="SignatureCode1" />
-                <ScalarProperty Name="ImageData2" ColumnName="ImageData2" />
-                <ScalarProperty Name="SignatureCode2" ColumnName="SignatureCode2" />
-                <ScalarProperty Name="ImageData3" ColumnName="ImageData3" />
-                <ScalarProperty Name="SignatureCode3" ColumnName="SignatureCode3" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="HasSignatureCode3" ColumnName="HasSignatureCode3" />
+                <ScalarProperty Name="SignatureCode3" ColumnName="SignatureCode3" />
+                <ScalarProperty Name="ImageData3" ColumnName="ImageData3" />
+                <ScalarProperty Name="HasSignatureCode2" ColumnName="HasSignatureCode2" />
+                <ScalarProperty Name="SignatureCode2" ColumnName="SignatureCode2" />
+                <ScalarProperty Name="ImageData2" ColumnName="ImageData2" />
+                <ScalarProperty Name="HasSignatureCode1" ColumnName="HasSignatureCode1" />
+                <ScalarProperty Name="SignatureCode1" ColumnName="SignatureCode1" />
+                <ScalarProperty Name="ImageData1" ColumnName="ImageData1" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="UUID" ColumnName="UUID" />
+                <ScalarProperty Name="FaceID" ColumnName="FaceID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tags">
-            <EntityTypeMapping TypeName="personrepositoryModel.tag">
-              <MappingFragment StoreEntitySet="tags">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Code" ColumnName="Code" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Remark" ColumnName="Remark" />
+          <EntitySetMapping Name="persontags">
+            <EntityTypeMapping TypeName="personrepositoryModel.persontag">
+              <MappingFragment StoreEntitySet="persontags">
+                <ScalarProperty Name="TagName" ColumnName="TagName" />
+                <ScalarProperty Name="FaceID" ColumnName="FaceID" />
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

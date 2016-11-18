@@ -21,10 +21,13 @@ namespace AirPort.Server.Repository
         public Nullable<bool> Gender { get; set; }
         public string ImageData1 { get; set; }
         public string SignatureCode1 { get; set; }
+        public Nullable<bool> HasSignatureCode1 { get; set; }
         public string ImageData2 { get; set; }
         public string SignatureCode2 { get; set; }
+        public Nullable<bool> HasSignatureCode2 { get; set; }
         public string ImageData3 { get; set; }
         public string SignatureCode3 { get; set; }
+        public Nullable<bool> HasSignatureCode3 { get; set; }
         public string Description { get; set; }
         public System.DateTime CreateTime { get; set; }
     }

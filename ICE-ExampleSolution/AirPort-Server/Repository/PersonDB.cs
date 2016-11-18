@@ -70,5 +70,78 @@ namespace AirPort.Server.Repository
         {
 
         }
+
+
+
+        public void AddPersonTag(string faceId, string[] tags)
+        {
+            using (var db = new personrepositoryEntities())
+            {
+                foreach (var tag in tags)
+                {
+                    persontag pt = new Repository.persontag()
+                    {
+                        FaceID = faceId,
+                        TagName = tag
+                    };
+                    db.persontags.Add(pt);
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public void UpdatePersonTag(string faceId, string[] tags)
+        {
+            using (var db = new personrepositoryEntities())
+            {
+                var haveTags = db.persontags.Where(s => s.FaceID == faceId).Select(s => s.TagName).ToArray();
+                var newTags = tags.Except(haveTags).ToArray();
+                foreach (var tag in newTags)
+                {
+                    persontag pt = new Repository.persontag()
+                    {
+                        FaceID = faceId,
+                        TagName = tag
+                    };
+                    db.persontags.Add(pt);
+                }
+                db.SaveChanges();
+            }
+        }
+
+        public void DeletePersonTag(string faceId, string[] tags)
+        {
+            using (var db = new personrepositoryEntities())
+            {
+                if (tags.Length == 0)
+                {
+                    var sql = "delete from persontags where faceId='{0}'";
+                    sql = string.Format(sql, faceId);
+                    db.Database.ExecuteSqlCommand(sql);
+                }
+                else
+                {
+                    foreach (var tag in tags)
+                    {
+                        var sql = "delete from persontags where faceId='{0}' and TagName='{1}'";
+                        sql = string.Format(sql, faceId, tag);
+                        db.Database.ExecuteSqlCommand(sql);
+                    }
+                }
+            }
+        }
+
+        public int DeleteByTags(string[] tags)
+        {
+            var affectcount = 0;
+            using (var db = new personrepositoryEntities())
+            {
+                foreach (var tag in tags)
+                {
+
+                }
+            }
+            return affectcount;
+        }
     }
 }

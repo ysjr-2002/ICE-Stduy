@@ -16,13 +16,13 @@
             <Button Click="btnChoice_click" Content="选择图片" />
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="35">
+                    <StackPanel Height="35" Orientation="Horizontal">
                         <Label Width="100"
                                HorizontalContentAlignment="Right"
                                Content="阈值：" />
                         <TextBox Name="txtThrold" Text="0.86" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="35">
+                    <StackPanel Height="35" Orientation="Horizontal">
                         <Label Width="100"
                                HorizontalContentAlignment="Right"
                                Content="最多人脸数：" />
@@ -33,24 +33,26 @@
                 <Button Click="btnDetect_click" Content="检测" />
             </StackPanel>
 
-
         </StackPanel>
 
-        <Image Name="faceImage"
-               Grid.Row="1"
-               Stretch="Uniform" />
+        <Grid Grid.Row="1">
+            <Image Name="faceImage" />
+            <Canvas Name="canvas1" />
+        </Grid>
+
         <StackPanel Grid.Row="2" Margin="5,0,0,0">
-            <StackPanel Orientation="Horizontal" Height="35">
+            <StackPanel Height="35" Orientation="Horizontal">
                 <Label Content="人脸数量：" />
                 <Label Name="lblfacecount"
                        FontSize="14"
                        FontWeight="Bold" />
             </StackPanel>
 
-            <StackPanel Orientation="Horizontal" Height="35">
+            <StackPanel Height="35" Orientation="Horizontal">
                 <Label Content="检测耗时：" />
-                <Label Name="lbltimeinfo" FontSize="14"
-                       FontWeight="Bold"></Label>
+                <Label Name="lbltimeinfo"
+                       FontSize="14"
+                       FontWeight="Bold" />
             </StackPanel>
         </StackPanel>
     </Grid>

@@ -12,11 +12,10 @@ namespace AirPort.Server.Repository
     using System;
     using System.Collections.Generic;
     
-    public partial class tag
+    public partial class persontag
     {
-        public int ID { get; set; }
-        public string Code { get; set; }
-        public string Name { get; set; }
-        public string Remark { get; set; }
+        public int TagID { get; set; }
+        public string FaceID { get; set; }
+        public string TagName { get; set; }
     }
 }

@@ -32,7 +32,7 @@
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
             <Button Click="btnSave_click" Content="保存" />
-            <Button Click="btnClose_Click" Content="关闭" />
+            <Button Click="btnClose_click" Content="关闭" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

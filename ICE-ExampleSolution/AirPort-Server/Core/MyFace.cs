@@ -154,7 +154,6 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
 
             var result = fs.Detect(image, false, false);
-
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
@@ -162,21 +161,18 @@ namespace AirPort.Server.Core
 
             var count = result.Faces.Length;
             print("检测数量->" + count);
-            foreach (var face in result.Faces)
+            print("返回数量->" + maxImageCount);
+            var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
+            foreach (var face in topFaces)
             {
-                //for (int i = 0; i < count; i++)
-                //{
                 sb.Append("person".ElementBegin());
-
                 sb.Append("imgData".ElementText(face.crop.image));
                 sb.Append("posX".ElementText(face.Rect.Left.ToString()));
                 sb.Append("posY".ElementText(face.Rect.Top.ToString()));
                 sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
                 sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
                 sb.Append("quality".ElementText(face.Quality.ToString()));
-
                 sb.Append("person".ElementEnd());
-                //}
             }
 
             sb.Append("persons".ElementEnd());
@@ -261,16 +257,12 @@ namespace AirPort.Server.Core
 
         private string createOrUpdatePerson(XmlDocument doc)
         {
-            var tags = GetNodes(doc, "tags/tag");
-            print("人物标签");
-            foreach (XmlNode tag in tags)
-            {
-                print("tag->" + tag.InnerText);
-            }
+            var faceId = SaveToRepository(doc);
+            SaveTag(faceId, doc);
 
-            var faceId = Save(doc);
-
-            //Post("", signatureCode1, imgData1.Base64ToByte());
+            var imgData1 = doc.GetNodeText("imgData1");
+            var signatureCode1 = doc.GetNodeText("signatureCode1");
+            //Post(faceId, signatureCode1, imgData1.Base64ToByte());
 
             var sb = new StringBuilder();
             sb.Append("<xml>");
@@ -280,7 +272,7 @@ namespace AirPort.Server.Core
             return sb.ToString();
         }
 
-        private string Save(XmlDocument doc)
+        private string SaveToRepository(XmlDocument doc)
         {
             var uuid = doc.GetNodeText("uuid");
             var code = doc.GetNodeText("code");
@@ -306,16 +298,32 @@ namespace AirPort.Server.Core
             person.Description = descrption;
             person.ImageData1 = imgData1;
             person.SignatureCode1 = signatureCode1;
+            person.HasSignatureCode1 = signatureCode1.Length > 0;
             person.ImageData2 = imgData2;
             person.SignatureCode2 = signatureCode2;
-
+            person.HasSignatureCode2 = signatureCode2.Length > 0;
             person.ImageData3 = imgData3;
             person.SignatureCode3 = signatureCode3;
+            person.HasSignatureCode3 = signatureCode3.Length > 0;
             person.CreateTime = DateTime.Now;
 
             this.db.Add(person);
 
             return person.FaceID;
+        }
+
+        private void SaveTag(string faceId, XmlDocument doc)
+        {
+            var tagNodes = GetNodes(doc, "tags/tag");
+            print("人物标签");
+
+            List<string> tags = new List<string>();
+            foreach (XmlNode t in tagNodes)
+            {
+                print("tag->" + t.InnerText);
+                tags.Add(t.InnerText);
+            }
+            db.AddPersonTag(faceId, tags.ToArray());
         }
 
         private void Post(string tag, string feature, byte[] data)
@@ -329,12 +337,15 @@ namespace AirPort.Server.Core
             print("uuid->" + uuid);
 
             print("更新人物标签");
-            var tags = GetNodes(doc, "tags/tag");
-            foreach (XmlNode tag in tags)
+            var tagNodes = GetNodes(doc, "tags/tag");
+
+            List<string> tags = new List<string>();
+            foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
+                tags.Add(tag.InnerText);
             }
-
+            db.UpdatePersonTag(uuid, tags.ToArray());
             return ResponseOk();
         }
 
@@ -342,13 +353,16 @@ namespace AirPort.Server.Core
         {
             var uuid = doc.GetNodeText("uuid");
             print("uuid->" + uuid);
-            var tags = GetNodes(doc, "tags/tag");
-            if (tags.Count > 0)
+            var tagNodes = GetNodes(doc, "tags/tag");
+
+            List<string> tags = new List<string>();
+            if (tagNodes.Count > 0)
             {
                 print("删除人物的指定标签");
-                foreach (XmlNode tag in tags)
+                foreach (XmlNode tag in tagNodes)
                 {
                     print("tag->" + tag.InnerText);
+                    tags.Add(tag.InnerText);
                 }
             }
             else
@@ -356,6 +370,7 @@ namespace AirPort.Server.Core
                 print("删除人物的全部标签");
             }
 
+            db.DeletePersonTag(uuid, tags.ToArray());
             return ResponseOk();
         }
 
@@ -364,8 +379,8 @@ namespace AirPort.Server.Core
             var uuid = doc.GetNodeText("uuid");
             print("uuid->" + uuid);
 
-            person p = new Repository.person { UUID = uuid };
-            db.Delete(p);
+            //person p = new Repository.person { UUID = uuid };
+            //db.Delete(p);
 
             return ResponseOk();
         }
@@ -409,7 +424,6 @@ namespace AirPort.Server.Core
 
             print("offset->" + offset);
             print("size->" + size);
-
 
             var persons = db.Search();
             var count = persons.Count();

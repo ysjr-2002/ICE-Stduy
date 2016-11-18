@@ -72,7 +72,7 @@ namespace AirPort.Client
 
         private void Image_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Application.Current.Shutdown();
+            Environment.Exit(0);
         }
     }
 

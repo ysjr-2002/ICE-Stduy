@@ -33,16 +33,26 @@ namespace AirPort.Client
         {
             InitializeComponent();
             cmbTags.ItemsSource = ContextData.Tags();
+
+            txtuuid.Text = "7";
+            txtCode.Text = "7";
+            txtName.Text = "杨";
         }
 
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
         {
-            var content = ((ListBoxItem)cmbTags.SelectedItem).Content.ToString();
+            var content = cmbTags.SelectedItem.ToString();
             if (content == "无")
             {
                 WarnDialog("请选择一个标签！");
                 return;
             }
+            if( tagList.Contains(content))
+            {
+                WarnDialog("标签已添加！");
+                return;
+            }
+
             tagList.Add(content);
             Label lblTag = new Label
             {

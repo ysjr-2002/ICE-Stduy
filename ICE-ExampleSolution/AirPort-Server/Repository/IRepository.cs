@@ -17,5 +17,11 @@ namespace AirPort.Server.Repository
         void Delete(T t);
 
         IEnumerable<T> Search();
+
+        void AddPersonTag(string faceId, string[] tags);
+
+        void UpdatePersonTag(string faceId, string[] tags);
+
+        int DeleteByTags(string[] tags);
     }
 }

@@ -26,6 +26,6 @@ namespace AirPort.Server.Repository
         }
     
         public virtual DbSet<person> persons { get; set; }
-        public virtual DbSet<tag> tags { get; set; }
+        public virtual DbSet<persontag> persontags { get; set; }
     }
 }

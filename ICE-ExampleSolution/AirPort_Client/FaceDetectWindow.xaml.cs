@@ -25,6 +25,8 @@ namespace AirPort.Client
     public partial class FaceDetectWindow
     {
         private string imagefile = "";
+        private int imgPixelWidth = 0;
+        private int imgPixelHeight = 0;
 
         public FaceDetectWindow()
         {
@@ -38,6 +40,37 @@ namespace AirPort.Client
                 return;
 
             faceImage.Source = imagefile.ToImageSource();
+        }
+
+        private void Test()
+        {
+            var width = faceImage.ActualWidth;
+            var height = faceImage.ActualHeight;
+
+            var factorx = (float)width / imgPixelWidth;
+            var factory = (float)height / imgPixelHeight;
+
+            RectangleGeometry rect = new RectangleGeometry
+            {
+                Rect = new Rect
+                {
+                    X = 533 * factorx,
+                    Y = 392 * factory,
+                    Width = 604 * factorx,
+                    Height = 604 * factory
+                }
+            };
+
+            Path myPath = new Path();
+            myPath.StrokeThickness = 3;
+            myPath.Stroke = Brushes.Red;
+            myPath.Data = rect;
+
+            Label lbl = new Label { Content = "质量:0.98", Foreground = Brushes.Red };
+            Canvas.SetLeft(lbl, 533 * factorx + 5 + 604 * factorx);
+            Canvas.SetTop(lbl, 392 * factory);
+            this.canvas1.Children.Add(myPath);
+            this.canvas1.Children.Add(lbl);
         }
 
         private void Send()
@@ -75,13 +108,69 @@ namespace AirPort.Client
             var persons = doc.SelectNodes("/xml/persons/person");
             lblfacecount.Content = persons.Count;
 
-            var imageSource = DrawFace(persons);
-            faceImage.Source = imageSource;
+            //var imageSource = DrawFace(F);
+            //faceImage.Source = imageSource;
+
+            CanvasDrawFace(persons);
         }
 
         private void btnDetect_click(object sender, RoutedEventArgs e)
         {
+            //imgPixelWidth = ((BitmapSource)faceImage.Source).PixelWidth;
+            //imgPixelHeight = ((BitmapSource)faceImage.Source).PixelHeight;
+            //this.canvas1.Width = faceImage.ActualWidth;
+            //this.canvas1.Height = faceImage.ActualHeight;
+            //Test();
+
             Send();
+        }
+
+        private void CanvasDrawFace(XmlNodeList faces)
+        {
+            imgPixelWidth = ((BitmapSource)faceImage.Source).PixelWidth;
+            imgPixelHeight = ((BitmapSource)faceImage.Source).PixelHeight;
+
+            this.canvas1.Width = faceImage.ActualWidth;
+            this.canvas1.Height = faceImage.ActualHeight;
+
+            var factorx = faceImage.ActualWidth / imgPixelWidth;
+            var factory = faceImage.ActualHeight / imgPixelHeight;
+
+            foreach (XmlNode face in faces)
+            {
+                var quality = face.GetNodeText("quality").ToFloat();
+                if (quality <= txtThrold.Text.ToFloat())
+                {
+                    continue;
+                }
+                var x = face.GetNodeText("posX").ToInt32();
+                var y = face.GetNodeText("posY").ToInt32();
+                var w = face.GetNodeText("imgWidth").ToInt32();
+                var h = face.GetNodeText("imgHeight").ToInt32();
+
+                RectangleGeometry rect = new RectangleGeometry
+                {
+                    Rect = new Rect
+                    {
+                        X = x * factorx,
+                        Y = y * factory,
+                        Width = w * factorx,
+                        Height = h * factory
+                    }
+                };
+
+                Path myPath = new Path();
+                myPath.StrokeThickness = 3;
+                myPath.Stroke = Brushes.Red;
+                myPath.Fill = Brushes.White;
+                myPath.Data = rect;
+
+                Label lblfacequality = new Label { Content = "质量->" + quality, Foreground = Brushes.Red };
+                Canvas.SetLeft(lblfacequality, rect.Rect.X + +rect.Rect.Width + 5);
+                Canvas.SetTop(lblfacequality, rect.Rect.Y);
+                this.canvas1.Children.Add(myPath);
+                this.canvas1.Children.Add(lblfacequality);
+            }
         }
 
         private ImageSource WpfDraw(XmlNodeList faces)

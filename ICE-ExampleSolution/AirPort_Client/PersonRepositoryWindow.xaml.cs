@@ -85,13 +85,13 @@ namespace AirPort.Client
         //更新
         private void btnUpdateTag_Click(object sender, RoutedEventArgs e)
         {
-            var uuid = "";
+            var faceId = "";
             if (dgPersons.SelectedItem != null)
             {
-                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+                faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
             }
 
-            PersonUpdateTagWindow updateTag = new PersonUpdateTagWindow(uuid);
+            PersonUpdateTagWindow updateTag = new PersonUpdateTagWindow(faceId);
             var result = updateTag.ShowDialog().Value;
             if (result)
                 queryPersons();
@@ -100,18 +100,17 @@ namespace AirPort.Client
         //删除人像标签
         private void btnDeleteTag_Click(object sender, RoutedEventArgs e)
         {
-            var uuid = "";
+            var faceId = "";
             if (dgPersons.SelectedItem != null)
             {
-                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+                faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
             }
 
-            PersonDeleteTagWindow tag = new PersonDeleteTagWindow(uuid);
+            PersonDeleteTagWindow tag = new PersonDeleteTagWindow(faceId);
             var result = tag.ShowDialog().Value;
             if (result)
                 queryPersons();
         }
-
 
         private List<string> GetSelectedTags()
         {

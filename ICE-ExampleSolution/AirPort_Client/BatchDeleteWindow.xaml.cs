@@ -84,7 +84,7 @@ namespace AirPort.Client
             TipDialog("删除记录数->" + affectCount);
         }
 
-        private void btnClose_Click(object sender, RoutedEventArgs e)
+        private void btnClose_click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = false;
         }
