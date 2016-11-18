@@ -44,7 +44,7 @@
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <Button Click="btnSave_click" Content="保存" />
+            <Button Click="btnSave_click" Content="删除" />
             <Button Click="btnClose_click" Content="关闭" />
         </StackPanel>
     </Grid>

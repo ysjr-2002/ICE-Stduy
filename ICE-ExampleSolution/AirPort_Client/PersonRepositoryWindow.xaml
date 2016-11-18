@@ -25,29 +25,35 @@
             <TextBlock Text="{Binding Description}" />
         </DataTemplate>
 
-        <DataTemplate x:Key="signature">
+        <DataTemplate x:Key="signature1">
             <CheckBox IsChecked="{Binding HasSignatureCode1}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="signature2">
+            <CheckBox IsChecked="{Binding HasSignatureCode2}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="signature3">
+            <CheckBox IsChecked="{Binding HasSignatureCode3}" />
         </DataTemplate>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
-
             <RowDefinition Height="auto" />
             <RowDefinition Height="70" />
             <RowDefinition />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Click="Button_Click" Content="人像入库" />
-
-            <Button Click="btnDeletePerson_Click" Content="删除(单个)" />
+            <Button Click="Button_click" Content="人像入库" />
+            <Button Click="btnDeletePerson_click" Content="删除(单个)" />
             <Button Click="btnBatchDelete_Click" Content="删除(批量)" />
-            <Button Click="btnUpdateTag_Click" Content="更新标签" />
-            <Button Margin="5,5,5,0"
-                    VerticalAlignment="Top"
-                    Click="btnDeleteTag_Click"
-                    Content="删除标签" />
+            <Button Click="btnUpdateTag_click" Content="更新标签" />
+            <Button Click="btnDeleteTag_click" Content="删除标签" />
+
+            <Button Click="btnBatchSave_click" Content="批量入库" />
         </StackPanel>
 
         <Path Grid.Row="1"
@@ -86,8 +92,8 @@
                         Grid.Column="1"
                         VerticalAlignment="Center"
                         Orientation="Horizontal">
-                <Button Click="btnQueryPerson_Click" Content="查询" />
-                <Button Click="btnReset_Click" Content="重置" />
+                <Button Click="btnQueryPerson_click" Content="查询" />
+                <Button Click="btnReset_click" Content="重置" />
             </StackPanel>
 
             <StackPanel Grid.Row="1"
@@ -119,20 +125,27 @@
                     <DataGridTemplateColumn Width="60"
                                             CellTemplate="{StaticResource Description}"
                                             Header="备注" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像1" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像1-特征码" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像2" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像2-特征码" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像3" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像3-特征码" />
+                    <DataGridTemplateColumn CellTemplate="{StaticResource signature1}" Header="人像1-特征码" />
+                    <DataGridTemplateColumn CellTemplate="{StaticResource signature2}" Header="人像2-特征码" />
+                    <DataGridTemplateColumn CellTemplate="{StaticResource signature3}" Header="人像3-特征码" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </StackPanel.Resources>
+            <Label Margin="5,0,0,0"
+                   HorizontalAlignment="Left"
+                   Content="查询耗时:" />
+            <Label Name="lbltime" HorizontalAlignment="Left" Content="0" />
+
+            <Button Content="上一页" Click="btnPre_click"></Button>
+            <Button Content="下一页" Click="btnNext_click"></Button>
+        </StackPanel>
     </Grid>
 </local:PopupWindowBase>

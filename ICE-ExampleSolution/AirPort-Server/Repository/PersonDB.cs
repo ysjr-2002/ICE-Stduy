@@ -38,8 +38,8 @@ namespace AirPort.Server.Repository
             {
                 try
                 {
-                    var sql = "DELETE FROM persons WHERE uuid='{0}'";
-                    sql = string.Format(sql, person.UUID);
+                    var sql = "DELETE FROM persons WHERE faceID='{0}'";
+                    sql = string.Format(sql, person.FaceID);
                     db.Database.ExecuteSqlCommand(sql);
                 }
                 catch (DbEntityValidationException ex)
@@ -49,14 +49,16 @@ namespace AirPort.Server.Repository
             }
         }
 
-        public IEnumerable<person> Search()
+        public IEnumerable<person> Search(Pagequery page, string[] tags)
         {
             List<person> list = new List<Repository.person>();
             using (var db = new personrepositoryEntities())
             {
                 try
                 {
-                    list = db.persons.ToList();
+                    var tagLink = GetTagIn(tags);
+                    var t = db.persontags.Where(c => tags.Contains(c.TagName)).Select(s => s.FaceID).Distinct().ToList();
+                    list = db.persons.Where(p => t.Contains(p.FaceID)).OrderByDescending(s => s.CreateTime).Skip(page.Offset).Take(page.Pagesize).ToList();
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -70,8 +72,6 @@ namespace AirPort.Server.Repository
         {
 
         }
-
-
 
         public void AddPersonTag(string faceId, string[] tags)
         {
@@ -134,14 +134,35 @@ namespace AirPort.Server.Repository
         public int DeleteByTags(string[] tags)
         {
             var affectcount = 0;
+            var tagLink = GetTagIn(tags);
             using (var db = new personrepositoryEntities())
             {
-                foreach (var tag in tags)
-                {
+                var deltags = "delete from persontags where tagname in({0})";
+                var delPerson = "delete from persons where faceId in(select faceId from persontags where tagname in({0}))";
 
-                }
+                delPerson = string.Format(delPerson, tagLink);
+                deltags = string.Format(deltags, tagLink);
+
+                affectcount = db.Database.ExecuteSqlCommand(delPerson);
+                db.Database.ExecuteSqlCommand(deltags);
             }
             return affectcount;
+        }
+
+        private string GetTagIn(string[] tags)
+        {
+            if (tags.Length == 0)
+                return string.Empty;
+
+            var sb = new StringBuilder();
+            foreach (var tag in tags)
+            {
+                sb.Append(string.Format("'{0}',", tag));
+            }
+
+            var tagLink = sb.ToString();
+            tagLink = tagLink.Remove(tagLink.Length - 1, 1);
+            return tagLink;
         }
     }
 }

@@ -16,6 +16,9 @@ namespace AirPort.Server.WebAPI
         /// <returns></returns>
         public static string CreateLinkString(Dictionary<string, string> dicArray)
         {
+            if (dicArray.Count == 0)
+                return string.Empty;
+
             StringBuilder prestr = new StringBuilder();
             foreach (KeyValuePair<string, string> temp in dicArray)
             {

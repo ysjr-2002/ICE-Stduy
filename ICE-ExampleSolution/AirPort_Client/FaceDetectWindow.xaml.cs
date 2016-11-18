@@ -38,8 +38,16 @@ namespace AirPort.Client
             imagefile = Utility.OpenFileDialog();
             if (imagefile.IsEmpty())
                 return;
-
+          
             faceImage.Source = imagefile.ToImageSource();
+            ClearResult();
+        }
+
+        private void ClearResult()
+        {
+            this.canvas1.Children.Clear();
+            lbltimeinfo.Content = "";
+            lblfacecount.Content = "";
         }
 
         private void Test()
@@ -87,7 +95,7 @@ namespace AirPort.Client
             var sb = new StringBuilder();
             sb.Append("imgData".ElementText(base64Image));
             sb.Append("threshold".ElementText(txtThrold.Text));
-            sb.Append("maxImageCount".ElementText("56"));
+            sb.Append("maxImageCount".ElementText(txtFaceMax.Text));
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("staticDetect", data);
@@ -110,18 +118,12 @@ namespace AirPort.Client
 
             //var imageSource = DrawFace(F);
             //faceImage.Source = imageSource;
-
             CanvasDrawFace(persons);
         }
 
         private void btnDetect_click(object sender, RoutedEventArgs e)
         {
-            //imgPixelWidth = ((BitmapSource)faceImage.Source).PixelWidth;
-            //imgPixelHeight = ((BitmapSource)faceImage.Source).PixelHeight;
-            //this.canvas1.Width = faceImage.ActualWidth;
-            //this.canvas1.Height = faceImage.ActualHeight;
-            //Test();
-
+            ClearResult();
             Send();
         }
 
@@ -162,10 +164,13 @@ namespace AirPort.Client
                 Path myPath = new Path();
                 myPath.StrokeThickness = 3;
                 myPath.Stroke = Brushes.Red;
-                myPath.Fill = Brushes.White;
                 myPath.Data = rect;
 
-                Label lblfacequality = new Label { Content = "质量->" + quality, Foreground = Brushes.Red };
+                var qInfo = quality.ToString();
+                if (qInfo.Length > 4)
+                    qInfo = qInfo.Substring(0, 4);
+
+                Label lblfacequality = new Label { Content = "质量=" + qInfo, Foreground = Brushes.Red };
                 Canvas.SetLeft(lblfacequality, rect.Rect.X + +rect.Rect.Width + 5);
                 Canvas.SetTop(lblfacequality, rect.Rect.Y);
                 this.canvas1.Children.Add(myPath);

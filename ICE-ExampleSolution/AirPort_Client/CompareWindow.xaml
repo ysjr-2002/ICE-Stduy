@@ -36,7 +36,7 @@
         <StackPanel Grid.Row="2" Grid.ColumnSpan="2">
             <Button HorizontalAlignment="Left"
                     Click="btnCompare_Click"
-                    Content="比对" />
+                    Content="执行" />
             <StackPanel Height="35"
                         Margin="5,0,0,0"
                         Orientation="Horizontal">

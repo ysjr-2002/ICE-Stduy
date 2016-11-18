@@ -15,7 +15,9 @@ namespace AirPort.Server.WebAPI
         public static T Get<T>(string url, Dictionary<string, string> param)
         {
             var preSignStr = HttpCore.CreateLinkString(param);
-            var httpGetUrl = string.Concat(url, "?" + preSignStr);
+            if (preSignStr.Length > 0)
+                preSignStr = "?" + preSignStr;
+            var httpGetUrl = string.Concat(url, preSignStr);
             var wr = HttpRequest.Get(httpGetUrl);
             try
             {
@@ -24,6 +26,7 @@ namespace AirPort.Server.WebAPI
 
                 StreamReader sr = new StreamReader(stream);
                 var content = sr.ReadToEnd();
+                Console.WriteLine(content);
                 sr.Close();
 
                 JavaScriptSerializer serialize = new JavaScriptSerializer();

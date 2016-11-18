@@ -15,6 +15,9 @@ namespace AirPort.Server
     {
         static void Main(string[] args)
         {
+            //FaceServices fs = new FaceServices();
+            //fs.QueryGroupPhotoes();
+
             Console.Title = "Server";
             PersonDB db = new PersonDB();
             db.Test();

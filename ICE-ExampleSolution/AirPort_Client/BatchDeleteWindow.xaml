@@ -23,15 +23,15 @@
                Content="标签：" />
         <WrapPanel Name="tagContainer"
                    Grid.Row="0"
-                   VerticalAlignment="Center"
-                   Grid.Column="1" />
+                   Grid.Column="1"
+                   VerticalAlignment="Center" />
 
         <StackPanel Grid.Row="1"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-            <Button Click="btnSave_click" Content="保存" />
+            <Button Click="btnSave_click" Content="执行" />
             <Button Click="btnClose_click" Content="关闭" />
         </StackPanel>
     </Grid>

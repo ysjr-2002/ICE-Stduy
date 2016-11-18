@@ -30,7 +30,7 @@
                     </StackPanel>
                 </StackPanel>
 
-                <Button Click="btnDetect_click" Content="检测" />
+                <Button Click="btnDetect_click" Content="执行" />
             </StackPanel>
 
         </StackPanel>

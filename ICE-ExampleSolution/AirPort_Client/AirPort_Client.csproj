@@ -103,6 +103,9 @@
     </Compile>
     <Compile Include="Core\AppBoot.cs" />
     <Compile Include="Model\PersonInfo.cs" />
+    <Compile Include="PersonBatchSaveWindow.xaml.cs">
+      <DependentUpon>PersonBatchSaveWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="PersonDeleteTagWindow.xaml.cs">
       <DependentUpon>PersonDeleteTagWindow.xaml</DependentUpon>
     </Compile>
@@ -153,6 +156,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="PersonBatchSaveWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="PersonDeleteTagWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

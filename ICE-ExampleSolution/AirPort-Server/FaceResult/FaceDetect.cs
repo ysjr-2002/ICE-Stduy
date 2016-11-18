@@ -97,7 +97,7 @@ namespace AirPort.Server
 
     public class GroupFaceAttrs
     {
-        public int Age { get; set; }
+        public float Age { get; set; }
 
         public face_quality face_quality { get; set; }
 
@@ -114,7 +114,7 @@ namespace AirPort.Server
     {
         public GroupFaceAttrs Attrs { get; set; }
 
-        public int Quality { get; set; }
+        public float Quality { get; set; }
 
         public Rect Rect { get; set; }
     }
@@ -131,6 +131,14 @@ namespace AirPort.Server
         public string Id { get; set; }
 
         public string Score { get; set; }
+
+        public string Tag { get; set; }
+    }
+
+
+    public class QueryPhoto
+    {
+        public string Id { get; set; }
 
         public string Tag { get; set; }
     }

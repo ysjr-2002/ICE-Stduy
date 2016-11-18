@@ -68,4 +68,14 @@ namespace AirPort.Server.FaceResult
     {
 
     }
+
+    public class GroupPhotoResult
+    {
+        public string name { get; set; }
+
+        public int total_photos { get; set; }
+        public int next_cursor { get; set; }
+
+        public QueryPhoto[] photos { get; set; }
+    }
 }

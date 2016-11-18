@@ -17,6 +17,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
+using System.Diagnostics;
 
 namespace AirPort.Client
 {
@@ -25,6 +26,8 @@ namespace AirPort.Client
     /// </summary>
     public partial class PersonRepositoryWindow
     {
+        private int offset = 0;
+        private int pagesize = 30;
         public PersonRepositoryWindow()
         {
             InitializeComponent();
@@ -51,7 +54,7 @@ namespace AirPort.Client
             LoadTags();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Button_click(object sender, RoutedEventArgs e)
         {
             PersonSaveWindow person = new PersonSaveWindow();
             var result = person.ShowDialog().Value;
@@ -60,14 +63,14 @@ namespace AirPort.Client
         }
 
         //删除(单个)
-        private void btnDeletePerson_Click(object sender, RoutedEventArgs e)
+        private void btnDeletePerson_click(object sender, RoutedEventArgs e)
         {
-            var uuid = "";
+            var faceId = "";
             if (dgPersons.SelectedItem != null)
             {
-                uuid = ((PersonInfo)dgPersons.SelectedItem).uuid;
+                faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
             }
-            PersonDeleteWindow person = new PersonDeleteWindow(uuid);
+            PersonDeleteWindow person = new PersonDeleteWindow(faceId);
             var result = person.ShowDialog().Value;
             if (result)
                 queryPersons();
@@ -83,7 +86,7 @@ namespace AirPort.Client
         }
 
         //更新
-        private void btnUpdateTag_Click(object sender, RoutedEventArgs e)
+        private void btnUpdateTag_click(object sender, RoutedEventArgs e)
         {
             var faceId = "";
             if (dgPersons.SelectedItem != null)
@@ -98,7 +101,7 @@ namespace AirPort.Client
         }
 
         //删除人像标签
-        private void btnDeleteTag_Click(object sender, RoutedEventArgs e)
+        private void btnDeleteTag_click(object sender, RoutedEventArgs e)
         {
             var faceId = "";
             if (dgPersons.SelectedItem != null)
@@ -125,7 +128,7 @@ namespace AirPort.Client
             return tags;
         }
 
-        private void btnQueryPerson_Click(object sender, RoutedEventArgs e)
+        private void btnQueryPerson_click(object sender, RoutedEventArgs e)
         {
             if (GetSelectedTags().Count == 0)
             {
@@ -151,12 +154,16 @@ namespace AirPort.Client
             }
             sb.Append("tags".ElementEnd());
 
-            sb.Append("offset".ElementText("0"));
-            sb.Append("size".ElementText("10"));
+            sb.Append("offset".ElementText(offset.ToString()));
+            sb.Append("size".ElementText(pagesize.ToString()));
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("queryPersons", data);
+
+            Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
+            lbltime.Content = sw.ElapsedMilliseconds;
             if (content.IsEmpty())
             {
                 WarnDialog(community_error);
@@ -199,7 +206,7 @@ namespace AirPort.Client
             dgPersons.ItemsSource = persons;
         }
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void btnReset_click(object sender, RoutedEventArgs e)
         {
             txt1.Clear();
             txt2.Clear();
@@ -208,6 +215,26 @@ namespace AirPort.Client
             {
                 item.IsChecked = false;
             }
+        }
+
+        private void btnBatchSave_click(object sender, RoutedEventArgs e)
+        {
+            PersonBatchSaveWindow pb = new PersonBatchSaveWindow();
+            pb.ShowDialog();
+        }
+
+        private void btnPre_click(object sender, RoutedEventArgs e)
+        {
+            offset -= pagesize;
+            if (offset < 0)
+                offset = 0;
+            queryPersons();
+        }
+
+        private void btnNext_click(object sender, RoutedEventArgs e)
+        {
+            offset += pagesize;
+            queryPersons();
         }
     }
 }

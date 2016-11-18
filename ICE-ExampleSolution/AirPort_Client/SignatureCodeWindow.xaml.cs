@@ -35,6 +35,9 @@ namespace AirPort.Client
                 return;
 
             imageFace.Source = imagefile.ToImageSource();
+
+            txtfeature.Clear();
+            lbltimeInfo.Content = "";
         }
 
         private void btnExtract_Click(object sender, RoutedEventArgs e)

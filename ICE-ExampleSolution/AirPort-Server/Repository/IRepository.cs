@@ -16,12 +16,18 @@ namespace AirPort.Server.Repository
 
         void Delete(T t);
 
-        IEnumerable<T> Search();
+        IEnumerable<T> Search(Pagequery page, string[] tags);
 
         void AddPersonTag(string faceId, string[] tags);
 
         void UpdatePersonTag(string faceId, string[] tags);
 
         int DeleteByTags(string[] tags);
+    }
+
+    public class Pagequery
+    {
+        public int Offset { get; set; }
+        public int Pagesize { get; set; }
     }
 }

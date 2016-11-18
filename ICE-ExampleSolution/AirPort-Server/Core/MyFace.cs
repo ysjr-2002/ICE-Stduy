@@ -21,7 +21,7 @@ namespace AirPort.Server.Core
         private Queue<string> queue = new Queue<string>();
 
         private FaceServices fs = null;
-        private const string group = "byairport";
+        private const string group = "by";
 
         private PersonDB db = null;
         public MyFace(PersonDB db)
@@ -159,21 +159,24 @@ namespace AirPort.Server.Core
             sb.Append("code".ElementText("0"));
             sb.Append("persons".ElementBegin());
 
-            var count = result.Faces.Length;
-            print("检测数量->" + count);
-            print("返回数量->" + maxImageCount);
-            var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
-            foreach (var face in topFaces)
+            var count = 0;
+            if (result.Faces != null)
             {
-                sb.Append("person".ElementBegin());
-                sb.Append("imgData".ElementText(face.crop.image));
-                sb.Append("posX".ElementText(face.Rect.Left.ToString()));
-                sb.Append("posY".ElementText(face.Rect.Top.ToString()));
-                sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
-                sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
-                sb.Append("quality".ElementText(face.Quality.ToString()));
-                sb.Append("person".ElementEnd());
+                count = result.Faces.Length;
+                var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
+                foreach (var face in topFaces)
+                {
+                    sb.Append("person".ElementBegin());
+                    sb.Append("imgData".ElementText(face.crop.image));
+                    sb.Append("posX".ElementText(face.Rect.Left.ToString()));
+                    sb.Append("posY".ElementText(face.Rect.Top.ToString()));
+                    sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
+                    sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
+                    sb.Append("quality".ElementText(face.Quality.ToString()));
+                    sb.Append("person".ElementEnd());
+                }
             }
+            print("检测数量->" + count);
 
             sb.Append("persons".ElementEnd());
             sb.Append("xml".ElementEnd());
@@ -379,25 +382,30 @@ namespace AirPort.Server.Core
             var uuid = doc.GetNodeText("uuid");
             print("uuid->" + uuid);
 
-            //person p = new Repository.person { UUID = uuid };
-            //db.Delete(p);
+            person p = new Repository.person { FaceID = uuid };
+            db.Delete(p);
 
             return ResponseOk();
         }
 
         private string deletePersonsByTags(XmlDocument doc)
         {
-            var tags = GetNodes(doc, "tags/tag");
+            var tagNodes = GetNodes(doc, "tags/tag");
             print("批量删除以下标签对应的人物");
-            foreach (XmlNode tag in tags)
+
+            List<string> tags = new List<string>();
+            foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
+                tags.Add(tag.InnerText);
             }
+
+            var affectcount = db.DeleteByTags(tags.ToArray());
 
             var sb = new StringBuilder();
             sb.Append("<xml>");
             sb.Append("<code>0</code>");
-            sb.Append("<affectCount>" + new Random().Next(100, 900) + "</affectCount>");
+            sb.Append("<affectCount>" + affectcount + "</affectCount>");
             sb.Append("</xml>");
             return sb.ToString();
         }
@@ -413,10 +421,12 @@ namespace AirPort.Server.Core
             print("code->" + code);
 
             print("人物标签");
-            var tags = GetNodes(doc, "tags/tag");
-            foreach (XmlNode tag in tags)
+            List<string> tags = new List<string>();
+            var tagNodes = GetNodes(doc, "tags/tag");
+            foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
+                tags.Add(tag.InnerText);
             }
 
             var offset = doc.GetNodeText("offset");
@@ -425,7 +435,13 @@ namespace AirPort.Server.Core
             print("offset->" + offset);
             print("size->" + size);
 
-            var persons = db.Search();
+            Pagequery page = new Pagequery
+            {
+                Offset = offset.ToInt32(),
+                Pagesize = size.ToInt32(),
+            };
+
+            var persons = db.Search(page, tags.ToArray());
             var count = persons.Count();
             print("返回" + count + "条记录");
             var sb = new StringBuilder();

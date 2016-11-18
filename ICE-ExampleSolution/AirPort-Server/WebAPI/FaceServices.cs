@@ -69,7 +69,7 @@ namespace AirPort.Server.WebAPI
             param.Add("feature", feature);
             //param.Add("image_maxsize", image_maxsize.ToString());
             //param.Add("crop", crop.ToString());
-            var postResult = HttpMethod.Post<PostResult>(Constrants.url_g, image, param);
+            var postResult = HttpMethod.Post<PostResult>(Constrants.url_g + "/" + group, image, param);
             return postResult;
         }
 
@@ -116,6 +116,30 @@ namespace AirPort.Server.WebAPI
 
             var videoResult = HttpMethod.Get<VideoResult>(Constrants.url_search, param);
             return videoResult;
+        }
+
+        public void Search()
+        {
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            var videoResult = HttpMethod.Get<VideoResult>(Constrants.url_g, param);
+        }
+
+        public void QueryGroupPhotoes()
+        {
+            var groupname = "by";
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            var result = HttpMethod.Get<GroupPhotoResult>(Constrants.url_g + "/" + groupname, param);
+
+            if (result == null)
+                return;
+
+            Console.WriteLine(result.name);
+            Console.WriteLine(result.total_photos);
+            Console.WriteLine(result.next_cursor);
+            foreach (var item in result.photos)
+            {
+                Console.WriteLine(string.Format("{0} {1}", item.Id, item.Tag));
+            }
         }
     }
 }
