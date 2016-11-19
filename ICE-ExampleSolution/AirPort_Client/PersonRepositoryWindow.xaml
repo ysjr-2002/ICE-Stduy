@@ -4,7 +4,7 @@
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:local="clr-namespace:AirPort.Client"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                       Title="PersonWareHouseWindow"
+                       Title="人像库操作"
                        d:DesignHeight="600"
                        d:DesignWidth="800"
                        mc:Ignorable="d">
@@ -47,7 +47,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Click="Button_click" Content="人像入库" />
+            <Button Click="Button_click" Content="入库" />
             <Button Click="btnDeletePerson_click" Content="删除(单个)" />
             <Button Click="btnBatchDelete_Click" Content="删除(批量)" />
             <Button Click="btnUpdateTag_click" Content="更新标签" />
@@ -134,21 +134,19 @@
         </GroupBox>
 
         <StackPanel Grid.Row="4" Orientation="Horizontal">
-            <StackPanel.Resources>
-                <Style TargetType="Label">
-                    <Setter Property="FontSize" Value="20" />
-                    <Setter Property="FontWeight" Value="Bold" />
-                </Style>
-            </StackPanel.Resources>
-            <Label Margin="5,0,0,0"
-                   HorizontalAlignment="Left"
-                   Content="查询耗时:" />
-            <Label Name="lbltime" HorizontalAlignment="Left" Content="0" />
 
-            <Label Content="总记录数："></Label>
-            <Label Name="lblpersoncount"></Label>
-            <Button Content="上一页" Click="btnPre_click"></Button>
-            <Button Content="下一页" Click="btnNext_click"></Button>
+            <Label Margin="5,0,0,0"
+                   Content="查询耗时:"
+                   Style="{StaticResource largeLabel}" />
+            <Label Name="lbltime"
+                   HorizontalAlignment="Left"
+                   Content="0"
+                   Style="{StaticResource largeLabel}" />
+
+            <Label Content="总记录数：" Style="{StaticResource largeLabel}" />
+            <Label Name="lblpersoncount" Style="{StaticResource largeLabel}" />
+            <Button Click="btnPre_click" Content="上一页" />
+            <Button Click="btnNext_click" Content="下一页" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

@@ -40,14 +40,18 @@
             <StackPanel Height="35"
                         Margin="5,0,0,0"
                         Orientation="Horizontal">
-                <Label Width="80" Content="相似度：" />
-                <Label Name="lblSmilary" />
+                <Label Width="80"
+                       Content="相似度："
+                       Style="{StaticResource largeLabel}" />
+                <Label Name="lblSmilary" Style="{StaticResource largeLabel}" />
             </StackPanel>
             <StackPanel Height="35"
                         Margin="5,0,0,0"
                         Orientation="Horizontal">
-                <Label Width="80" Content="耗时：" />
-                <Label Name="lbltime" />
+                <Label Width="80"
+                       Content="耗时："
+                       Style="{StaticResource largeLabel}" />
+                <Label Name="lbltime" Style="{StaticResource largeLabel}" />
             </StackPanel>
         </StackPanel>
     </Grid>

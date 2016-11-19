@@ -11,18 +11,21 @@ using System.Xml;
 using Common;
 using AirPort.Server.Repository;
 using AirPort.Server.FaceResult;
+using Common.Log;
 
 namespace AirPort.Server.Core
 {
     class MyFace : FaceRecognitionDisp_
     {
-        private bool _stopCallback = false;
         private Queue<string> queue = new Queue<string>();
         private FaceServices fs = null;
         private const string group = "by";
         private PersonDB db = null;
 
-        Dictionary<string, ClientData> faceResultList = new Dictionary<string, ClientData>();
+        private string currentRtspId = "";
+        private const string queueMessageType = "messageQueue";
+
+        private Dictionary<string, ClientData> clientProxyList = new Dictionary<string, ClientData>();
 
         public MyFace(PersonDB db)
         {
@@ -31,51 +34,13 @@ namespace AirPort.Server.Core
             print("create a server object");
         }
 
-        private string Element(string name, string value)
-        {
-            var content = "<{0}>{1}</{0}>";
-            content = string.Format(content, name, value);
-            return content;
-        }
-
         public override void initConnectionListener(ConnectionListenerPrx listener, Current current__)
         {
-            _stopCallback = false;
             print("receive client callback listener");
-
-            if (faceResultList.ContainsKey("1"))
+            if (clientProxyList.ContainsKey(currentRtspId))
             {
-                faceResultList["1"].proxy = listener;
+                clientProxyList[currentRtspId].proxy = listener;
             }
-
-            #region test
-            //Task.Factory.StartNew(() =>
-            //{
-            //    while (!_stopCallback)
-            //    {
-            //        var sb = new StringBuilder();
-
-            //        sb.Append("xml".ElementBegin());
-            //        sb.Append("type".ElementText("dynamicDetectResult"));
-            //        sb.Append("rtspId".ElementText("1"));
-            //        sb.Append("persons".ElementBegin());
-            //        sb.Append("person".ElementBegin());
-            //        sb.Append("imgData".ElementText(""));
-            //        sb.Append("posX".ElementText("1"));
-            //        sb.Append("posY".ElementText("2"));
-            //        sb.Append("imgWidth".ElementText("3"));
-            //        sb.Append("imgHeight".ElementText("4"));
-            //        sb.Append("quality".ElementText("5"));
-            //        sb.Append("person".ElementEnd());
-            //        sb.Append("persons".ElementEnd());
-            //        sb.Append("xml".ElementEnd());
-
-            //        var data = sb.ToString();
-            //        clientPxy.onRecv(data);
-            //        Thread.Sleep(1000);
-            //    }
-            //});
-            #endregion
         }
 
         public override string send(string xml, Current current__)
@@ -84,7 +49,6 @@ namespace AirPort.Server.Core
             var conn = current__.con;
             var endPoint = conn.getEndpoint();
             var ip = current__.con.ToString();
-
             print("ip->" + ip);
             content = ParseXml(xml);
             return content;
@@ -94,9 +58,7 @@ namespace AirPort.Server.Core
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
-
             var typename = doc.GetNodeText("type");
-
             print(typename);
             var content = "";
             switch (typename)
@@ -148,13 +110,7 @@ namespace AirPort.Server.Core
 
         private void print(string str)
         {
-            Console.Out.WriteLine(str);
-        }
-
-        private XmlNodeList GetNodes(XmlDocument doc, string path)
-        {
-            var nodes = doc.SelectNodes("/xml/" + path);
-            return nodes;
+            LogHelper.Info(str);
         }
 
         private string ResponseOk()
@@ -178,13 +134,19 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
 
             var result = fs.Detect(image, false, false);
+            var code = "-1";
+            if (result != null)
+            {
+                code = "0";
+            }
+
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
-            sb.Append("code".ElementText("0"));
+            sb.Append("code".ElementText(code));
             sb.Append("persons".ElementBegin());
 
             var count = 0;
-            if (result.Faces != null)
+            if (result != null && result.Faces != null)
             {
                 count = result.Faces.Length;
                 var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
@@ -217,6 +179,7 @@ namespace AirPort.Server.Core
             var maxImageCount = doc.GetNodeText("maxImageCount");
             var frames = doc.GetNodeText("frames");
 
+            currentRtspId = rtspId;
             print("threshold->" + threshold);
             print("rtspId->" + rtspId);
             print("rtspPath->" + rtspPath);
@@ -238,9 +201,9 @@ namespace AirPort.Server.Core
                 queue = new Queue<DynamicFaceResult>(size.ToInt32())
             };
 
-            if (type == "messageQueue")
+            if (type == queueMessageType)
             {
-                faceResultList.Add(rtspId, client);
+                clientProxyList.Add(rtspId, client);
             }
 
             return ResponseOk();
@@ -248,39 +211,51 @@ namespace AirPort.Server.Core
 
         private void Websocket_OnFaceDetect(string rtspId, DynamicFaceResult face)
         {
-
+            if (clientProxyList.ContainsKey(rtspId))
+            {
+                ClientData client = clientProxyList[rtspId];
+                if (client.messageType == queueMessageType)
+                {
+                    client.queue.Enqueue(face);
+                }
+                else
+                {
+                    var content = GetDynamicResutl(face);
+                    client.proxy?.onRecv(content);
+                }
+            }
         }
 
         private string recvPerson(XmlDocument doc)
         {
             lock (this)
             {
-                //var queue = faceResultList["1"];
-                //if (queue.Count > 0)
-                //{
-                //    var face = queue.Dequeue();
-                //    var data = GetDynamicResutl(face);
-                //    return data;
-                //}
-                //else
-                //{
-                //    Console.WriteLine("返回空数据");
-                //    return GetEmpty();
-                //}
+                var client = clientProxyList.FirstOrDefault();
+                if (client.Value.queue.Count() > 0)
+                {
+                    var face = client.Value.queue.Dequeue();
+                    var data = GetDynamicResutl(face);
+                    return data;
+                }
+                else
+                {
+                    print("返回空数据");
+                    return GetEmpty();
+                }
             }
-            return string.Empty;
         }
 
         private string shutdownDynamicDetect(XmlDocument doc)
         {
             lock (this)
             {
-                _stopCallback = true;
                 var rtspId = doc.GetNodeText("rtspId");
+                print("shutdownDynamicDetect->");
                 print("rtspId->" + rtspId);
-                if (faceResultList.ContainsKey(rtspId))
+                if (clientProxyList.ContainsKey(rtspId))
                 {
-                    faceResultList.Remove(rtspId);
+                    clientProxyList[rtspId].socket.Stop();
+                    clientProxyList.Remove(rtspId);
                 }
                 return ResponseOk();
             }
@@ -294,17 +269,18 @@ namespace AirPort.Server.Core
             var image1 = sourceContent.Base64ToByte();
             var image2 = destContent.Base64ToByte();
 
-            print("image1 length=" + image1.Length);
-            print("image2 length=" + image2.Length);
-
-            var similarity = 0.8d;
+            var code = "-1";
+            var similarity = 0.0d;
             similarity = fs.Compare(image1, image2);
-
+            if (similarity != -1)
+            {
+                code = "0";
+            }
             var sb = new StringBuilder();
-            sb.Append("<xml>");
-            sb.Append("<code>0</code>");
-            sb.Append("<similarity>" + similarity + "</similarity>");
-            sb.Append("</xml>");
+            sb.Append("xml".ElementBegin());
+            sb.Append("code".ElementText(code));
+            sb.Append("similarity".ElementText(similarity.ToString()));
+            sb.Append("xml".ElementEnd());
             return sb.ToString();
         }
 
@@ -313,14 +289,20 @@ namespace AirPort.Server.Core
             var imgData = doc.GetNodeText("imgData");
             var buffer = imgData.Base64ToByte();
             print("Image Length->" + buffer.Length);
-
-            var feature = fs.Feature(buffer, 0.9f, false);
+            var result = fs.Feature(buffer, 0.9f, false);
+            var code = "-1";
+            var feature = "";
+            if (result != null)
+            {
+                code = "0";
+                feature = result.Feature;
+            }
 
             var sb = new StringBuilder();
-            sb.Append("<xml>");
-            sb.Append("<code>0</code>");
-            sb.Append("<signatureCode>" + feature.Feature + "</signatureCode>");
-            sb.Append("</xml>");
+            sb.Append("xml".ElementBegin());
+            sb.Append("code".ElementText(code));
+            sb.Append("signatureCode".ElementText(feature));
+            sb.Append("xml".ElementEnd());
             return sb.ToString();
         }
 
@@ -331,6 +313,7 @@ namespace AirPort.Server.Core
 
             var imgData1 = doc.GetNodeText("imgData1");
             var signatureCode1 = doc.GetNodeText("signatureCode1");
+
             Post(faceId, signatureCode1, imgData1.Base64ToByte());
 
             var sb = new StringBuilder();
@@ -365,14 +348,14 @@ namespace AirPort.Server.Core
             person.Code = code;
             person.Name = name;
             person.Description = descrption;
-            person.ImageData1 = imgData1;
-            person.SignatureCode1 = signatureCode1;
+            person.ImageData1 = FileManager.SaveFile(imgData1, uuid, "_img1");
+            person.SignatureCode1 = FileManager.SaveFile(signatureCode1, uuid, "_feature1");
             person.HasSignatureCode1 = signatureCode1.Length > 0;
-            person.ImageData2 = imgData2;
-            person.SignatureCode2 = signatureCode2;
+            person.ImageData2 = FileManager.SaveFile(imgData2, uuid, "_img2");
+            person.SignatureCode2 = FileManager.SaveFile(signatureCode2, uuid, "_feature2");
             person.HasSignatureCode2 = signatureCode2.Length > 0;
-            person.ImageData3 = imgData3;
-            person.SignatureCode3 = signatureCode3;
+            person.ImageData3 = FileManager.SaveFile(imgData3, uuid, "_img3");
+            person.SignatureCode3 = FileManager.SaveFile(signatureCode3, uuid, "_feature3");
             person.HasSignatureCode3 = signatureCode3.Length > 0;
             person.CreateTime = DateTime.Now;
 
@@ -383,7 +366,7 @@ namespace AirPort.Server.Core
 
         private void SaveTag(string faceId, XmlDocument doc)
         {
-            var tagNodes = GetNodes(doc, "tags/tag");
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
             print("人物标签");
 
             List<string> tags = new List<string>();
@@ -406,7 +389,7 @@ namespace AirPort.Server.Core
             print("uuid->" + uuid);
 
             print("更新人物标签");
-            var tagNodes = GetNodes(doc, "tags/tag");
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
 
             List<string> tags = new List<string>();
             foreach (XmlNode tag in tagNodes)
@@ -421,9 +404,7 @@ namespace AirPort.Server.Core
         private string deletePersonTags(XmlDocument doc)
         {
             var uuid = doc.GetNodeText("uuid");
-            print("uuid->" + uuid);
-            var tagNodes = GetNodes(doc, "tags/tag");
-
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
             List<string> tags = new List<string>();
             if (tagNodes.Count > 0)
             {
@@ -438,7 +419,7 @@ namespace AirPort.Server.Core
             {
                 print("删除人物的全部标签");
             }
-
+            print("uuid->" + uuid);
             db.DeletePersonTag(uuid, tags.ToArray());
             return ResponseOk();
         }
@@ -447,27 +428,23 @@ namespace AirPort.Server.Core
         {
             var uuid = doc.GetNodeText("uuid");
             print("uuid->" + uuid);
-
-            person p = new Repository.person { FaceID = uuid };
+            person p = new person { FaceID = uuid };
             db.Delete(p);
-
             return ResponseOk();
         }
 
         private string deletePersonsByTags(XmlDocument doc)
         {
-            var tagNodes = GetNodes(doc, "tags/tag");
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
             print("批量删除以下标签对应的人物");
-
             List<string> tags = new List<string>();
             foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
                 tags.Add(tag.InnerText);
             }
-
             var affectcount = db.DeleteByTags(tags.ToArray());
-
+            print("affectcount->" + affectcount);
             var sb = new StringBuilder();
             sb.Append("<xml>");
             sb.Append("<code>0</code>");
@@ -485,10 +462,9 @@ namespace AirPort.Server.Core
             print("id->" + id);
             print("uuid->" + uuid);
             print("code->" + code);
-
             print("人物标签");
             List<string> tags = new List<string>();
-            var tagNodes = GetNodes(doc, "tags/tag");
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
             foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
@@ -497,7 +473,6 @@ namespace AirPort.Server.Core
 
             var offset = doc.GetNodeText("offset");
             var size = doc.GetNodeText("size");
-
             print("offset->" + offset);
             print("size->" + size);
 
@@ -509,7 +484,7 @@ namespace AirPort.Server.Core
 
             var persons = db.Search(page, tags.ToArray());
             var count = page.TotalCount.ToString();
-            print("返回" + count + "条记录");
+            print("匹配记录数:" + count + "条");
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
@@ -524,11 +499,11 @@ namespace AirPort.Server.Core
                 sb.Append("code".ElementText(p.Code));
                 sb.Append("name".ElementText(p.Name));
                 sb.Append("descrption".ElementText(p.Description));
-                sb.Append("imgData1".ElementText(p.ImageData1));
+                sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
                 sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.SignatureCode1)));
-                sb.Append("imgData2".ElementText(p.ImageData2));
+                sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
                 sb.Append("hasSignatureCode2".ElementText(hasSignaturecode(p.SignatureCode2)));
-                sb.Append("imgData3".ElementText(p.ImageData3));
+                sb.Append("imgData3".ElementText(FileManager.ReadFile(p.ImageData3)));
                 sb.Append("hasSignatureCode3".ElementText(hasSignaturecode(p.SignatureCode3)));
                 sb.Append("person".ElementEnd());
             }
@@ -555,9 +530,8 @@ namespace AirPort.Server.Core
             print("signatureCode->" + signatureCode);
             print("threshold->" + threshold);
             print("size->" + size);
-
             print("匹配标签");
-            var tagNodes = GetNodes(doc, "tags/tag");
+            var tagNodes = doc.GetSelecteNodes("tags/tag");
             List<string> tags = new List<string>();
             foreach (XmlNode tag in tagNodes)
             {
@@ -593,14 +567,14 @@ namespace AirPort.Server.Core
                 sb.Append("descrption".ElementText(p.Description));
 
                 sb.Append("tags".ElementBegin());
-                var temp = "国内旅客,国际旅客,黄种人".Split(',');
-                foreach (var t in temp)
+                var personTags = db.GetPersonTags(p.FaceID);
+                foreach (var tag in personTags)
                 {
-                    sb.Append("tag".ElementText(t));
+                    sb.Append("tag".ElementText(tag));
                 }
                 sb.Append("tags".ElementEnd());
 
-                sb.Append("imgData1".ElementText(p.ImageData1));
+                sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
                 sb.Append("imgData2".ElementText("imgData2"));
                 sb.Append("imgData3".ElementText("imgData3"));
 
@@ -624,29 +598,22 @@ namespace AirPort.Server.Core
         private List<FaceScore> GetfilterID(SearchResut result, float throshold)
         {
             List<FaceScore> list = new List<FaceScore>();
-            throshold = throshold * 100;
-            if (result.groups != null)
+            if (result != null)
             {
-                var group = result.groups.FirstOrDefault();
-                if (group != null)
-                    list = group.photos.Where(f => f.Score >= throshold).OrderByDescending(s => s.Score).
-                        Select(s => new FaceScore
-                        {
-                            faceId = s.Tag,
-                            score = s.Score
-                        }).ToList();
+                throshold = throshold * 100;
+                if (result.groups != null)
+                {
+                    var group = result.groups.FirstOrDefault();
+                    if (group != null)
+                        list = group.photos.Where(f => f.Score >= throshold).OrderByDescending(s => s.Score).
+                            Select(s => new FaceScore
+                            {
+                                faceId = s.Tag,
+                                score = s.Score
+                            }).ToList();
+                }
             }
             return list;
-        }
-
-        private void WebSocketcallback(DynamicFaceResult face)
-        {
-            lock (this)
-            {
-                //var data = GetDynamicResutl(face);
-                //faceResultList["1"].Enqueue(face);
-                //this.clientPxy.onRecv(data);
-            }
         }
 
         private string GetDynamicResutl(DynamicFaceResult face)

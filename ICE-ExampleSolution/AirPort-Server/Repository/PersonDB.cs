@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Common.Log;
+using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Data.Entity.Validation;
 using System.Diagnostics;
 using System.Linq;
@@ -12,9 +14,18 @@ namespace AirPort.Server.Repository
     {
         public void Test()
         {
-            var db = new personrepositoryEntities();
-            var count = db.persons.Count();
-            Console.WriteLine("text ok->" + count);
+            using (var db = new personrepositoryEntities())
+            {
+                try
+                {
+                    var count = db.persons.Count();
+                    print("test ok->" + count);
+                }
+                catch
+                {
+                    print("test error");
+                }
+            }
         }
 
         public void Add(person person)
@@ -59,13 +70,21 @@ namespace AirPort.Server.Repository
                 {
                     Stopwatch sw = Stopwatch.StartNew();
                     var tagLink = GetTagIn(tags);
-                    var t = db.persontags.Where(c => tags.Contains(c.TagName)).Select(s => s.FaceID).Distinct();
-                    var query = db.persons.Where(p => t.Contains(p.FaceID)).OrderBy(s => s.CreateTime);
+                    var persontags = (db.persontags.Where(c => tags.Contains(c.TagName))
+                        .Select(s => new
+                        {
+                            FaceID = s.FaceID
+                        })).Distinct();
+
+                    var query = (from n in db.persons
+                                 join tag in persontags on n.FaceID equals tag.FaceID
+                                 select n);
+
                     page.TotalCount = query.Count();
-                    list = query.Skip(page.Offset).Take(page.Pagesize).ToList();
+                    list = query.Select(n => n).OrderBy(n => n.CreateTime).Skip(page.Offset).Take(page.Pagesize).ToList();
 
                     sw.Stop();
-                    Console.WriteLine("数据库耗时->" + sw.ElapsedMilliseconds);
+                    Console.WriteLine("查询->" + sw.ElapsedMilliseconds);
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -95,7 +114,9 @@ namespace AirPort.Server.Repository
                     }
                     query = query.Where(p => faceIds.Contains(p.FaceID)).OrderBy(s => s.CreateTime);
                     page.TotalCount = query.Count();
-                    list = query.Skip(page.Offset).Take(page.Pagesize).ToList();
+                    query = query.Skip(page.Offset).Take(page.Pagesize);
+
+                    list = query.ToList();
                 }
                 catch (DbEntityValidationException ex)
                 {
@@ -186,6 +207,16 @@ namespace AirPort.Server.Repository
             return affectcount;
         }
 
+        public string[] GetPersonTags(string faceId)
+        {
+            List<string> tags = new List<string>();
+            using (var db = new personrepositoryEntities())
+            {
+                tags = db.persontags.Where(s => s.FaceID == faceId).Select(s => s.TagName).ToList();
+            }
+            return tags.ToArray();
+        }
+
         private string GetTagIn(string[] tags)
         {
             if (tags.Length == 0)
@@ -200,6 +231,11 @@ namespace AirPort.Server.Repository
             var tagLink = sb.ToString();
             tagLink = tagLink.Remove(tagLink.Length - 1, 1);
             return tagLink;
+        }
+
+        private void print(string content)
+        {
+            LogHelper.Info(content);
         }
     }
 }

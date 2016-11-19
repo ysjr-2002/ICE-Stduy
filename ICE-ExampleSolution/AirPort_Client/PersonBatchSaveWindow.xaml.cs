@@ -24,7 +24,6 @@ namespace AirPort.Client
     /// </summary>
     public partial class PersonBatchSaveWindow
     {
-        private string imageFile1 = @"C:\Users\Shaojie\Desktop\face\zp.bmp";
         Test test = new Test();
         public PersonBatchSaveWindow()
         {
@@ -34,7 +33,6 @@ namespace AirPort.Client
             lblcount.DataContext = test;
             lbltime.DataContext = test;
             lbltotaltime.DataContext = test;
-
             txtfolder.Text = @"D:\300";
         }
 
@@ -52,7 +50,6 @@ namespace AirPort.Client
         {
             var files = System.IO.Directory.GetFiles(txtfolder.Text, "*.jpg");
             files = files.OrderBy(s => getFileName(s).ToInt32()).ToArray();
-
             System.Threading.ThreadPool.QueueUserWorkItem((s) =>
             {
                 Stopwatch totaltime = Stopwatch.StartNew();
@@ -65,19 +62,8 @@ namespace AirPort.Client
                     test.ExecuteCount = index;
                     test.ExecuteTime = sw.ElapsedMilliseconds.ToString();
                     test.ExecuteTotalTime = totaltime.ElapsedMilliseconds.ToString();
-
-                    if (index.ToInt32() > 200)
-                        break;
                 }
                 totaltime.Stop();
-                //for (int i = 1; i <= 5000; i++)
-                //{
-                //    Stopwatch sw = Stopwatch.StartNew();
-                //    send(i.ToString());
-                //    sw.Stop();
-                //    test.ExecuteCount = i.ToString();
-                //    test.ExecuteTime = sw.ElapsedMilliseconds.ToString();
-                //}
             });
         }
 

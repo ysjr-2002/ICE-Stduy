@@ -161,7 +161,7 @@ namespace AirPort.Client
                     });
                 }
             }
-            catch (Exception ex)
+            catch
             {
             }
         }
@@ -195,9 +195,9 @@ namespace AirPort.Client
                     {
                         continue;
                     }
+                    Item("query queue back->");
                     FaceBack(content);
-                    Item("query queue back->" + content);
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     Item("query next...");
                 }
             });

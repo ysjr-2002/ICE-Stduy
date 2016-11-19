@@ -53,15 +53,15 @@
                         Grid.Column="0"
                         Orientation="Horizontal">
 
-                <Label Content="阈值：" />
+                <Label Margin="5,0,0,0" Content="阈值：" />
                 <TextBox Name="txtthrold"
                          Width="60"
                          Text="0.50" />
 
-                <Label Content="记录数：" />
+                <Label Margin="5,0,0,0" Content="记录数：" />
                 <TextBox Name="txtsize"
                          Width="60"
-                         Text="50" />
+                         Text="10" />
 
                 <Label Width="100" Content="图像：" />
                 <Image Name="imgSource" Width="100" />
@@ -111,21 +111,14 @@
         </GroupBox>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal">
-            <StackPanel.Resources>
-                <Style TargetType="Label">
-                    <Setter Property="FontSize" Value="20" />
-                    <Setter Property="FontWeight" Value="Bold" />
-                </Style>
-            </StackPanel.Resources>
-            <Label Margin="5,0,0,0"
-                   HorizontalAlignment="Left"
-                   Content="查询耗时:" />
-            <Label Name="lbltime"
-                   HorizontalAlignment="Left"
-                   Content="0" />
 
-            <Label Content="总记录数：" />
-            <Label Name="lblpersoncount" />
+            <Label Content="查询耗时:" Style="{StaticResource largeLabel}" />
+            <Label Name="lbltime"
+                   Content="0"
+                   Style="{StaticResource largeLabel}" />
+
+            <Label Content="总记录数：" Style="{StaticResource largeLabel}" />
+            <Label Name="lblpersoncount" Style="{StaticResource largeLabel}" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

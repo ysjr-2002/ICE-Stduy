@@ -47,15 +47,12 @@ namespace AirPort.Client
                 WarnDialog("请选择一张图片！ ");
                 return;
             }
-
-            var buffer = imagefile.FileToByte();
-            var base64Image = buffer.ToBase64();
-
+            var base64Image = imagefile.FileToBase64();
             var sb = new StringBuilder();
             sb.Append("imgData".ElementText(base64Image));
             var data = sb.ToString();
-
             var xml = XmlParse.GetXml("convertSignatureCode", data);
+
             Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
             sw.Stop();
@@ -65,9 +62,13 @@ namespace AirPort.Client
                 WarnDialog(community_error);
                 return;
             }
-
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
+            if (code.ToInt32() != status_ok)
+            {
+                WarnDialog("提取特征码失败！");
+                return;
+            }
             var signatureCode = doc.GetNodeText("signatureCode");
             txtfeature.Text = signatureCode;
         }

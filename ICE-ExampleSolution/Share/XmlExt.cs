@@ -11,6 +11,12 @@ namespace System
 {
     public static class XmlExt
     {
+        public static XmlNodeList GetSelecteNodes(this XmlDocument doc, string path)
+        {
+            var nodes = doc.SelectNodes("/xml/" + path);
+            return nodes;
+        }
+
         public static string GetNodeText(this XmlDocument doc, string path)
         {
             var node = doc.SelectSingleNode("/xml/" + path);
@@ -46,6 +52,11 @@ namespace System
         public static string ElementText(this string name, string value)
         {
             return string.Format("<{0}>{1}</{0}>", name, value);
+        }
+
+        public static string ElementImage(this string name, string value)
+        {
+            return string.Format("<{0}><![CDATA[{1}]]></{0}>", name, value);
         }
     }
 }

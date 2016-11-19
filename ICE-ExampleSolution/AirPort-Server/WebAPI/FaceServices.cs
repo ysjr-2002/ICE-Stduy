@@ -42,7 +42,10 @@ namespace AirPort.Server.WebAPI
             param.Add("image_maxsize2", "0");
 
             var compareResult = HttpMethod.Post<CompareResult>(Constrants.url_compare, image1, image2, param);
-            return compareResult.score;
+            if (compareResult != null)
+                return compareResult.score;
+            else
+                return -1;
         }
         /// <summary>
         /// 人脸检测

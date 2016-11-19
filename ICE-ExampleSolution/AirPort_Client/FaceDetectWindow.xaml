@@ -12,7 +12,9 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0"
+                    Margin="10,0,0,0"
+                    Orientation="Horizontal">
             <Button Click="btnChoice_click" Content="选择图片" />
             <StackPanel Orientation="Horizontal">
                 <StackPanel>
@@ -40,19 +42,15 @@
             <Canvas Name="canvas1" />
         </Grid>
 
-        <StackPanel Grid.Row="2" Margin="5,0,0,0">
-            <StackPanel Height="35" Orientation="Horizontal">
-                <Label Content="人脸数量：" />
-                <Label Name="lblfacecount"
-                       FontSize="14"
-                       FontWeight="Bold" />
+        <StackPanel Grid.Row="2" Margin="15,0,0,0">
+            <StackPanel Height="40" Orientation="Horizontal">
+                <Label Content="人脸数量：" Style="{StaticResource largeLabel}" />
+                <Label Name="lblfacecount" Style="{StaticResource largeLabel}" />
             </StackPanel>
 
-            <StackPanel Height="35" Orientation="Horizontal">
-                <Label Content="检测耗时：" />
-                <Label Name="lbltimeinfo"
-                       FontSize="14"
-                       FontWeight="Bold" />
+            <StackPanel Height="40" Orientation="Horizontal">
+                <Label Content="检测耗时：" Style="{StaticResource largeLabel}" />
+                <Label Name="lbltimeinfo" Style="{StaticResource largeLabel}" />
             </StackPanel>
         </StackPanel>
     </Grid>

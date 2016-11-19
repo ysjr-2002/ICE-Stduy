@@ -38,7 +38,7 @@ namespace AirPort.Client
             imagefile = Utility.OpenFileDialog();
             if (imagefile.IsEmpty())
                 return;
-          
+
             faceImage.Source = imagefile.ToImageSource();
             ClearResult();
         }
@@ -112,12 +112,14 @@ namespace AirPort.Client
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             Item("code->" + code);
+            if (code.ToInt32() != status_ok)
+            {
+                WarnDialog("执行失败！");
+                return;
+            }
 
             var persons = doc.SelectNodes("/xml/persons/person");
             lblfacecount.Content = persons.Count;
-
-            //var imageSource = DrawFace(F);
-            //faceImage.Source = imageSource;
             CanvasDrawFace(persons);
         }
 
@@ -176,61 +178,6 @@ namespace AirPort.Client
                 this.canvas1.Children.Add(myPath);
                 this.canvas1.Children.Add(lblfacequality);
             }
-        }
-
-        private ImageSource WpfDraw(XmlNodeList faces)
-        {
-            DrawingVisual visual = new DrawingVisual();
-            DrawingContext context = visual.RenderOpen();
-
-            BitmapImage bitmap = (BitmapImage)faceImage.Source;
-            context.DrawImage(faceImage.Source, new Rect { X = 0, Y = 0, Width = bitmap.Width, Height = bitmap.Height });
-            foreach (XmlNode f in faces)
-            {
-                Item("imgData->" + f.GetNodeText("imgData"));
-                var quality = f.GetNodeText("quality").ToFloat();
-                var x = f.GetNodeText("posX").ToInt32();
-                var y = f.GetNodeText("posY").ToInt32();
-                var w = f.GetNodeText("imgWidth").ToInt32();
-                var h = f.GetNodeText("imgHeight").ToInt32();
-
-                context.DrawRectangle(Brushes.Transparent, new Pen(Brushes.Red, 5), new Rect
-                {
-                    X = x,
-                    Y = y,
-                    Width = w,
-                    Height = h
-                });
-            }
-
-            context.Close();
-            var render = new RenderTargetBitmap((int)bitmap.Width, (int)bitmap.Height, 96, 96, PixelFormats.Default);
-            render.Render(visual);
-
-            return render;
-        }
-
-        private ImageSource DrawFace(XmlNodeList faces)
-        {
-            System.Drawing.Image source = System.Drawing.Image.FromFile(imagefile);
-            var g = System.Drawing.Graphics.FromImage(source);
-            System.Drawing.Pen pen = new System.Drawing.Pen(System.Drawing.Brushes.Red, 5);
-            foreach (XmlNode f in faces)
-            {
-                Item("imgData->" + f.GetNodeText("imgData"));
-                var quality = f.GetNodeText("quality").ToFloat();
-                var x = f.GetNodeText("posX").ToInt32();
-                var y = f.GetNodeText("posY").ToInt32();
-                var w = f.GetNodeText("imgWidth").ToInt32();
-                var h = f.GetNodeText("imgHeight").ToInt32();
-
-                g.DrawRectangle(pen, new System.Drawing.Rectangle { X = x, Y = y, Width = w, Height = h });
-            }
-            g.Save();
-            g.Dispose();
-
-            var imageSource = Utility.BitmapToBitmapSource((System.Drawing.Bitmap)source);
-            return imageSource;
         }
     }
 }

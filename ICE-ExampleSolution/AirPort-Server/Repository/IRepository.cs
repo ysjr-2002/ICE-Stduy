@@ -25,6 +25,8 @@ namespace AirPort.Server.Repository
         void UpdatePersonTag(string faceId, string[] tags);
 
         int DeleteByTags(string[] tags);
+
+        string[] GetPersonTags(string faceId);
     }
 
     public class Pagequery

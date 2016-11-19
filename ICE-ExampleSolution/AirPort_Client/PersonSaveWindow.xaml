@@ -4,7 +4,7 @@
                        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                        xmlns:local="clr-namespace:AirPort.Client"
                        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                       Title="PersonSaveWindow"
+                       Title="入库"
                        FocusManager.FocusedElement="{Binding ElementName=txtuuid}"
                        mc:Ignorable="d">
     <Window.Resources>

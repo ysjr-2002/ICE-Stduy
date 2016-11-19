@@ -62,14 +62,20 @@ namespace AirPort.Client
                 queryPersons();
         }
 
-        //删除(单个)
-        private void btnDeletePerson_click(object sender, RoutedEventArgs e)
+        private string GetSelectPersonId()
         {
             var faceId = "";
             if (dgPersons.SelectedItem != null)
             {
                 faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
             }
+            return faceId;
+        }
+
+        //删除(单个)
+        private void btnDeletePerson_click(object sender, RoutedEventArgs e)
+        {
+            var faceId = GetSelectPersonId();
             PersonDeleteWindow person = new PersonDeleteWindow(faceId);
             var result = person.ShowDialog().Value;
             if (result)
@@ -88,12 +94,7 @@ namespace AirPort.Client
         //更新
         private void btnUpdateTag_click(object sender, RoutedEventArgs e)
         {
-            var faceId = "";
-            if (dgPersons.SelectedItem != null)
-            {
-                faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
-            }
-
+            var faceId = GetSelectPersonId();
             PersonUpdateTagWindow updateTag = new PersonUpdateTagWindow(faceId);
             var result = updateTag.ShowDialog().Value;
             if (result)
@@ -103,12 +104,7 @@ namespace AirPort.Client
         //删除人像标签
         private void btnDeleteTag_click(object sender, RoutedEventArgs e)
         {
-            var faceId = "";
-            if (dgPersons.SelectedItem != null)
-            {
-                faceId = ((PersonInfo)dgPersons.SelectedItem).faceId;
-            }
-
+            var faceId = GetSelectPersonId();
             PersonDeleteTagWindow tag = new PersonDeleteTagWindow(faceId);
             var result = tag.ShowDialog().Value;
             if (result)
@@ -135,7 +131,6 @@ namespace AirPort.Client
                 WarnDialog("请选择标签！");
                 return;
             }
-
             queryPersons();
         }
 

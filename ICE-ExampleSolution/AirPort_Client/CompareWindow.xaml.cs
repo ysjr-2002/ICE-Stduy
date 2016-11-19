@@ -57,35 +57,32 @@ namespace AirPort.Client
                 return;
             }
 
-            try
+            var image1 = imagefile1.FileToBase64();
+            var image2 = imagefile2.FileToBase64();
+
+            var sb = new StringBuilder();
+            sb.Append("srcImgData".ElementImage(image1));
+            sb.Append("destImgData".ElementImage(image2));
+            var xml = XmlParse.GetXml("compare", sb.ToString());
+            Stopwatch sw = Stopwatch.StartNew();
+            var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
+
+            if (content.IsEmpty())
             {
-                var xml = XmlParse.GetXml("compare", "<srcImgData><![CDATA[{0}]]></srcImgData><destImgData><![CDATA[{1}]]></destImgData>");
-
-                var buffer1 = System.IO.File.ReadAllBytes(imagefile1);
-                var image1 = Convert.ToBase64String(buffer1);
-
-                var buffer2 = System.IO.File.ReadAllBytes(imagefile2);
-                var image2 = Convert.ToBase64String(buffer2);
-
-                xml = string.Format(xml, image1, image2);
-                var temp = System.Text.Encoding.UTF8.GetBytes(xml);
-
-                Stopwatch sw = Stopwatch.StartNew();
-                var content = FaceServices.FaceProxy.send(xml);
-                sw.Stop();
-
-
-                var doc = XmlParse.LoadXml(content);
-                var code = doc.GetNodeText("code");
-                var similarity = doc.GetNodeText("similarity");
-
-                lblSmilary.Content = similarity.ToString();
-                lbltime.Content = sw.ElapsedMilliseconds + "ms";
+                WarnDialog(community_error);
+                return;
             }
-            catch (Exception ex)
+            var doc = XmlParse.LoadXml(content);
+            var code = doc.GetNodeText("code");
+            if (code.ToInt32() != status_ok)
             {
-                MessageBox.Show("error");
+                WarnDialog("比对失败！");
+                return;
             }
+            var similarity = doc.GetNodeText("similarity");
+            lblSmilary.Content = similarity.ToString();
+            lbltime.Content = sw.ElapsedMilliseconds;
         }
     }
 }
