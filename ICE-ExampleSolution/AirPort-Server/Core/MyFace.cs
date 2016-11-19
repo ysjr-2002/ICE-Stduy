@@ -10,20 +10,20 @@ using System.Threading.Tasks;
 using System.Xml;
 using Common;
 using AirPort.Server.Repository;
+using AirPort.Server.FaceResult;
 
 namespace AirPort.Server.Core
 {
     class MyFace : FaceRecognitionDisp_
     {
         private bool _stopCallback = false;
-
-        private ConnectionListenerPrx clientPxy = null;
         private Queue<string> queue = new Queue<string>();
-
         private FaceServices fs = null;
         private const string group = "by";
-
         private PersonDB db = null;
+
+        Dictionary<string, ClientData> faceResultList = new Dictionary<string, ClientData>();
+
         public MyFace(PersonDB db)
         {
             fs = new FaceServices();
@@ -40,18 +40,42 @@ namespace AirPort.Server.Core
 
         public override void initConnectionListener(ConnectionListenerPrx listener, Current current__)
         {
-            clientPxy = listener;
             _stopCallback = false;
             print("receive client callback listener");
 
-            Task.Factory.StartNew(() =>
+            if (faceResultList.ContainsKey("1"))
             {
-                while (!_stopCallback)
-                {
-                    listener.onRecv("终于等到你->" + DateTime.Now);
-                    Thread.Sleep(1000);
-                }
-            });
+                faceResultList["1"].proxy = listener;
+            }
+
+            #region test
+            //Task.Factory.StartNew(() =>
+            //{
+            //    while (!_stopCallback)
+            //    {
+            //        var sb = new StringBuilder();
+
+            //        sb.Append("xml".ElementBegin());
+            //        sb.Append("type".ElementText("dynamicDetectResult"));
+            //        sb.Append("rtspId".ElementText("1"));
+            //        sb.Append("persons".ElementBegin());
+            //        sb.Append("person".ElementBegin());
+            //        sb.Append("imgData".ElementText(""));
+            //        sb.Append("posX".ElementText("1"));
+            //        sb.Append("posY".ElementText("2"));
+            //        sb.Append("imgWidth".ElementText("3"));
+            //        sb.Append("imgHeight".ElementText("4"));
+            //        sb.Append("quality".ElementText("5"));
+            //        sb.Append("person".ElementEnd());
+            //        sb.Append("persons".ElementEnd());
+            //        sb.Append("xml".ElementEnd());
+
+            //        var data = sb.ToString();
+            //        clientPxy.onRecv(data);
+            //        Thread.Sleep(1000);
+            //    }
+            //});
+            #endregion
         }
 
         public override string send(string xml, Current current__)
@@ -187,7 +211,7 @@ namespace AirPort.Server.Core
         {
             var threshold = doc.GetNodeText("threshold");
             var rtspId = doc.GetNodeText("rtspId");
-            var rtspPath = doc.GetNodeText("rtspPath");
+            var rtspPath = doc.GetNodeText("rtspPath") + "user=admin&password=&channel=1&stream=0.sdp?";
             var type = doc.GetNodeText("responseType/type");
             var size = doc.GetNodeText("responseType/size");
             var maxImageCount = doc.GetNodeText("maxImageCount");
@@ -201,23 +225,65 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
             print("frames->" + frames);
 
-            fs.GetVideo(rtspPath, threshold.ToFloat());
+            //fs.GetVideo(rtspPath, threshold.ToFloat(), rtspId, WebSocketcallback);
+
+            MySocket websocket = new WebAPI.MySocket();
+            websocket.OnFaceDetect += Websocket_OnFaceDetect;
+            websocket.Run(rtspId, rtspPath, threshold.ToFloat());
+
+            ClientData client = new ClientData()
+            {
+                messageType = type,
+                socket = websocket,
+                queue = new Queue<DynamicFaceResult>(size.ToInt32())
+            };
+
+            if (type == "messageQueue")
+            {
+                faceResultList.Add(rtspId, client);
+            }
 
             return ResponseOk();
+        }
+
+        private void Websocket_OnFaceDetect(string rtspId, DynamicFaceResult face)
+        {
+
         }
 
         private string recvPerson(XmlDocument doc)
         {
-            return ResponseOk();
+            lock (this)
+            {
+                //var queue = faceResultList["1"];
+                //if (queue.Count > 0)
+                //{
+                //    var face = queue.Dequeue();
+                //    var data = GetDynamicResutl(face);
+                //    return data;
+                //}
+                //else
+                //{
+                //    Console.WriteLine("返回空数据");
+                //    return GetEmpty();
+                //}
+            }
+            return string.Empty;
         }
 
         private string shutdownDynamicDetect(XmlDocument doc)
         {
-            _stopCallback = true;
-            var rtspId = doc.GetNodeText("rtspId");
-            print("rtspId->" + rtspId);
-
-            return ResponseOk();
+            lock (this)
+            {
+                _stopCallback = true;
+                var rtspId = doc.GetNodeText("rtspId");
+                print("rtspId->" + rtspId);
+                if (faceResultList.ContainsKey(rtspId))
+                {
+                    faceResultList.Remove(rtspId);
+                }
+                return ResponseOk();
+            }
         }
 
         private string compare(XmlDocument doc)
@@ -265,7 +331,7 @@ namespace AirPort.Server.Core
 
             var imgData1 = doc.GetNodeText("imgData1");
             var signatureCode1 = doc.GetNodeText("signatureCode1");
-            //Post(faceId, signatureCode1, imgData1.Base64ToByte());
+            Post(faceId, signatureCode1, imgData1.Base64ToByte());
 
             var sb = new StringBuilder();
             sb.Append("<xml>");
@@ -294,7 +360,7 @@ namespace AirPort.Server.Core
             print("descrption->" + descrption);
 
             person person = new person();
-            person.FaceID = Guid.NewGuid().ToString("N");
+            person.FaceID = uuid; //Guid.NewGuid().ToString("N");
             person.UUID = uuid;
             person.Code = code;
             person.Name = name;
@@ -442,12 +508,12 @@ namespace AirPort.Server.Core
             };
 
             var persons = db.Search(page, tags.ToArray());
-            var count = persons.Count();
+            var count = page.TotalCount.ToString();
             print("返回" + count + "条记录");
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
-            sb.Append("totalCount".ElementText(count.ToString()));
+            sb.Append("totalCount".ElementText(count));
             sb.Append("persons".ElementBegin());
 
             foreach (var p in persons)
@@ -483,34 +549,48 @@ namespace AirPort.Server.Core
         private string verifySignatureCode(XmlDocument doc)
         {
             var signatureCode = doc.GetNodeText("signatureCode");
-            var threshold = doc.GetNodeText("threshold");
-            var size = doc.GetNodeText("size");
+            var threshold = doc.GetNodeText("threshold").ToFloat();
+            var size = doc.GetNodeText("size").ToInt32();
 
             print("signatureCode->" + signatureCode);
             print("threshold->" + threshold);
             print("size->" + size);
 
             print("匹配标签");
-            var tags = GetNodes(doc, "tags/tag");
-            foreach (XmlNode tag in tags)
+            var tagNodes = GetNodes(doc, "tags/tag");
+            List<string> tags = new List<string>();
+            foreach (XmlNode tag in tagNodes)
             {
                 print("tag->" + tag.InnerText);
+                tags.Add(tag.InnerText);
             }
+
+            var result = fs.Search(group, signatureCode, size, "", false, null);
+            var filterResult = GetfilterID(result, threshold);
+
+            var filterfaceID = filterResult.Select(s => s.faceId).ToArray();
+            Pagequery page = new Pagequery()
+            {
+                Offset = 0,
+                Pagesize = size,
+            };
+            //查询数据库
+            var persons = db.Search1VN(page, filterfaceID, tags.ToArray());
 
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
             sb.Append("result".ElementBegin());
 
-            for (int i = 0; i < 10; i++)
+            foreach (var p in persons)
             {
                 sb.Append("matchPerson".ElementBegin());
-                sb.Append("similarity".ElementText("0.81"));
-                sb.Append("faceId".ElementText("123"));
-                sb.Append("uuid".ElementText("72297c8842604c059b05d28bfb11d10b"));
-                sb.Append("code".ElementText("350321198003212221"));
-                sb.Append("name".ElementText("杨绍杰"));
-                sb.Append("descrption".ElementText("{\"race:\":\"黄种\"}"));
+                sb.Append("similarity".ElementText(Getsimilarity(p.FaceID, filterResult).ToString()));
+                sb.Append("faceId".ElementText(p.FaceID));
+                sb.Append("uuid".ElementText(p.UUID));
+                sb.Append("code".ElementText(p.Code));
+                sb.Append("name".ElementText(p.Name));
+                sb.Append("descrption".ElementText(p.Description));
 
                 sb.Append("tags".ElementBegin());
                 var temp = "国内旅客,国际旅客,黄种人".Split(',');
@@ -520,15 +600,106 @@ namespace AirPort.Server.Core
                 }
                 sb.Append("tags".ElementEnd());
 
-                sb.Append("imgData1".ElementText("imgData1"));
+                sb.Append("imgData1".ElementText(p.ImageData1));
                 sb.Append("imgData2".ElementText("imgData2"));
                 sb.Append("imgData3".ElementText("imgData3"));
 
                 sb.Append("matchPerson".ElementEnd());
             }
+
             sb.Append("result".ElementEnd());
             sb.Append("xml".ElementEnd());
             return sb.ToString();
         }
+
+        private float Getsimilarity(string faceId, List<FaceScore> list)
+        {
+            var face = list.FirstOrDefault(s => s.faceId == faceId);
+            if (face != null)
+                return face.score;
+            else
+                return 0.0f;
+        }
+
+        private List<FaceScore> GetfilterID(SearchResut result, float throshold)
+        {
+            List<FaceScore> list = new List<FaceScore>();
+            throshold = throshold * 100;
+            if (result.groups != null)
+            {
+                var group = result.groups.FirstOrDefault();
+                if (group != null)
+                    list = group.photos.Where(f => f.Score >= throshold).OrderByDescending(s => s.Score).
+                        Select(s => new FaceScore
+                        {
+                            faceId = s.Tag,
+                            score = s.Score
+                        }).ToList();
+            }
+            return list;
+        }
+
+        private void WebSocketcallback(DynamicFaceResult face)
+        {
+            lock (this)
+            {
+                //var data = GetDynamicResutl(face);
+                //faceResultList["1"].Enqueue(face);
+                //this.clientPxy.onRecv(data);
+            }
+        }
+
+        private string GetDynamicResutl(DynamicFaceResult face)
+        {
+            var sb = new StringBuilder();
+            sb.Append("xml".ElementBegin());
+            sb.Append("type".ElementText("dynamicDetectResult"));
+            sb.Append("rtspId".ElementText("1"));
+            sb.Append("persons".ElementBegin());
+            sb.Append("person".ElementBegin());
+            sb.Append("imgData".ElementText(face.Face.Image));
+            sb.Append("posX".ElementText(face.Result.Face.Rect.Left.ToString()));
+            sb.Append("posY".ElementText(face.Result.Face.Rect.Top.ToString()));
+            sb.Append("imgWidth".ElementText(face.Result.Face.Rect.Width.ToString()));
+            sb.Append("imgHeight".ElementText(face.Result.Face.Rect.Height.ToString()));
+            sb.Append("quality".ElementText(face.Result.Face.Quality.ToString()));
+            sb.Append("person".ElementEnd());
+            sb.Append("persons".ElementEnd());
+            sb.Append("xml".ElementEnd());
+            var data = sb.ToString();
+            return data;
+        }
+
+        /// <summary>
+        /// 返回无人脸数据
+        /// </summary>
+        /// <returns></returns>
+        private string GetEmpty()
+        {
+            var sb = new StringBuilder();
+            sb.Append("xml".ElementBegin());
+            sb.Append("type".ElementText("dynamicDetectResult"));
+            sb.Append("rtspId".ElementText("1"));
+            sb.Append("persons".ElementBegin());
+            sb.Append("persons".ElementEnd());
+            sb.Append("xml".ElementEnd());
+            var data = sb.ToString();
+            return data;
+        }
+    }
+
+    public class FaceScore
+    {
+        public string faceId { get; set; }
+
+        public float score { get; set; }
+    }
+
+    public class ClientData
+    {
+        public string messageType { get; set; }
+        public MySocket socket { get; set; }
+        public Queue<DynamicFaceResult> queue { get; set; }
+        public ConnectionListenerPrx proxy { get; set; }
     }
 }

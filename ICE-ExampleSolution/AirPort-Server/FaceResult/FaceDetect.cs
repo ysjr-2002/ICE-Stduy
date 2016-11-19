@@ -123,14 +123,14 @@ namespace AirPort.Server
     {
         public string group { get; set; }
 
-        public Photo photo { get; set; }
+        public Photo[] photos { get; set; }
     }
 
     public class Photo
     {
         public string Id { get; set; }
 
-        public string Score { get; set; }
+        public float Score { get; set; }
 
         public string Tag { get; set; }
     }

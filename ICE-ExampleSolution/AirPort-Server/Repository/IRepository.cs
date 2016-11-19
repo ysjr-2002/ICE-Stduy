@@ -18,6 +18,8 @@ namespace AirPort.Server.Repository
 
         IEnumerable<T> Search(Pagequery page, string[] tags);
 
+        IEnumerable<person> Search1VN(Pagequery page, string[] faceId, string[] tags);
+
         void AddPersonTag(string faceId, string[] tags);
 
         void UpdatePersonTag(string faceId, string[] tags);
@@ -29,5 +31,6 @@ namespace AirPort.Server.Repository
     {
         public int Offset { get; set; }
         public int Pagesize { get; set; }
+        public int TotalCount { get; set; }
     }
 }

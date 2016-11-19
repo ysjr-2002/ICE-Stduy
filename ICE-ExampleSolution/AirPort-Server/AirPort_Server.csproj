@@ -77,9 +77,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="websocket-sharp">
+      <HintPath>..\serverEx\webscoket\websocket-sharp.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\MyFace.cs" />
+    <Compile Include="FaceResult\DynamicFaceResult.cs" />
     <Compile Include="FaceResult\FaceDetect.cs" />
     <Compile Include="FaceResult\Result.cs" />
     <Compile Include="Generated\FaceServer_1.5.cs" />
@@ -116,6 +120,7 @@
     <Compile Include="WebAPI\HttpCore.cs" />
     <Compile Include="WebAPI\HttpMethod.cs" />
     <Compile Include="WebAPI\HttpRequest.cs" />
+    <Compile Include="WebAPI\MySocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">

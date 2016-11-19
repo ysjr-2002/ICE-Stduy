@@ -181,7 +181,7 @@ namespace AirPort.Client
 
             Item("code->" + code);
             Item("totalCount->" + totalCount);
-
+            lblpersoncount.Content = totalCount;
             var personNodes = doc.SelectNodes("/xml/persons/person");
 
             List<PersonInfo> persons = new List<PersonInfo>();
@@ -235,6 +235,16 @@ namespace AirPort.Client
         {
             offset += pagesize;
             queryPersons();
+        }
+
+        private void dgPersons_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgPersons.SelectedItem == null)
+                return;
+
+            PersonInfo person = (PersonInfo)dgPersons.SelectedItem;
+            PersonViewWindow window = new PersonViewWindow(person);
+            window.ShowDialog();
         }
     }
 }

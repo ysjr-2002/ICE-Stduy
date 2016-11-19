@@ -1,7 +1,9 @@
 ﻿using AirPort.Client.Core;
+using AirPort.Client.Model;
 using Common;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -68,54 +70,112 @@ namespace AirPort.Client
             query();
         }
 
+        private string GetImageFeature(string imagefile)
+        {
+            var buffer = imagefile.FileToByte();
+            var base64Image = buffer.ToBase64();
+
+            var sb = new StringBuilder();
+            sb.Append("imgData".ElementText(base64Image));
+            var data = sb.ToString();
+
+            var xml = XmlParse.GetXml("convertSignatureCode", data);
+            Stopwatch sw = Stopwatch.StartNew();
+            var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return string.Empty;
+            }
+
+            var doc = XmlParse.LoadXml(content);
+            var code = doc.GetNodeText("code");
+            var signatureCode = doc.GetNodeText("signatureCode");
+            return signatureCode;
+        }
+
+        private string[] GetTags()
+        {
+            var controls = tagContainer.Children.OfType<CheckBox>();
+            var tags = controls.Where(s => s.IsChecked == true).Select(s => s.Content.ToString()).ToArray();
+            return tags;
+        }
+
         private void query()
         {
             var sb = new StringBuilder();
 
-            sb.Append("signatureCode".ElementText("signatureCode"));
-            sb.Append("threshold".ElementText("0.56"));
-            sb.Append("size".ElementText("100"));
+            var feature = GetImageFeature(filepath);
+            sb.Append("signatureCode".ElementText(feature));
+            sb.Append("threshold".ElementText(txtthrold.Text));
+            sb.Append("size".ElementText(txtsize.Text));
 
-            sb.Append("tags".ElementBegin());
-            sb.Append("tag".ElementText("1"));
-            sb.Append("tag".ElementText("2"));
-            sb.Append("tags".ElementEnd());
+            var tags = GetTags();
+            if (tags.Length > 0)
+            {
+                sb.Append("tags".ElementBegin());
+                foreach (var tag in tags)
+                {
+                    sb.Append("tag".ElementText(tag));
+                }
+                sb.Append("tags".ElementEnd());
+            }
 
             var data = sb.ToString();
             var xml = XmlParse.GetXml("verifySignatureCode", data);
+            Stopwatch sw = Stopwatch.StartNew();
             var content = FaceServices.FaceProxy.send(xml);
+            sw.Stop();
+
+            lbltime.Content = sw.ElapsedMilliseconds;
 
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
-            if (code.ToInt32() != 200)
+            if (code.ToInt32() != status_ok)
             {
                 WarnDialog("查询结果返回失败！");
                 return;
             }
 
             Item("code->" + code);
-            var persons = doc.SelectNodes("/xml/result/matchPerson");
-            Item("匹配人物数量->" + persons.Count);
+            var personNodes = doc.SelectNodes("/xml/result/matchPerson");
+            Item("匹配人物数量->" + personNodes.Count);
+            lblpersoncount.Content = personNodes.Count.ToString();
 
-            foreach (XmlNode n in persons)
+            List<PersonInfo> persons = new List<PersonInfo>();
+            foreach (XmlNode n in personNodes)
             {
-                Item("similarity->" + n.GetNodeText("similarity"));
-                Item("faceId->" + n.GetNodeText("faceId"));
-                Item("uuid->" + n.GetNodeText("uuid"));
-                Item("name->" + n.GetNodeText("name"));
-                Item("descrption->" + n.GetNodeText("descrption"));
+                //Item("similarity->" + n.GetNodeText("similarity"));
+                //Item("faceId->" + n.GetNodeText("faceId"));
+                //Item("uuid->" + n.GetNodeText("uuid"));
+                //Item("name->" + n.GetNodeText("name"));
+                //Item("descrption->" + n.GetNodeText("descrption"));
 
-                var tags = n.SelectNodes("tags/tag");
-                Item("人物标签数量->" + tags.Count);
-                foreach (XmlNode tag in tags)
-                {
-                    Item("tag->" + tag.InnerText);
-                }
+                //var tagNodes = n.SelectNodes("tags/tag");
+                //Item("人物标签数量->" + tagNodes.Count);
+                //foreach (XmlNode tag in tagNodes)
+                //{
+                //    Item("tag->" + tag.InnerText);
+                //}
+                //Item("人脸1->" + n.GetNodeText("imgData1"));
+                //Item("人脸2->" + n.GetNodeText("imgData2"));
+                //Item("人脸3->" + n.GetNodeText("imgData3"));
+                var p = new PersonInfo();
+                p.similarity = n.SelectSingleNode("similarity").InnerText.ToFloat();
+                p.faceId = n.SelectSingleNode("faceId").InnerText;
+                p.uuid = n.SelectSingleNode("uuid").InnerText;
+                p.code = n.SelectSingleNode("code").InnerText;
+                p.Name = n.SelectSingleNode("name").InnerText;
+                p.Description = n.SelectSingleNode("descrption").InnerText;
+                p.FaceImage1 = n.SelectSingleNode("imgData1").InnerText;
+                p.FaceImage2 = n.SelectSingleNode("imgData2").InnerText;
+                p.FaceImage3 = n.SelectSingleNode("imgData3").InnerText;
 
-                Item("人脸1->" + n.GetNodeText("imgData1"));
-                Item("人脸2->" + n.GetNodeText("imgData2"));
-                Item("人脸3->" + n.GetNodeText("imgData3"));
+                persons.Add(p);
             }
+            persons = persons.OrderByDescending(s => s.similarity).ToList();
+            dgPersons.ItemsSource = persons;
         }
 
         private void btnReset_click(object sender, RoutedEventArgs e)
@@ -128,6 +188,16 @@ namespace AirPort.Client
             {
                 tag.IsChecked = false;
             }
+        }
+
+        private void dgPersons_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (dgPersons.SelectedItem == null)
+                return;
+
+            PersonInfo person = (PersonInfo)dgPersons.SelectedItem;
+            PersonViewWindow window = new PersonViewWindow(person);
+            window.ShowDialog();
         }
     }
 }

@@ -33,5 +33,7 @@ namespace AirPort.Server.WebAPI
         public static string url_version = domain + "/version";
 
         public static string url_search = domain + "/search";
+
+        public static string url_video = "ws://192.168.1.40:8000/video";
     }
 }

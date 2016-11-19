@@ -9,6 +9,8 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -22,17 +24,21 @@
                     </ComboBox>
 
                     <Label Width="80" Content="标识：" />
-                    <TextBox Name="txtrtspId" Width="60" Text="1" />
+                    <TextBox Name="txtrtspId"
+                             Width="60"
+                             Text="1" />
 
                     <Label Width="80" Content="地址：" />
                     <TextBox Name="txtrtsp"
-                             Width="200"
-                             Text="rtsp://192.168.1.20/live1.sdp" />
+                             Width="300"
+                             Text="" />
                 </StackPanel>
 
                 <StackPanel Margin="0,5" Orientation="Horizontal">
                     <Label Width="80" Content="方式：" />
-                    <ComboBox Width="60" SelectedIndex="0" Name="cmbMessageType">
+                    <ComboBox Name="cmbMessageType"
+                              Width="60"
+                              SelectedIndex="0">
                         <ComboBoxItem Content="回调" />
                         <ComboBoxItem Content="队列" />
                     </ComboBox>
@@ -55,10 +61,32 @@
 
             </StackPanel>
             <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                <Button Name="btnStart" Click="btnStart_click" Content="开始检测" />
-                <Button Name="btnStop" Click="btnStop_click" Content="停止检测" />
+                <Button Name="btnStart"
+                        Click="btnStart_click"
+                        Content="开始检测" />
+                <Button Name="btnStop"
+                        Click="btnStop_click"
+                        Content="停止检测" />
             </StackPanel>
         </StackPanel>
+
+        <Label Name="lblquality"
+               Grid.Row="1"
+               Margin="30,20,0,0"
+               HorizontalContentAlignment="Left"
+               FontSize="20"
+               FontWeight="Bold" />
+
+        <Label Name="lblrect"
+               Grid.Row="2"
+               Margin="30,0"
+               HorizontalContentAlignment="Left"
+               FontSize="20"
+               FontWeight="Bold" />
+
+        <Grid Grid.Row="3">
+            <Image Name="faceImage" Height="400" />
+        </Grid>
 
     </Grid>
 </local:PopupWindowBase>

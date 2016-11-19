@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AirPort.Server.FaceResult;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,6 +8,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Script.Serialization;
+using Common;
 
 namespace AirPort.Server.WebAPI
 {
@@ -32,7 +34,7 @@ namespace AirPort.Server.WebAPI
                 JavaScriptSerializer serialize = new JavaScriptSerializer();
                 return serialize.Deserialize<T>(content);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return default(T);
             }
@@ -70,6 +72,40 @@ namespace AirPort.Server.WebAPI
                 //文件结束
                 byte[] trailer = System.Text.Encoding.ASCII.GetBytes("\r\n--" + boundary + "--\r\n");
                 rs.Write(trailer, 0, trailer.Length);
+                rs.Close();
+
+                response = request.GetResponse();
+                if (response != null)
+                {
+                    var responseStream = response.GetResponseStream();
+                    StreamReader sr = new StreamReader(responseStream);
+                    var content = sr.ReadToEnd();
+                    sr.Close();
+                    Console.WriteLine(content);
+
+                    JavaScriptSerializer serialize = new JavaScriptSerializer();
+                    return serialize.Deserialize<T>(content);
+                }
+                return default(T);
+            }
+            catch (Exception ex)
+            {
+                return default(T);
+            }
+        }
+
+        public static T PostNoImage<T>(string url, Dictionary<string, string> param)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpRequest.Post(url);
+            WebResponse response = null;
+
+            StringBuilder sb = new StringBuilder();
+            try
+            {
+                var rs = request.GetRequestStream();
+                var preSignStr = HttpCore.CreateLinkString(param);
+                var postdata = Encoding.UTF8.GetBytes(preSignStr);
+                rs.Write(postdata, 0, postdata.Length);
                 rs.Close();
 
                 response = request.GetResponse();
@@ -167,6 +203,90 @@ namespace AirPort.Server.WebAPI
             {
                 return default(T);
             }
+        }
+
+        public void Websocket(string videourl, float threshold, Action<DynamicFaceResult> callback)
+        {
+            //videourl = "rtsp://192.168.1.151/user=admin&password=&channel=1&stream=0.sdp?";
+            Console.WriteLine(videourl);
+            Dictionary<string, string> param = new Dictionary<string, string>();
+            param.Add("url", videourl);
+            //抓拍的人脸张数（根据业务传）
+            param.Add("limit", "10000");
+            param.Add("crop", "face");
+            //不转只进行抓拍
+            //param.Add("group", "");
+            //param.Add("threshold", threshold.ToString());
+            //抓图间隔
+            param.Add("interval", "3000");
+            //抓拍人脸的最小大小
+            param.Add("facemin", "100");
+            //websocket名称
+            param.Add("name", "snap");
+
+            var url = Constrants.url_video;
+
+            var ext = HttpCore.CreateLinkString(param);
+            url = url + "?" + ext;
+
+            WebSocketSharp.WebSocket ws = new WebSocketSharp.WebSocket(url);
+            ws.OnOpen += (a, b) =>
+            {
+                Console.WriteLine("opened");
+            };
+            ws.OnClose += (a, b) =>
+            {
+                Console.WriteLine("close");
+            };
+            ws.OnMessage += (a, m) =>
+            {
+                Console.WriteLine("message coming...");
+                if (m.IsText)
+                {
+                    Console.WriteLine("is text");
+                    var result = GetFaceResult(m.Data);
+                    if (result.Type == "recognize")
+                    {
+                        if (result.Result.Face.Quality > threshold)
+                        {
+                            var temp = GetFaceResult(m.Data);
+                            temp.Face.Image = "";
+                            var json = ToJson(temp);
+                            Console.WriteLine(json);
+                            callback(result);
+                        }
+                        else
+                        {
+                            Console.WriteLine("低于阈值->" + result.Result.Face.Quality);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("type=" + result.Type);
+                    }
+                }
+                if (m.IsBinary)
+                    Console.WriteLine("is binary");
+
+                if (m.IsPing)
+                    Console.WriteLine("is ping");
+
+            };
+            ws.Connect();
+        }
+
+        private DynamicFaceResult GetFaceResult(string content)
+        {
+            JavaScriptSerializer serialize = new JavaScriptSerializer();
+            var result = serialize.Deserialize<DynamicFaceResult>(content);
+            return result;
+        }
+
+        private string ToJson(DynamicFaceResult content)
+        {
+            JavaScriptSerializer serialize = new JavaScriptSerializer();
+            var result = serialize.Serialize(content);
+            return result;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Validation;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,9 +57,45 @@ namespace AirPort.Server.Repository
             {
                 try
                 {
+                    Stopwatch sw = Stopwatch.StartNew();
                     var tagLink = GetTagIn(tags);
-                    var t = db.persontags.Where(c => tags.Contains(c.TagName)).Select(s => s.FaceID).Distinct().ToList();
-                    list = db.persons.Where(p => t.Contains(p.FaceID)).OrderByDescending(s => s.CreateTime).Skip(page.Offset).Take(page.Pagesize).ToList();
+                    var t = db.persontags.Where(c => tags.Contains(c.TagName)).Select(s => s.FaceID).Distinct();
+                    var query = db.persons.Where(p => t.Contains(p.FaceID)).OrderBy(s => s.CreateTime);
+                    page.TotalCount = query.Count();
+                    list = query.Skip(page.Offset).Take(page.Pagesize).ToList();
+
+                    sw.Stop();
+                    Console.WriteLine("数据库耗时->" + sw.ElapsedMilliseconds);
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    throw;
+                }
+            }
+            return list;
+        }
+
+        public IEnumerable<person> Search1VN(Pagequery page, string[] faceIds, string[] tags)
+        {
+            List<person> list = new List<Repository.person>();
+            using (var db = new personrepositoryEntities())
+            {
+                try
+                {
+                    var tagLink = GetTagIn(tags);
+
+                    IEnumerable<string> tagtofaceID = null;
+                    if (tags.Length > 0)
+                        tagtofaceID = db.persontags.Where(c => tags.Contains(c.TagName)).Select(s => s.FaceID).Distinct();
+
+                    IQueryable<person> query = db.persons.Where(f => f.Code.Length > 0);
+                    if (tagtofaceID != null)
+                    {
+                        query = query.Where(p => tagtofaceID.Contains(p.FaceID));
+                    }
+                    query = query.Where(p => faceIds.Contains(p.FaceID)).OrderBy(s => s.CreateTime);
+                    page.TotalCount = query.Count();
+                    list = query.Skip(page.Offset).Take(page.Pagesize).ToList();
                 }
                 catch (DbEntityValidationException ex)
                 {

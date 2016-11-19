@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AirPort.Client.Model
 {
-    class PersonInfo
+    public class PersonInfo
     {
         public string faceId { get; set; }
 
@@ -31,5 +31,9 @@ namespace AirPort.Client.Model
         public string FaceImage3 { get; set; }
 
         public bool HasSignatureCode3 { get; set; }
+
+        public float similarity { get; set; }
+
+
     }
 }

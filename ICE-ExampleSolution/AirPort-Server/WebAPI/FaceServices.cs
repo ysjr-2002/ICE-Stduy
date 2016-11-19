@@ -76,52 +76,30 @@ namespace AirPort.Server.WebAPI
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="group">byairport</param>
+        /// <param name="group">by</param>
         /// <param name="feature"></param>
-        /// <param name="image_maxsize"></param>
         /// <param name="limit">返回数量</param>
         /// <param name="filter"></param>
         /// <param name="crop"></param>
         /// <param name="image"></param>
-        public SearchResut Search(string group, string feature, int image_maxsize, int limit, string filter, bool crop, byte[] image)
+        public SearchResut Search(string group, string feature, int limit, string filter, bool crop, byte[] image)
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("group", group);
-            //param.Add("feature", feature);
+            param.Add("feature", feature);
             //param.Add("image_maxsize", image_maxsize.ToString());
             param.Add("limit", limit.ToString());
             //param.Add("filter", filter);
             //param.Add("crop", crop.ToString());
 
-            var searchResult = HttpMethod.Post<SearchResut>(Constrants.url_search, image, param);
+            var searchResult = HttpMethod.PostNoImage<SearchResut>(Constrants.url_search, param);
             return searchResult;
         }
 
-        public VideoResult GetVideo(string url, float threshold)
+        public void GetVideo(string url, float threshold, string rtspId, Action<DynamicFaceResult> callback)
         {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            param.Add("url", url);
-            //抓拍的人脸张数（根据业务传）
-            param.Add("limit", "10000");
-            param.Add("crop", "face");
-            //不转只进行抓拍
-            //param.Add("group", "");
-            //param.Add("threshold", threshold.ToString());
-            //抓图间隔
-            param.Add("interval", "1000");
-            //抓拍人脸的最小大小
-            param.Add("facemin", "100");
-            //websocket名称
-            param.Add("name", "snap");
-
-            var videoResult = HttpMethod.Get<VideoResult>(Constrants.url_search, param);
-            return videoResult;
-        }
-
-        public void Search()
-        {
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            var videoResult = HttpMethod.Get<VideoResult>(Constrants.url_g, param);
+            HttpMethod test = new WebAPI.HttpMethod();
+            test.Websocket(url, threshold, callback);
         }
 
         public void QueryGroupPhotoes()

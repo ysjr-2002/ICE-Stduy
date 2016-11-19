@@ -14,13 +14,17 @@
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Margin="80,0,0,0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0"
+                    Margin="80,0,0,0"
+                    Orientation="Horizontal">
             <Button Click="btnChoiceImage_Click" Content="选择图片" />
             <Button Click="btnExtract_Click" Content="提取" />
         </StackPanel>
 
         <Image Name="imageFace" Grid.Row="1" />
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="2"
+                    Margin="80,0,0,0"
+                    Orientation="Horizontal">
             <Label Width="80" Content="特征码：" />
             <TextBox Name="txtfeature"
                      Width="670"
@@ -30,7 +34,9 @@
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Visible" />
         </StackPanel>
-        <StackPanel Grid.Row="3" Orientation="Horizontal">
+        <StackPanel Grid.Row="3"
+                    Margin="80,0,0,0"
+                    Orientation="Horizontal">
             <Label Width="80" Content="处理时间：" />
             <Label Name="lbltimeInfo"
                    VerticalAlignment="Center"

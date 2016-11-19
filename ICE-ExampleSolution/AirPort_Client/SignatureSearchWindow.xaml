@@ -11,6 +11,22 @@
             <TextBlock Text="{Binding uuid}" />
         </DataTemplate>
 
+        <DataTemplate x:Key="faceId">
+            <TextBlock Text="{Binding faceId}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="similarity">
+            <TextBlock Text="{Binding similarity}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="code">
+            <TextBlock Text="{Binding code}" />
+        </DataTemplate>
+
+        <DataTemplate x:Key="Name">
+            <TextBlock Text="{Binding Name}" />
+        </DataTemplate>
+
         <DataTemplate x:Key="signature">
             <CheckBox IsChecked="{Binding HasSignatureCode1}" />
         </DataTemplate>
@@ -19,6 +35,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="130" />
             <RowDefinition />
+            <RowDefinition Height="40" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0">
@@ -35,6 +52,17 @@
             <StackPanel Grid.Row="0"
                         Grid.Column="0"
                         Orientation="Horizontal">
+
+                <Label Content="阈值：" />
+                <TextBox Name="txtthrold"
+                         Width="60"
+                         Text="0.50" />
+
+                <Label Content="记录数：" />
+                <TextBox Name="txtsize"
+                         Width="60"
+                         Text="50" />
+
                 <Label Width="100" Content="图像：" />
                 <Image Name="imgSource" Width="100" />
                 <Button Click="btnChoice_click" Content="选择" />
@@ -57,39 +85,47 @@
             </StackPanel>
         </Grid>
 
-
-
-        <GroupBox Grid.Row="2" Header="人像信息">
+        <GroupBox Grid.Row="1" Header="人像信息">
             <DataGrid Name="dgPersons"
                       AutoGenerateColumns="False"
-                      Background="#fcfcfc">
+                      Background="#fcfcfc"
+                      MouseDoubleClick="dgPersons_MouseDoubleClick">
                 <DataGrid.Columns>
+                    <DataGridTemplateColumn Width="*"
+                                            CellTemplate="{StaticResource similarity}"
+                                            Header="相似度" />
                     <DataGridTemplateColumn Width="100"
-                                            CellTemplate="{StaticResource uuid}"
+                                            CellTemplate="{StaticResource Name}"
+                                            Header="姓名" />
+                    <DataGridTemplateColumn Width="100"
+                                            CellTemplate="{StaticResource faceId}"
                                             Header="业务标识" />
                     <DataGridTemplateColumn Width="100"
                                             CellTemplate="{StaticResource uuid}"
-                                            Header="姓名" />
-                    <DataGridTemplateColumn Width="60"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="性别" />
-                    <DataGridTemplateColumn Width="60"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="备注" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像1" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像1-特征码" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像2" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像2-特征码" />
-                    <DataGridTemplateColumn Width="*"
-                                            CellTemplate="{StaticResource uuid}"
-                                            Header="人像3" />
-                    <DataGridTemplateColumn CellTemplate="{StaticResource signature}" Header="人像3-特征码" />
+                                            Header="唯一标识" />
+                    <DataGridTemplateColumn Width="100"
+                                            CellTemplate="{StaticResource code}"
+                                            Header="编号" />
                 </DataGrid.Columns>
             </DataGrid>
         </GroupBox>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
+            <StackPanel.Resources>
+                <Style TargetType="Label">
+                    <Setter Property="FontSize" Value="20" />
+                    <Setter Property="FontWeight" Value="Bold" />
+                </Style>
+            </StackPanel.Resources>
+            <Label Margin="5,0,0,0"
+                   HorizontalAlignment="Left"
+                   Content="查询耗时:" />
+            <Label Name="lbltime"
+                   HorizontalAlignment="Left"
+                   Content="0" />
+
+            <Label Content="总记录数：" />
+            <Label Name="lblpersoncount" />
+        </StackPanel>
     </Grid>
 </local:PopupWindowBase>

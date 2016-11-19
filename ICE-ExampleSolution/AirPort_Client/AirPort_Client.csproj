@@ -121,6 +121,9 @@
     <Compile Include="PersonRepositoryWindow.xaml.cs">
       <DependentUpon>PersonRepositoryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PersonViewWindow.xaml.cs">
+      <DependentUpon>PersonViewWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="RtspWindow.xaml.cs">
       <DependentUpon>RtspWindow.xaml</DependentUpon>
     </Compile>
@@ -177,6 +180,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PersonRepositoryWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PersonViewWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

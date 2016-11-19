@@ -33,26 +33,59 @@ namespace AirPort.Client
             test.ExecuteTime = "20";
             lblcount.DataContext = test;
             lbltime.DataContext = test;
+            lbltotaltime.DataContext = test;
+
+            txtfolder.Text = @"D:\300";
+        }
+
+        private string getFileName(string filepath)
+        {
+            var name = System.IO.Path.GetFileNameWithoutExtension(filepath);
+            var start = name.IndexOf('(') + 1;
+            var end = name.IndexOf(')');
+            var len = end - start;
+            name = name.Substring(start, len);
+            return name;
         }
 
         private void btnExecute_click(object sender, RoutedEventArgs e)
         {
+            var files = System.IO.Directory.GetFiles(txtfolder.Text, "*.jpg");
+            files = files.OrderBy(s => getFileName(s).ToInt32()).ToArray();
+
             System.Threading.ThreadPool.QueueUserWorkItem((s) =>
             {
-                for (int i = 1; i <= 5000; i++)
+                Stopwatch totaltime = Stopwatch.StartNew();
+                foreach (var file in files)
                 {
+                    var index = getFileName(file);
                     Stopwatch sw = Stopwatch.StartNew();
-                    send(i.ToString());
+                    send(file);
                     sw.Stop();
-                    test.ExecuteCount = i.ToString();
+                    test.ExecuteCount = index;
                     test.ExecuteTime = sw.ElapsedMilliseconds.ToString();
+                    test.ExecuteTotalTime = totaltime.ElapsedMilliseconds.ToString();
+
+                    if (index.ToInt32() > 200)
+                        break;
                 }
+                totaltime.Stop();
+                //for (int i = 1; i <= 5000; i++)
+                //{
+                //    Stopwatch sw = Stopwatch.StartNew();
+                //    send(i.ToString());
+                //    sw.Stop();
+                //    test.ExecuteCount = i.ToString();
+                //    test.ExecuteTime = sw.ElapsedMilliseconds.ToString();
+                //}
             });
         }
 
-        private void send(string index)
+        private void send(string filepath)
         {
-            var buffer1 = imageFile1.FileToByte();
+            var index = getFileName(filepath);
+
+            var buffer1 = filepath.FileToByte();
             var image1 = Convert.ToBase64String(buffer1);
 
             var sb = new StringBuilder();
@@ -84,7 +117,13 @@ namespace AirPort.Client
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             var faceId = doc.GetNodeText("faceId");
+        }
 
+        private void btnSelect_click(object sender, RoutedEventArgs e)
+        {
+            System.Windows.Forms.FolderBrowserDialog fbd = new System.Windows.Forms.FolderBrowserDialog();
+            fbd.ShowDialog();
+            txtfolder.Text = fbd.SelectedPath;
         }
     }
 
@@ -100,6 +139,12 @@ namespace AirPort.Client
         {
             get { return this.GetValue(s => s.ExecuteTime); }
             set { this.SetValue(s => s.ExecuteTime, value); }
+        }
+
+        public string ExecuteTotalTime
+        {
+            get { return this.GetValue(s => s.ExecuteTotalTime); }
+            set { this.SetValue(s => s.ExecuteTotalTime, value); }
         }
     }
 }

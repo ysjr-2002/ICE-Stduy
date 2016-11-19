@@ -111,6 +111,7 @@
                       AutoGenerateColumns="False"
                       Background="#fcfcfc"
                       IsReadOnly="True"
+                      MouseDoubleClick="dgPersons_MouseDoubleClick"
                       SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="100"
@@ -144,6 +145,8 @@
                    Content="查询耗时:" />
             <Label Name="lbltime" HorizontalAlignment="Left" Content="0" />
 
+            <Label Content="总记录数："></Label>
+            <Label Name="lblpersoncount"></Label>
             <Button Content="上一页" Click="btnPre_click"></Button>
             <Button Content="下一页" Click="btnNext_click"></Button>
         </StackPanel>
