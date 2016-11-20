@@ -81,7 +81,7 @@ namespace AirPort.Client
                 return;
             }
             var similarity = doc.GetNodeText("similarity");
-            lblSmilary.Content = similarity.ToString();
+            lblSmilary.Content = similarity.ToString().FormatFloat();
             lbltime.Content = sw.ElapsedMilliseconds;
         }
     }

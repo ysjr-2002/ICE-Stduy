@@ -23,6 +23,7 @@
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontFamily" Value="宋体" />
+        <Setter Property="HorizontalContentAlignment" Value="Right" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 

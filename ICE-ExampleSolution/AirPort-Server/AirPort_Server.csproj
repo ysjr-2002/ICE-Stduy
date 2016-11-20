@@ -94,9 +94,6 @@
   <ItemGroup>
     <Compile Include="Core\FileManager.cs" />
     <Compile Include="Core\MyFace.cs" />
-    <Compile Include="FaceResult\DynamicFaceResult.cs" />
-    <Compile Include="FaceResult\FaceDetect.cs" />
-    <Compile Include="FaceResult\Result.cs" />
     <Compile Include="Generated\FaceServer_1.5.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -126,12 +123,6 @@
     <Compile Include="Repository\persontagview.cs">
       <DependentUpon>personrepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="WebAPI\Constrants.cs" />
-    <Compile Include="WebAPI\FaceServices.cs" />
-    <Compile Include="WebAPI\HttpCore.cs" />
-    <Compile Include="WebAPI\HttpMethod.cs" />
-    <Compile Include="WebAPI\HttpRequest.cs" />
-    <Compile Include="WebAPI\MySocket.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config">
@@ -154,6 +145,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FaceCore\FaceCore.csproj">
+      <Project>{f867bbbe-c934-483d-be19-6dd5c3b07481}</Project>
+      <Name>FaceCore</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Share\XmlExt.csproj">
       <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
       <Name>XmlExt</Name>

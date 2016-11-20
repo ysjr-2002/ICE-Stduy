@@ -30,6 +30,7 @@ namespace AirPort.Server.Core
         public MyFace(PersonDB db)
         {
             fs = new FaceServices();
+            fs.GetVersion();
             this.db = db;
             print("create a server object");
         }
@@ -110,7 +111,8 @@ namespace AirPort.Server.Core
 
         private void print(string str)
         {
-            LogHelper.Info(str);
+            Console.WriteLine(str);
+            //LogHelper.Info(str);
         }
 
         private string ResponseOk()
@@ -171,9 +173,10 @@ namespace AirPort.Server.Core
 
         private string dynamicDetect(XmlDocument doc)
         {
+            var kuangshi = "user=admin&password=&channel=1&stream=0.sdp?";
             var threshold = doc.GetNodeText("threshold");
             var rtspId = doc.GetNodeText("rtspId");
-            var rtspPath = doc.GetNodeText("rtspPath") + "user=admin&password=&channel=1&stream=0.sdp?";
+            var rtspPath = doc.GetNodeText("rtspPath") + "live1.sdp"; 
             var type = doc.GetNodeText("responseType/type");
             var size = doc.GetNodeText("responseType/size");
             var maxImageCount = doc.GetNodeText("maxImageCount");
@@ -201,27 +204,28 @@ namespace AirPort.Server.Core
                 queue = new Queue<DynamicFaceResult>(size.ToInt32())
             };
 
-            if (type == queueMessageType)
-            {
-                clientProxyList.Add(rtspId, client);
-            }
+            clientProxyList.Add(rtspId, client);
 
             return ResponseOk();
         }
 
         private void Websocket_OnFaceDetect(string rtspId, DynamicFaceResult face)
         {
-            if (clientProxyList.ContainsKey(rtspId))
+            lock (this)
             {
-                ClientData client = clientProxyList[rtspId];
-                if (client.messageType == queueMessageType)
+
+                if (clientProxyList.ContainsKey(rtspId))
                 {
-                    client.queue.Enqueue(face);
-                }
-                else
-                {
-                    var content = GetDynamicResutl(face);
-                    client.proxy?.onRecv(content);
+                    ClientData client = clientProxyList[rtspId];
+                    if (client.messageType == queueMessageType)
+                    {
+                        client.queue.Enqueue(face);
+                    }
+                    else
+                    {
+                        var content = GetDynamicResutl(face);
+                        client.proxy?.onRecv(content);
+                    }
                 }
             }
         }
@@ -482,7 +486,7 @@ namespace AirPort.Server.Core
                 Pagesize = size.ToInt32(),
             };
 
-            var persons = db.Search(page, tags.ToArray());
+            var persons = db.Search(page, id, uuid, code, tags.ToArray());
             var count = page.TotalCount.ToString();
             print("匹配记录数:" + count + "条");
             var sb = new StringBuilder();
@@ -575,8 +579,8 @@ namespace AirPort.Server.Core
                 sb.Append("tags".ElementEnd());
 
                 sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
-                sb.Append("imgData2".ElementText("imgData2"));
-                sb.Append("imgData3".ElementText("imgData3"));
+                sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
+                sb.Append("imgData3".ElementText(FileManager.ReadFile(p.ImageData3)));
 
                 sb.Append("matchPerson".ElementEnd());
             }

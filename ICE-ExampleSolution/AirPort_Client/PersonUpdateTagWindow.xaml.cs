@@ -101,7 +101,11 @@ namespace AirPort.Client
             var data = sb.ToString();
             var xml = XmlParse.GetXml("updatePersonTags", data);
             var content = FaceServices.FaceProxy.send(xml);
-
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             Item("code->" + code);

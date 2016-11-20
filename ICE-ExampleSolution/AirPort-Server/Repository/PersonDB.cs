@@ -7,7 +7,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using Common;
 namespace AirPort.Server.Repository
 {
     class PersonDB : IRepository<person>
@@ -61,7 +61,7 @@ namespace AirPort.Server.Repository
             }
         }
 
-        public IEnumerable<person> Search(Pagequery page, string[] tags)
+        public IEnumerable<person> Search(Pagequery page, string faceId, string uuid, string code, string[] tags)
         {
             List<person> list = new List<Repository.person>();
             using (var db = new personrepositoryEntities())
@@ -79,6 +79,15 @@ namespace AirPort.Server.Repository
                     var query = (from n in db.persons
                                  join tag in persontags on n.FaceID equals tag.FaceID
                                  select n);
+
+                    if (!faceId.IsEmpty())
+                        query = query.Where(s => s.FaceID.StartsWith(faceId));
+
+                    if (!uuid.IsEmpty())
+                        query = query.Where(s => s.UUID.StartsWith(uuid));
+
+                    if (!code.IsEmpty())
+                        query = query.Where(s => s.Code.StartsWith(code));
 
                     page.TotalCount = query.Count();
                     list = query.Select(n => n).OrderBy(n => n.CreateTime).Skip(page.Offset).Take(page.Pagesize).ToList();

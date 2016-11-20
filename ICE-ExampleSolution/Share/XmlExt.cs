@@ -58,5 +58,13 @@ namespace System
         {
             return string.Format("<{0}><![CDATA[{1}]]></{0}>", name, value);
         }
+
+        public static string FormatFloat(this string val)
+        {
+            if (val.Length > 4)
+                return val.Substring(0, 4);
+            else
+                return val;
+        }
     }
 }

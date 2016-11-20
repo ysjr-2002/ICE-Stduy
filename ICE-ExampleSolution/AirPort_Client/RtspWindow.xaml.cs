@@ -52,6 +52,7 @@ namespace AirPort.Client
             return true;
         }
 
+        private int facecount = 0;
         private bool stopPool = false;
         private Ice.ObjectAdapter callbackAdapter = null;
 
@@ -132,6 +133,7 @@ namespace AirPort.Client
                 var personNodes = doc.SelectNodes("/xml/persons/person");
                 if (personNodes.Count > 0)
                 {
+                    facecount++;
                     foreach (XmlNode n in personNodes)
                     {
                         var data = n.SelectSingleNode("imgData").InnerText;
@@ -143,7 +145,8 @@ namespace AirPort.Client
 
                         this.Dispatcher.Invoke(() =>
                         {
-                            lblquality.Content = "质量:" + quality;
+                            lblfacecount.Content = "数量:" + facecount;
+                            lblquality.Content = "质量:" + quality.FormatFloat();
                             lblrect.Content = string.Format("大小:left={0},top={1},width={2},height={3}", posX, posY, width, height);
                             var imagesource = ByteArrayToBitmapImage(data.Base64ToByte());
                             faceImage.Source = imagesource;
@@ -205,6 +208,7 @@ namespace AirPort.Client
 
         private void btnStop_click(object sender, RoutedEventArgs e)
         {
+            facecount = 0;
             stopPool = true;
             if (callbackAdapter != null)
             {
@@ -230,6 +234,10 @@ namespace AirPort.Client
             {
                 btnStart.IsEnabled = true;
             }
+
+            lblfacecount.Content = "";
+            lblquality.Content = "";
+            lblrect.Content = "";
         }
     }
 }

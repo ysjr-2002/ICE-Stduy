@@ -114,11 +114,16 @@
 
             <Label Content="查询耗时:" Style="{StaticResource largeLabel}" />
             <Label Name="lbltime"
+                   HorizontalContentAlignment="Left"
                    Content="0"
                    Style="{StaticResource largeLabel}" />
 
-            <Label Content="总记录数：" Style="{StaticResource largeLabel}" />
-            <Label Name="lblpersoncount" Style="{StaticResource largeLabel}" />
+            <Label Margin="5,0,0,0"
+                   Content="总记录数："
+                   Style="{StaticResource largeLabel}" />
+            <Label Name="lblpersoncount"
+                   HorizontalContentAlignment="Left"
+                   Style="{StaticResource largeLabel}" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

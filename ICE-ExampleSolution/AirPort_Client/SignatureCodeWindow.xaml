@@ -25,7 +25,7 @@
         <StackPanel Grid.Row="2"
                     Margin="80,0,0,0"
                     Orientation="Horizontal">
-            <Label Width="80" Content="特征码：" />
+            <Label Width="100" Content="特征码：" />
             <TextBox Name="txtfeature"
                      Width="670"
                      Height="200"
@@ -37,10 +37,12 @@
         <StackPanel Grid.Row="3"
                     Margin="80,0,0,0"
                     Orientation="Horizontal">
-            <Label Width="80" Content="处理时间：" />
+            <Label Width="100"
+                   Content="处理时间："
+                   Style="{StaticResource largeLabel}" />
             <Label Name="lbltimeInfo"
-                   VerticalAlignment="Center"
-                   HorizontalContentAlignment="Left" />
+                   HorizontalContentAlignment="Left"
+                   Style="{StaticResource largeLabel}" />
         </StackPanel>
     </Grid>
 </local:PopupWindowBase>

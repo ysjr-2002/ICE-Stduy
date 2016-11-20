@@ -33,10 +33,6 @@ namespace AirPort.Client
         {
             InitializeComponent();
             cmbTags.ItemsSource = ContextData.Tags();
-
-            txtuuid.Text = "7";
-            txtCode.Text = "7";
-            txtName.Text = "杨";
         }
 
         private void btnAddTag_Click(object sender, RoutedEventArgs e)
@@ -47,7 +43,7 @@ namespace AirPort.Client
                 WarnDialog("请选择一个标签！");
                 return;
             }
-            if( tagList.Contains(content))
+            if (tagList.Contains(content))
             {
                 WarnDialog("标签已添加！");
                 return;
@@ -121,13 +117,19 @@ namespace AirPort.Client
 
             var xml = XmlParse.GetXml("createOrUpdatePerson", data);
             var content = FaceServices.FaceProxy.send(xml);
+            if (content.IsEmpty())
+            {
+                WarnDialog(community_error);
+                return;
+            }
             //处理返回数据
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             var faceId = doc.GetNodeText("faceId");
             Item("code->" + code);
             Item("faceId->" + faceId);
-            MessageBox.Show(faceId);
+            if (code.ToInt32() == status_ok)
+                MessageBox.Show("保存成功=" + faceId);
         }
 
         private void btnClose_click(object sender, RoutedEventArgs e)

@@ -16,7 +16,7 @@ namespace AirPort.Server.Repository
 
         void Delete(T t);
 
-        IEnumerable<T> Search(Pagequery page, string[] tags);
+        IEnumerable<T> Search(Pagequery page, string faceId, string uuid, string code, string[] tags);
 
         IEnumerable<person> Search1VN(Pagequery page, string[] faceId, string[] tags);
 
