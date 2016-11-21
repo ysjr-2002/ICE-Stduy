@@ -18,6 +18,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
+using System.ComponentModel;
 
 namespace AirPort.Client
 {
@@ -42,13 +43,11 @@ namespace AirPort.Client
                 WarnDialog("请输入标识！");
                 return false;
             }
-
             if (txtrtsp.Text.IsEmpty())
             {
                 WarnDialog("请输入地址！");
                 return false;
             }
-
             return true;
         }
 
@@ -208,6 +207,14 @@ namespace AirPort.Client
 
         private void btnStop_click(object sender, RoutedEventArgs e)
         {
+            ShutdownDynamicDetect();
+        }
+
+        /// <summary>
+        /// 关闭窗口时
+        /// </summary>
+        private void ShutdownDynamicDetect()
+        {
             facecount = 0;
             stopPool = true;
             if (callbackAdapter != null)
@@ -238,6 +245,12 @@ namespace AirPort.Client
             lblfacecount.Content = "";
             lblquality.Content = "";
             lblrect.Content = "";
+        }
+
+        protected override void OnClosing(CancelEventArgs e)
+        {
+            ShutdownDynamicDetect();
+            base.OnClosing(e);
         }
     }
 }
