@@ -19,7 +19,6 @@ namespace AirPort.Client
         {
             this.Width = 1024;
             this.Height = 768;
-            //this.Topmost = true;
             this.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             this.ShowInTaskbar = false;
         }

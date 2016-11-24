@@ -52,8 +52,6 @@
             <Button Click="btnBatchDelete_Click" Content="删除(批量)" />
             <Button Click="btnUpdateTag_click" Content="更新标签" />
             <Button Click="btnDeleteTag_click" Content="删除标签" />
-
-            <Button Click="btnBatchSave_click" Content="批量入库" />
         </StackPanel>
 
         <Path Grid.Row="1"

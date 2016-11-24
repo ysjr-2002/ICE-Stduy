@@ -29,10 +29,12 @@ namespace AirPort.Client
     {
         private const string callback = "回调";
 
+        private int facecount = 0;
+        private bool stopPool = false;
+        private Ice.ObjectAdapter callbackAdapter = null;
         public RtspWindow()
         {
             InitializeComponent();
-
             this.txtrtsp.Text = "rtsp://192.168.1.151/";
         }
 
@@ -50,10 +52,6 @@ namespace AirPort.Client
             }
             return true;
         }
-
-        private int facecount = 0;
-        private bool stopPool = false;
-        private Ice.ObjectAdapter callbackAdapter = null;
 
         private void btnStart_click(object sender, RoutedEventArgs e)
         {

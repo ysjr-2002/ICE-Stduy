@@ -37,12 +37,12 @@ namespace AirPort.Client
             {
                 if (tag == "无")
                     continue;
-                CheckBox control = new CheckBox
+                CheckBox tagBox = new CheckBox
                 {
                     Content = tag,
                     Margin = new Thickness(0, 10, 5, 0)
                 };
-                tagContainer.Children.Add(control);
+                tagContainer.Children.Add(tagBox);
             }
         }
 
@@ -64,7 +64,7 @@ namespace AirPort.Client
         {
             if (filepath.IsEmpty())
             {
-                WarnDialog("请选择源图像！");
+                WarnDialog("请选择图像！");
                 return;
             }
             query();
@@ -146,21 +146,6 @@ namespace AirPort.Client
             List<PersonInfo> persons = new List<PersonInfo>();
             foreach (XmlNode n in personNodes)
             {
-                //Item("similarity->" + n.GetNodeText("similarity"));
-                //Item("faceId->" + n.GetNodeText("faceId"));
-                //Item("uuid->" + n.GetNodeText("uuid"));
-                //Item("name->" + n.GetNodeText("name"));
-                //Item("descrption->" + n.GetNodeText("descrption"));
-
-                //var tagNodes = n.SelectNodes("tags/tag");
-                //Item("人物标签数量->" + tagNodes.Count);
-                //foreach (XmlNode tag in tagNodes)
-                //{
-                //    Item("tag->" + tag.InnerText);
-                //}
-                //Item("人脸1->" + n.GetNodeText("imgData1"));
-                //Item("人脸2->" + n.GetNodeText("imgData2"));
-                //Item("人脸3->" + n.GetNodeText("imgData3"));
                 var p = new PersonInfo();
                 p.similarity = n.SelectSingleNode("similarity").InnerText.ToFloat();
                 p.faceId = n.SelectSingleNode("faceId").InnerText;

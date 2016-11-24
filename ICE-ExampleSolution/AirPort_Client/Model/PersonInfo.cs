@@ -33,7 +33,5 @@ namespace AirPort.Client.Model
         public bool HasSignatureCode3 { get; set; }
 
         public float similarity { get; set; }
-
-
     }
 }

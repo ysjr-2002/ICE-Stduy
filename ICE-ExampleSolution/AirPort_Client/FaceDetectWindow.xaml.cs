@@ -50,37 +50,6 @@ namespace AirPort.Client
             lblfacecount.Content = "";
         }
 
-        private void Test()
-        {
-            var width = faceImage.ActualWidth;
-            var height = faceImage.ActualHeight;
-
-            var factorx = (float)width / imgPixelWidth;
-            var factory = (float)height / imgPixelHeight;
-
-            RectangleGeometry rect = new RectangleGeometry
-            {
-                Rect = new Rect
-                {
-                    X = 533 * factorx,
-                    Y = 392 * factory,
-                    Width = 604 * factorx,
-                    Height = 604 * factory
-                }
-            };
-
-            Path myPath = new Path();
-            myPath.StrokeThickness = 3;
-            myPath.Stroke = Brushes.Red;
-            myPath.Data = rect;
-
-            Label lbl = new Label { Content = "质量:0.98", Foreground = Brushes.Red };
-            Canvas.SetLeft(lbl, 533 * factorx + 5 + 604 * factorx);
-            Canvas.SetTop(lbl, 392 * factory);
-            this.canvas1.Children.Add(myPath);
-            this.canvas1.Children.Add(lbl);
-        }
-
         private void Send()
         {
             if (imagefile.IsEmpty())
@@ -120,7 +89,7 @@ namespace AirPort.Client
 
             var persons = doc.SelectNodes("/xml/persons/person");
             lblfacecount.Content = persons.Count;
-            CanvasDrawFace(persons);
+            DrawFace(persons);
         }
 
         private void btnDetect_click(object sender, RoutedEventArgs e)
@@ -129,7 +98,7 @@ namespace AirPort.Client
             Send();
         }
 
-        private void CanvasDrawFace(XmlNodeList faces)
+        private void DrawFace(XmlNodeList faces)
         {
             imgPixelWidth = ((BitmapSource)faceImage.Source).PixelWidth;
             imgPixelHeight = ((BitmapSource)faceImage.Source).PixelHeight;

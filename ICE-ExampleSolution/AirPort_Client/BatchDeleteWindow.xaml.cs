@@ -17,11 +17,12 @@ using System.Windows.Shapes;
 namespace AirPort.Client
 {
     /// <summary>
-    /// BatchDeleteWindow.xaml 的交互逻辑
+    /// 批量删除
     /// </summary>
     public partial class BatchDeleteWindow
     {
         private List<string> delTags = new List<string>();
+
         public BatchDeleteWindow()
         {
             InitializeComponent();
@@ -29,6 +30,11 @@ namespace AirPort.Client
         }
 
         private void BatchDeleteWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+            LoadTags();
+        }
+
+        private void LoadTags()
         {
             foreach (var tag in ContextData.Tags())
             {

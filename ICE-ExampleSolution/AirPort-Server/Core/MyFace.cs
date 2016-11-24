@@ -173,7 +173,6 @@ namespace AirPort.Server.Core
 
         private string dynamicDetect(XmlDocument doc)
         {
-            var kuangshi = "user=admin&password=&channel=1&stream=0.sdp?";
             var threshold = doc.GetNodeText("threshold");
             var rtspId = doc.GetNodeText("rtspId");
             var rtspPath = doc.GetNodeText("rtspPath") + "live1.sdp"; 
@@ -190,8 +189,6 @@ namespace AirPort.Server.Core
             print("size->" + size);
             print("maxImageCount->" + maxImageCount);
             print("frames->" + frames);
-
-            //fs.GetVideo(rtspPath, threshold.ToFloat(), rtspId, WebSocketcallback);
 
             MySocket websocket = new WebAPI.MySocket();
             websocket.OnFaceDetect += Websocket_OnFaceDetect;

@@ -40,12 +40,12 @@ namespace AirPort.Client
             {
                 if (tag == "无")
                     continue;
-                CheckBox control = new CheckBox
+                CheckBox tagBox = new CheckBox
                 {
                     Content = tag,
                     Margin = new Thickness(0, 10, 5, 0)
                 };
-                tagContainer.Children.Add(control);
+                tagContainer.Children.Add(tagBox);
             }
         }
 
@@ -214,8 +214,6 @@ namespace AirPort.Client
 
         private void btnBatchSave_click(object sender, RoutedEventArgs e)
         {
-            PersonBatchSaveWindow pb = new PersonBatchSaveWindow();
-            pb.ShowDialog();
         }
 
         private void btnPre_click(object sender, RoutedEventArgs e)

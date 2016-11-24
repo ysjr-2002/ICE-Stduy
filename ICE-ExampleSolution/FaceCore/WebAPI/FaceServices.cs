@@ -107,12 +107,6 @@ namespace AirPort.Server.WebAPI
             return searchResult;
         }
 
-        public void GetVideo(string url, float threshold, string rtspId, Action<DynamicFaceResult> callback)
-        {
-            HttpMethod test = new WebAPI.HttpMethod();
-            test.Websocket(url, threshold, callback);
-        }
-
         public void QueryGroupPhotoes()
         {
             var groupname = "by";
