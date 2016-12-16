@@ -154,13 +154,22 @@ namespace AirPort.Server.Core
                 var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
                 foreach (var face in topFaces)
                 {
+                    var quality = face.Quality;
+                    if (quality > 1)
+                    {
+                        quality = quality / 100;
+                    }
+                    if (quality < threshold.ToFloat())
+                    {
+                        continue;
+                    }
                     sb.Append("person".ElementBegin());
                     sb.Append("imgData".ElementText(face.crop.image));
                     sb.Append("posX".ElementText(face.Rect.Left.ToString()));
                     sb.Append("posY".ElementText(face.Rect.Top.ToString()));
                     sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
                     sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
-                    sb.Append("quality".ElementText(face.Quality.ToString()));
+                    sb.Append("quality".ElementText(quality.ToString()));
                     sb.Append("person".ElementEnd());
                 }
             }
