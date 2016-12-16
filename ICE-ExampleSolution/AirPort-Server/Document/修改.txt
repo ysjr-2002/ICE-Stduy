@@ -1,0 +1,18 @@
+﻿2016-12-16
+
+有关你们的人脸识别库，目前测试的情况发现有以下问题，需要你们修改一下：
+1、convertSignatureCode 接口无需srcImgData参数
+2、createOrUpdatePerson  description 字段错误，不是descrption
+3、阈值有效值范围是0至1，而不是0至100
+4、deletePersonsByTags 无需uuid参数
+5、VerifySignatureCodeResult 缺少 totalCount 数据，如果没有则返回0
+
+
+应答：
+1、convertSignatureCode接口只有imgData参数，而没有srcImgData参数
+2、拼写错误，按协议修改
+3、按协议修改阈值有效值范围是0至1,以下两个接口
+   1：1比对
+   1：N查询
+4、协议文档中deletePersonsByTags接口没有uuid参数，我们也没有此参数
+5、协议没有要求返回totalCount数据

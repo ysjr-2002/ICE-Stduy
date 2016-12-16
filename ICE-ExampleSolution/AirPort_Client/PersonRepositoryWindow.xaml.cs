@@ -187,7 +187,7 @@ namespace AirPort.Client
                 p.uuid = n.SelectSingleNode("uuid").InnerText;
                 p.code = n.SelectSingleNode("code").InnerText;
                 p.Name = n.SelectSingleNode("name").InnerText;
-                p.Description = n.SelectSingleNode("descrption").InnerText;
+                p.Description = n.SelectSingleNode("description").InnerText;
                 p.FaceImage1 = n.SelectSingleNode("imgData1").InnerText;
                 p.HasSignatureCode1 = n.SelectSingleNode("hasSignatureCode1").InnerText.ToInt32() == 1;
                 p.FaceImage2 = n.SelectSingleNode("imgData2").InnerText;

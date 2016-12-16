@@ -159,6 +159,7 @@
     <Content Include="dll\Iaspec.Net.Common.dll" />
     <Content Include="dll\MySql.Data.dll" />
     <Content Include="dll\MySql.Data.Entity.EF6.dll" />
+    <Content Include="Document\修改.txt" />
     <Content Include="personrepository.sql" />
     <Content Include="Repository\personrepository.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

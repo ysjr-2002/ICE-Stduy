@@ -1,4 +1,8 @@
-﻿using AirPort.Server.WebAPI;
+﻿using AirPort.Server.FaceResult;
+using AirPort.Server.Repository;
+using AirPort.Server.WebAPI;
+using Common;
+using Common.Log;
 using FaceRecognitionModule;
 using Ice;
 using System;
@@ -8,10 +12,6 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
-using Common;
-using AirPort.Server.Repository;
-using AirPort.Server.FaceResult;
-using Common.Log;
 
 namespace AirPort.Server.Core
 {
@@ -175,7 +175,7 @@ namespace AirPort.Server.Core
         {
             var threshold = doc.GetNodeText("threshold");
             var rtspId = doc.GetNodeText("rtspId");
-            var rtspPath = doc.GetNodeText("rtspPath") + "live1.sdp"; 
+            var rtspPath = doc.GetNodeText("rtspPath") + "live1.sdp";
             var type = doc.GetNodeText("responseType/type");
             var size = doc.GetNodeText("responseType/size");
             var maxImageCount = doc.GetNodeText("maxImageCount");
@@ -210,7 +210,6 @@ namespace AirPort.Server.Core
         {
             lock (this)
             {
-
                 if (clientProxyList.ContainsKey(rtspId))
                 {
                     ClientData client = clientProxyList[rtspId];
@@ -277,6 +276,9 @@ namespace AirPort.Server.Core
             {
                 code = "0";
             }
+            if (similarity > 1)
+                similarity = similarity / 100;
+            similarity = Math.Round(similarity, 2);
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText(code));
@@ -330,7 +332,7 @@ namespace AirPort.Server.Core
             var uuid = doc.GetNodeText("uuid");
             var code = doc.GetNodeText("code");
             var name = doc.GetNodeText("name");
-            var descrption = doc.GetNodeText("descrption");
+            var description = doc.GetNodeText("description");
             var imgData1 = doc.GetNodeText("imgData1");
             var signatureCode1 = doc.GetNodeText("signatureCode1");
             var imgData2 = doc.GetNodeText("imgData2");
@@ -341,14 +343,14 @@ namespace AirPort.Server.Core
             print("uuid->" + uuid);
             print("code->" + code);
             print("name->" + name);
-            print("descrption->" + descrption);
+            print("description->" + description);
 
             person person = new person();
             person.FaceID = uuid; //Guid.NewGuid().ToString("N");
             person.UUID = uuid;
             person.Code = code;
             person.Name = name;
-            person.Description = descrption;
+            person.Description = description;
             person.ImageData1 = FileManager.SaveFile(imgData1, uuid, "_img1");
             person.SignatureCode1 = FileManager.SaveFile(signatureCode1, uuid, "_feature1");
             person.HasSignatureCode1 = signatureCode1.Length > 0;
@@ -499,7 +501,7 @@ namespace AirPort.Server.Core
                 sb.Append("uuid".ElementText(p.UUID));
                 sb.Append("code".ElementText(p.Code));
                 sb.Append("name".ElementText(p.Name));
-                sb.Append("descrption".ElementText(p.Description));
+                sb.Append("description".ElementText(p.Description));
                 sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
                 sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.SignatureCode1)));
                 sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
@@ -565,7 +567,7 @@ namespace AirPort.Server.Core
                 sb.Append("uuid".ElementText(p.UUID));
                 sb.Append("code".ElementText(p.Code));
                 sb.Append("name".ElementText(p.Name));
-                sb.Append("descrption".ElementText(p.Description));
+                sb.Append("description".ElementText(p.Description));
 
                 sb.Append("tags".ElementBegin());
                 var personTags = db.GetPersonTags(p.FaceID);
@@ -591,7 +593,7 @@ namespace AirPort.Server.Core
         {
             var face = list.FirstOrDefault(s => s.faceId == faceId);
             if (face != null)
-                return face.score;
+                return face.score / 100;
             else
                 return 0.0f;
         }
