@@ -11,7 +11,8 @@
 应答：
 1、convertSignatureCode接口只有imgData参数，而没有srcImgData参数
 2、拼写错误，按协议修改
-3、按协议修改阈值有效值范围是0至1,以下两个接口
+3、按协议修改阈值有效值范围是0至1,以下三个接口
+   人脸检测
    1：1比对
    1：N查询
 4、协议文档中deletePersonsByTags接口没有uuid参数，我们也没有此参数

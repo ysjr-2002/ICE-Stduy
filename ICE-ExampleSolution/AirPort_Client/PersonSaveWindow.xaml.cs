@@ -100,7 +100,7 @@ namespace AirPort.Client
             sb.Append("uuid".ElementText(txtuuid.Text));
             sb.Append("code".ElementText(txtCode.Text));
             sb.Append("name".ElementText(txtName.Text));
-            sb.Append("description".ElementText(""));
+            sb.Append("description".ElementText("description"));
             sb.Append("imgData1".ElementText(image1));
             sb.Append("signatureCode1".ElementText(image1));
             sb.Append("imgData2".ElementText(image2));
