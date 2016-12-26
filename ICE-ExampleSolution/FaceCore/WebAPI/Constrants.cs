@@ -8,8 +8,7 @@ namespace AirPort.Server.WebAPI
 {
     public class Constrants
     {
-        private const string domain = "http://192.168.1.40:8000";
-
+        public static string domain = "";
         /// <summary>
         /// 特征码提取
         /// </summary>
@@ -34,6 +33,20 @@ namespace AirPort.Server.WebAPI
 
         public static string url_search = domain + "/search";
 
-        public static string url_video = "ws://192.168.1.40:8000/video";
+        public static string url_video = "";
+
+        public static void Init(string serverIp)
+        {
+            domain = "http://" + serverIp + ":8000";
+            url_extract = domain + "/_extract";
+            url_compare = domain + "/compare";
+            url_detect = domain + "/detect";
+            url_g = domain + "/g";
+            url_gpost = domain + "/g/group";
+            url_gdelete = domain + "/g/group";
+            url_version = domain + "/version";
+            url_search = domain + "/search";
+            url_video = "ws://" + serverIp + ":8000/video";
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Common;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,7 +15,7 @@ namespace AirPort.Server.Core
 
         static FileManager()
         {
-            root = System.Configuration.ConfigurationManager.AppSettings["root"];
+            root = ConfigurationManager.AppSettings["root"];
             if (Directory.Exists(root) == false)
                 Directory.CreateDirectory(root);
         }
@@ -26,6 +27,10 @@ namespace AirPort.Server.Core
                 var folder = GetFolder();
                 var filename = string.Concat(faceId, prefix, ".bin");
                 var filepath = Path.Combine(folder, filename);
+
+                if (File.Exists(filepath))
+                    File.Delete(filepath);
+
                 File.WriteAllText(filepath, content);
                 return filepath;
             }

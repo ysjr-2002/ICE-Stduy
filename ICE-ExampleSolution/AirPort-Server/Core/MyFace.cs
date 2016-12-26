@@ -7,6 +7,7 @@ using FaceRecognitionModule;
 using Ice;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -17,9 +18,11 @@ namespace AirPort.Server.Core
 {
     class MyFace : FaceRecognitionDisp_
     {
+        private const string group = "by";
+
+
         private Queue<string> queue = new Queue<string>();
         private FaceServices fs = null;
-        private const string group = "by";
         private PersonDB db = null;
 
         private string currentRtspId = "";
@@ -29,6 +32,8 @@ namespace AirPort.Server.Core
 
         public MyFace(PersonDB db)
         {
+            var faceServer = ConfigurationManager.AppSettings["faceserver"];
+            Constrants.Init(faceServer);
             fs = new FaceServices();
             fs.GetVersion();
             this.db = db;
@@ -219,6 +224,7 @@ namespace AirPort.Server.Core
         {
             lock (this)
             {
+                print("检测到人脸");
                 if (clientProxyList.ContainsKey(rtspId))
                 {
                     ClientData client = clientProxyList[rtspId];
@@ -259,8 +265,7 @@ namespace AirPort.Server.Core
             lock (this)
             {
                 var rtspId = doc.GetNodeText("rtspId");
-                print("shutdownDynamicDetect->");
-                print("rtspId->" + rtspId);
+                print("shutdownDynamicDetect->" + rtspId);
                 if (clientProxyList.ContainsKey(rtspId))
                 {
                     clientProxyList[rtspId].socket.Stop();
@@ -320,7 +325,18 @@ namespace AirPort.Server.Core
 
         private string createOrUpdatePerson(XmlDocument doc)
         {
-            var faceId = SaveToRepository(doc);
+            var person = XmlToPerson(doc);
+            var faceId = person.UUID;
+            if (!db.UUIDExist(faceId))
+            {
+                print("新增人像信息->" + faceId);
+                db.Add(person);
+            }
+            else
+            {
+                db.Update(person);
+                print("更新人像信息->" + faceId);
+            }
             SaveTag(faceId, doc);
 
             var imgData1 = doc.GetNodeText("imgData1");
@@ -336,7 +352,7 @@ namespace AirPort.Server.Core
             return sb.ToString();
         }
 
-        private string SaveToRepository(XmlDocument doc)
+        private person XmlToPerson(XmlDocument doc)
         {
             var uuid = doc.GetNodeText("uuid");
             var code = doc.GetNodeText("code");
@@ -361,19 +377,20 @@ namespace AirPort.Server.Core
             person.Name = name;
             person.Description = description;
             person.ImageData1 = FileManager.SaveFile(imgData1, uuid, "_img1");
-            person.SignatureCode1 = FileManager.SaveFile(signatureCode1, uuid, "_feature1");
-            person.HasSignatureCode1 = signatureCode1.Length > 0;
+            person.SignatureCode1 = ""; //FileManager.SaveFile(signatureCode1, uuid, "_feature1");
+            person.HasSignatureCode1 = imgData1.Length > 0;
+
             person.ImageData2 = FileManager.SaveFile(imgData2, uuid, "_img2");
-            person.SignatureCode2 = FileManager.SaveFile(signatureCode2, uuid, "_feature2");
-            person.HasSignatureCode2 = signatureCode2.Length > 0;
+            person.SignatureCode2 = ""; //FileManager.SaveFile(signatureCode2, uuid, "_feature2");
+            person.HasSignatureCode2 = imgData2.Length > 0;
+
             person.ImageData3 = FileManager.SaveFile(imgData3, uuid, "_img3");
-            person.SignatureCode3 = FileManager.SaveFile(signatureCode3, uuid, "_feature3");
-            person.HasSignatureCode3 = signatureCode3.Length > 0;
+            person.SignatureCode3 = "";  //FileManager.SaveFile(signatureCode3, uuid, "_feature3");
+            person.HasSignatureCode3 = imgData3.Length > 0;
+
             person.CreateTime = DateTime.Now;
 
-            this.db.Add(person);
-
-            return person.FaceID;
+            return person;
         }
 
         private void SaveTag(string faceId, XmlDocument doc)
@@ -512,17 +529,26 @@ namespace AirPort.Server.Core
                 sb.Append("name".ElementText(p.Name));
                 sb.Append("description".ElementText(p.Description));
                 sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
-                sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.SignatureCode1)));
+                sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.ImageData1)));
                 sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
-                sb.Append("hasSignatureCode2".ElementText(hasSignaturecode(p.SignatureCode2)));
+                sb.Append("hasSignatureCode2".ElementText(hasSignaturecode(p.ImageData2)));
                 sb.Append("imgData3".ElementText(FileManager.ReadFile(p.ImageData3)));
-                sb.Append("hasSignatureCode3".ElementText(hasSignaturecode(p.SignatureCode3)));
+                sb.Append("hasSignatureCode3".ElementText(hasSignaturecode(p.ImageData3)));
                 sb.Append("person".ElementEnd());
             }
 
             sb.Append("persons".ElementEnd());
             sb.Append("xml".ElementEnd());
-            return sb.ToString();
+            var data = sb.ToString();
+            ToKB(data);
+            return data;
+        }
+
+        private void ToKB(string data)
+        {
+            var buffer = Encoding.UTF8.GetBytes(data);
+            var kb = buffer.Length / 1000;
+            print("返回总字节数->" + kb + "KB");
         }
 
         private string hasSignaturecode(string val)

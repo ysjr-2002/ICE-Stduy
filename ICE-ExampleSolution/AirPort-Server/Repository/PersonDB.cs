@@ -28,6 +28,22 @@ namespace AirPort.Server.Repository
             }
         }
 
+        public bool UUIDExist(string uuid)
+        {
+            using (var db = new personrepositoryEntities())
+            {
+                try
+                {
+                    var count = db.persons.Count(s => s.UUID == uuid);
+                    return count > 0;
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    throw;
+                }
+            }
+        }
+
         public void Add(person person)
         {
             using (var db = new personrepositoryEntities())
@@ -135,15 +151,31 @@ namespace AirPort.Server.Repository
             return list;
         }
 
-        public void Update(person t)
+        public void Update(person person)
         {
-
+            using (var db = new personrepositoryEntities())
+            {
+                try
+                {
+                    db.persons.Attach(person);
+                    db.Entry(person).State = System.Data.Entity.EntityState.Modified;
+                    var count = db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    throw;
+                }
+            }
         }
 
         public void AddPersonTag(string faceId, string[] tags)
         {
             using (var db = new personrepositoryEntities())
             {
+                //删除旧标签
+                var sql = "delete from persontags where faceid='" + faceId + "'";
+                var count = db.Database.ExecuteSqlCommand(sql);
+                print("删除旧标签->" + count);
                 foreach (var tag in tags)
                 {
                     persontag pt = new Repository.persontag()

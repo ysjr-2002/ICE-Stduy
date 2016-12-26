@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace AirPort.Client.Core
 {
@@ -36,6 +37,7 @@ namespace AirPort.Client.Core
             }
             catch (Exception ex)
             {
+                MessageBox.Show(ex.Message);
                 return string.Empty;
             }
         }
