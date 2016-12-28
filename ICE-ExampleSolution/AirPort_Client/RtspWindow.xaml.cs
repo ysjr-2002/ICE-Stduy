@@ -35,7 +35,7 @@ namespace AirPort.Client
         public RtspWindow()
         {
             InitializeComponent();
-            this.txtrtsp.Text = "rtsp://192.168.1.151/";
+            this.txtrtsp.Text = "rtsp://192.168.1.151/live1.sdp";
         }
 
         private bool CheckInput()
@@ -78,7 +78,6 @@ namespace AirPort.Client
             sb.Append("frames".ElementText(txtframe.Text));
             var data = sb.ToString();
             var xml = XmlParse.GetXml("dynamicDetect", data);
-
             var content = FaceServices.FaceProxy.send(xml);
             if (content.IsEmpty())
             {

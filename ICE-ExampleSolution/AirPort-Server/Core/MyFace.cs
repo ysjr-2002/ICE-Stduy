@@ -20,7 +20,6 @@ namespace AirPort.Server.Core
     {
         private const string group = "by";
 
-
         private Queue<string> queue = new Queue<string>();
         private FaceServices fs = null;
         private PersonDB db = null;
@@ -189,7 +188,7 @@ namespace AirPort.Server.Core
         {
             var threshold = doc.GetNodeText("threshold");
             var rtspId = doc.GetNodeText("rtspId");
-            var rtspPath = doc.GetNodeText("rtspPath") + "live1.sdp";
+            var rtspPath = doc.GetNodeText("rtspPath");
             var type = doc.GetNodeText("responseType/type");
             var size = doc.GetNodeText("responseType/size");
             var maxImageCount = doc.GetNodeText("maxImageCount");
@@ -248,6 +247,7 @@ namespace AirPort.Server.Core
                 var client = clientProxyList.FirstOrDefault();
                 if (client.Value.queue.Count() > 0)
                 {
+                    print("响应客户端轮询");
                     var face = client.Value.queue.Dequeue();
                     var data = GetDynamicResutl(face);
                     return data;
@@ -265,7 +265,7 @@ namespace AirPort.Server.Core
             lock (this)
             {
                 var rtspId = doc.GetNodeText("rtspId");
-                print("shutdownDynamicDetect->" + rtspId);
+                print("关闭动态检测->" + rtspId);
                 if (clientProxyList.ContainsKey(rtspId))
                 {
                     clientProxyList[rtspId].socket.Stop();
@@ -329,8 +329,8 @@ namespace AirPort.Server.Core
             var faceId = person.UUID;
             if (!db.UUIDExist(faceId))
             {
-                print("新增人像信息->" + faceId);
                 db.Add(person);
+                print("新增人像信息->" + faceId);
             }
             else
             {
@@ -621,7 +621,10 @@ namespace AirPort.Server.Core
 
             sb.Append("result".ElementEnd());
             sb.Append("xml".ElementEnd());
-            return sb.ToString();
+
+            var data = sb.ToString();
+            ToKB(data);
+            return data;
         }
 
         private float Getsimilarity(string faceId, List<FaceScore> list)
