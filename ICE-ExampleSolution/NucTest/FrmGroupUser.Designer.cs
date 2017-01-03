@@ -42,7 +42,7 @@
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(59, 12);
             this.label2.TabIndex = 8;
-            this.label2.Text = "groupId：";
+            this.label2.Text = "groupid：";
             // 
             // label1
             // 
@@ -51,7 +51,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(53, 12);
             this.label1.TabIndex = 7;
-            this.label1.Text = "userId：";
+            this.label1.Text = "userid：";
             // 
             // textBox2
             // 
@@ -69,7 +69,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(152, 134);
+            this.button1.Location = new System.Drawing.Point(183, 125);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 9;

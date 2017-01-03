@@ -17,7 +17,7 @@ namespace NucTest
     public partial class FormTestMain : Form
     {
         private Nuc nuc = null;
-        private Constrant constrant;
+        private Constrant constrant = null;
 
         public FormTestMain()
         {
