@@ -1,0 +1,3518 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>ARC-D终端API</title>
+
+</head>
+<body>
+<h2>ARC-D终端API</h2>
+
+<ul>
+<li><p>API版本：1.0.5</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">修改</td>
+<td align="left"> 对大部分接口参数的描述和定义，进行了更加精确的修改</td>
+</tr>
+<tr>
+<td align="left">1</td>
+<td align="center">删除</td>
+<td align="left"> 删除了一个暂不开放的 API </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>API版本：1.0.4</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">添加</td>
+<td align="left"> 添加了13/14接口的 json 返回值和返回值相关说明 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>API版本：1.0.3</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">删除</td>
+<td align="left"> 删除了三个暂不开放的 API </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>API版本：1.0.2</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">添加</td>
+<td align="left"> camera 和 handle 中 attached_params 对象之间不同之处的说明</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="center">修改</td>
+<td align="left"> 确定某些接口传入参数是否必选</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="center">修改</td>
+<td align="left"> 对于 grou_id 和 user_id 为 string 类型的修改</td>
+</tr>
+<tr>
+<td align="left">4</td>
+<td align="center">修改</td>
+<td align="left"> 部分接口返回 json 数据内容的修改</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>API版本：1.0.1</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">修改</td>
+<td align="left"> camera 返回 json 中的 attached_params 对象不必要内容缩减</td>
+</tr>
+<tr>
+<td align="left">2</td>
+<td align="center">修改</td>
+<td align="left">把单个返回对象的 json 数据中不需要的键去掉</td>
+</tr>
+<tr>
+<td align="left">3</td>
+<td align="center">修改</td>
+<td align="left">类似接口18中，为了避免庞大返回体，将 json 数据中的某些对象去掉</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>API版本：1.0.0</p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 内容</th>
+<th align="center">操作</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">1</td>
+<td align="center">创建</td>
+<td align="left">第一版</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+
+
+<h2>ARC-D</h2>
+
+<p>ARC-D 是基于 leaf 运算节点实现的本地动静态人脸识别系统，是对 leaf 接口的包装和底库、相机、连接管理功能的补充。在 ARC-D 中不包含具体的业务逻辑，主要用于被业务系统调用，以实现具体的业务逻辑。</p>
+
+<h2>基本概念</h2>
+
+<ul>
+<li>camera 与调用相机相关，表示一个视频源。</li>
+<li>handle 用于设置 video 接口的调用实例，一个 handle 中绑定了一个 camera 和 group ，以及一些参数。</li>
+<li>result 用于查看识别结果。</li>
+<li>group 是一组用户，用来对用户的组做操作,在 handle 里面需要指定一个 camera 和一个组，也就是一个底库。</li>
+<li>user 是一个用户，它可以属于一个或者多个 group 。</li>
+</ul>
+
+
+<h2>API文档</h2>
+
+<p>本 API 遵循 RESTful 原则，使用了 GET/POST/PUT/DELETE 等 HTTP 方法对资源进行操作。</p>
+
+<h2>目录</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th colspan="4" style="background-color : #ee;">ARC-D终端API</th>
+        </tr>
+         <tr style="background-color : #ee">
+            <td>功能</td>
+            <td>方法</td>
+            <td>接口url</td>
+            <td>接口作用</td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan="5">camera</td>
+            <td><a href='#1'>GET</td>
+            <td><a href='#1'>/camera</td>
+            <td>获取所有相机的设置和状态</td>
+        </tr>
+        <tr>
+            <td><a href='#2'>GET</td>
+            <td><a href='#2'>/camera/&lt;camera_id&gt;</td>
+            <td>获取单个相机</td>
+        </tr>
+        <tr>
+            <td><a href='#3'>POST</td>
+            <td><a href='#3'>/camera</td>
+            <td>创建相机</td>
+        </tr>
+        <tr>
+            <td><a href='#4'>PUT</td>
+            <td><a href='#4'>/camera/&lt;camera_id&gt;</td>
+            <td>修改单个相机</td>
+        </tr>
+        <tr>        
+            <td><a href='#5'>DELETE</td>
+            <td><a href='#5'>/camera/&lt;camera_id&gt;</td>
+            <td>删除单个相机</td>
+        </tr>
+        <tr>
+            <td rowspan="8">handle</td>
+            <td><a href='#6'>GET</td>
+            <td><a href='#6'>/handle</td>
+            <td>获取所有 Handel </td>
+        </tr>
+        <tr>
+            <td><a href='#7'>GET</td>
+            <td><a href='#7'>/handle/&lt;handle_id&gt;</td>
+            <td>获取单个 Handle </td>
+        </tr>
+        <tr>
+            <td><a href='#8'>POST</td>
+            <td><a href='#8'>/handle</td>
+            <td>创建 H andle </td>
+        </tr>
+        <tr>
+            <td><a href='#9'>PUT</td>
+            <td><a href='#9'>/handle/&lt;handle_id&gt;</td>
+            <td>修改单个 Handle </td>
+        </tr>
+        <tr>
+            <td><a href='#10'>DELETE</td>
+            <td><a href='#10'>/handle/&lt;handle_id&gt;</td>
+            <td>删除单个 Handle </td>
+        </tr>
+        <tr>
+            <td><a href='#11'>POST</td>
+            <td><a href='#11'>/handle/&lt;handle_id&gt;/start</td>
+            <td>打开 Handle </td>
+        </tr>
+        <tr>
+            <td><a href='#12'>POST</td>
+            <td><a href='#12'>/handle/&lt;handle_id&gt;/stop</td>
+            <td>停止 Handle</td>
+        </tr>
+        <tr>
+            <td><a href='#13'>WEBSOCKET</td>
+            <td><a href='#13'>/handle/&lt;handle_id&gt;/live</td>
+            <td>获取 Handle 的输出</td>
+        </tr>
+        <tr>
+            <td rowspan="3">result</td>
+            <td><a href='#14'>GET</td>
+            <td><a href='#14'>/result</td>
+            <td>查看识别结果</td>
+        </tr>
+        <tr>
+            <td><a href='#15'>DELETE</td>
+            <td><a href='#15'>/result/&lt;handle_id&gt;</td>
+            <td>清空单个 Handle 的识别结果</td>
+        </tr>
+        <tr>
+            <td><a href='#16'>DELETE</td>
+            <td><a href='#16'>/result</td>
+            <td>清空所有识别结果</td>
+        </tr>
+        <tr>
+            <td rowspan="8">group</td>
+            <td><a href='#17'>GET</td>
+            <td><a href='#17'>/group</td>
+            <td>获取所有组</td>
+        </tr>
+        <tr>
+            <td><a href='#18'>POST</td>
+            <td><a href='#18'>/group</td>
+            <td>创建用户组</td>
+        </tr>
+        <tr>
+            <td><a href='#19'>GET</td>
+            <td><a href='#19'>/group/&lt;group_id&gt;</td>
+            <td>获取单个用户组</td>
+        </tr>
+        <tr>
+            <td><a href='#20'>PUT</td>
+            <td><a href='#20'>/group/&lt;group_id&gt;</td>
+            <td>修改单个用户组</td>
+        </tr>
+        <tr>
+            <td><a href='#21'>DELETE</td>
+            <td><a href='#21'>/group/&lt;group_id&gt;</td>
+            <td>删除单个用户组</td>
+        </tr>
+        <tr>
+            <td><a href='#22'>POST</td>
+            <td><a href='#22'>/group/&lt;group_id&gt;/&lt;user_id&gt;</td>
+            <td>向用户组中加入用户</td>
+        </tr>
+        <tr>
+            <td><a href='#23'>DELETE</td>
+            <td><a href='#23'>/group/&lt;group_id&gt;/&lt;user_id&gt;</td>
+            <td>删除用户组中的用户</td>
+        </tr>
+        <tr>
+            <td><a href='#24'>GET</td>
+            <td><a href='#24'>/group_query</td>
+            <td>查询用户组</td>
+        </tr>
+        <tr>
+            <td rowspan="9">user</td>
+            <td><a href='#25'>GET</td>
+            <td><a href='#25'>/user</td>
+            <td>获取所有用户</td>
+        </tr>
+        <tr>
+            <td><a href='#26'>POST</td>
+            <td><a href='#26'>/user</td>
+            <td>创建用户</td>
+        </tr>
+        <tr>
+            <td><a href='#27'>GET</td>
+            <td><a href='#27'>/user/&lt;user_id&gt;</td>
+            <td>获取某个用户的信息</td>
+        </tr>
+        <tr>
+            <td><a href='#28'>PUT</td>
+            <td><a href='#28'>/user/&lt;user_id&gt;</td>
+            <td>修改某个用户的信息</td>
+        </tr>
+        <tr>
+            <td><a href='#29'>DELETE</td>
+            <td><a href='#29'>/user/&lt;user_id&gt;</td>
+            <td>删除某个用户的信息</td>
+        </tr>
+        <tr>
+            <td><a href='#30'>POST</td>
+            <td><a href='#30'>/user/&lt;user_id&gt;/image</td>
+            <td>向用户加入图片</td>
+        </tr>
+        <tr>
+            <td><a href='#31'>DELETE</td>
+            <td><a href='#31'>/user/&lt;user_id&gt;/image/&lt;image_id&gt;</td>
+            <td>删除用户的图片</td>
+        </tr>
+        <tr>
+            <td><a href='#32'>GET</td>
+            <td><a href='#32'>/user_query</td>
+            <td>查询用户</td>
+        </tr>
+        <tr>
+            <td><a href='#33'>GET</td>
+            <td><a href='#33'>/image/&lt;image_id&gt;</td>
+            <td>获得照片</td>
+        </tr>
+            </tbody>
+    
+        <thead>
+        <tr>
+            <th colspan="4" style="background-color : #eee;">附录</th>
+        </tr>
+        <tr>
+            <th colspan="4"><a href='#34'>模型定义</th>
+        </tr>
+        <tr>
+            <th colspan="4"><a href='#35'>错误码定义</th>
+        </tr>
+    </thead>
+</table>
+
+
+
+
+<table>
+
+</table>
+
+
+
+
+<table>
+
+</table>
+
+
+<h2>终端API</h2>
+
+<h3>camera</h3>
+
+<ul>
+<li><strong>camera调用相机(视频源)相关</strong></li>
+</ul>
+
+
+<h3>1.获取所有相机的设置和状态</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="1">/camera</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>获取所有相机的设置和状态。</p></li>
+<li><h4>参数：</h4>
+
+<p>无</p></li>
+<li><h4><span id='1return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> cameras </td>
+<td align="left"> array </td>
+<td align="left">  所有相机列表 </td>
+</tr>
+<tr>
+<td align="left"> id </td>
+<td align="left"> int </td>
+<td align="left"> 相机的 ID </td>
+</tr>
+<tr>
+<td align="left"> name </td>
+<td align="left"> string </td>
+<td align="left"> 相机的名称 </td>
+</tr>
+<tr>
+<td align="left"> url </td>
+<td align="left"> string </td>
+<td align="left"> 相机的 RTSP 地址 </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> Object </td>
+<td align="left"> 相机的附加参数，类型为 Object</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><code>attached_params</code>是相机的附加参数，类型为 <code>Object</code>，其中键与值均为 <code>string</code>；以 <code>JSON</code> 编码传入</p></li>
+<li><h4><span id="1json">返回JSON：</span></h4>
+
+<pre><code>{
+  "cameras": [
+      {
+          "id": 1,
+          "name": "duyufei",
+          "url": "rtsp://10.101.2.144:554/live1.sdp",
+          "attached_params":{}
+      },
+      {
+          "id": 2,
+          "name": "congying",
+          "url": "rtsp://10.101.2.124:554/live2.sdp",
+          "attached_params":{}
+      },
+      {
+          "id": 3,
+          "name": "wangjingyi",
+          "url": "rtsp://10.101.3.144:354/live3.sdp",
+          "attached_params":{}
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>2.获取单个相机</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="2">/camera/&lt;camera_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>获取 <code>camera_id</code> 相机的设置。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> camera_id </td>
+<td align="left"> int </td>
+<td align="left"> ✅ </td>
+<td align="left"> 相机的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>这里的 <code>[URL_PARAM]</code> 表示这个输入在 URL 中。发送请求 <code>GET/camera/1</code> ,服务器将 <code>camera_id</code> 为 <code>1</code> 的 <code>camera</code> 信息返回。</p></li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#1return'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#1json'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p>
+
+<pre><code>  {
+      "id": 1,
+      "name": "duyufei",
+      "url": "rtsp://10.101.2.144:554/live1.sdp",
+      "attached_params":{}
+  }
+</code></pre></li>
+</ul>
+
+
+<h3>3.创建相机</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="3">/camera</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>设置一台新的相机。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> name </td>
+<td align="left"> string </td>
+<td align="left"> ✅ </td>
+<td align="left"> 相机的名称 </td>
+</tr>
+<tr>
+<td align="left"> url </td>
+<td align="left"> string </td>
+<td align="left"> ✅ </td>
+<td align="left"> 相机的 RTSP 地址 </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> string </td>
+<td align="left"> ❎ </td>
+<td align="left"> 相机的附加参数，类型为 Object，其中键与值均为 string；以 JSON 编码传入 </td>
+</tr>
+</tbody>
+</table>
+
+
+<pre><code>"attached_params":{
+  "camera_position":"大厅",
+  "camera_price":"10000",
+  "quality_threshold":"80",
+  "short_threshold":"78"
+  }
+</code></pre></li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#1return'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#1json'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p>
+
+<pre><code>  {
+      "id": 4,
+      "name": "linyue",
+      "url": "rtsp://10.102.2.144:554/live4.sdp",
+      "attached_params":{}
+  }
+</code></pre></li>
+</ul>
+
+
+<h3>4.修改单个相机</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="4">/camera/&lt;camera_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>PUT</p></li>
+<li><h4>描述：</h4>
+
+<p>修改 <code>camera_id</code> 相机的设置。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> camera_id </td>
+<td align="left"> int </td>
+<td align="left">✅ </td>
+<td align="left">  相机的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> name </td>
+<td align="left"> string </td>
+<td align="left">✅ </td>
+<td align="left">  相机的名称 </td>
+</tr>
+<tr>
+<td align="left"> url </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left">  相机的 RTSP 地址 </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> string </td>
+<td align="left"> ❎ </td>
+<td align="left"> 相机的附加参数，类型为 Object，其中键与值均为 string；以 JSON 编码传入</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#1return'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#1json'>参考接口1，但是这里返回的只是单个 camera 的信息</a></p>
+
+<pre><code>  {
+      "id": 4,
+      "name": "tangxuezhi",
+      "url": "rtsp://10.102.2.144:554/live6.sdp",
+      "attached_params":{}
+  }
+</code></pre></li>
+</ul>
+
+
+<h3>5.删除单个相机</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="5">/camera/&lt;camera_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除 <code>camera_id</code> 的相机。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> 相机的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<hr />
+
+<h3>handle</h3>
+
+<ul>
+<li><strong>用于设置 Video 接口的调用实例。</strong></li>
+</ul>
+
+
+<h3>6.获取所有 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="6">/handle</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>返回所有已设置的 Video 调用实例，以及它们的信息。</p></li>
+<li><h4>参数：</h4>
+
+<p>无</p></li>
+<li><h4><span id='2return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handles </td>
+<td align="left"> array </td>
+<td align="left"> Handle 列表 </td>
+</tr>
+<tr>
+<td align="left"> id </td>
+<td align="left"> int </td>
+<td align="left"> Handle 的 ID </td>
+</tr>
+<tr>
+<td align="left"> camera </td>
+<td align="left"> int </td>
+<td align="left"> 相机的 ID </td>
+</tr>
+<tr>
+<td align="left"> group </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> working </td>
+<td align="left"> boolean </td>
+<td align="left"> 是否工作 </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> <a href="#attachedParams_model">AttachedParams 模型</a> </td>
+<td align="left"> Handle 的附加参数，类型为 Object</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><code>attached_params模型</code> 里面的 <code>Orient</code> 表示视频方向，是一个枚举类型。 <code>ROI</code> 表示感兴趣区域，有上下左右四个 <code>int</code> 值。</p></li>
+<li><h4><span id="2json">返回JSON：</span></h4>
+
+<pre><code>{
+  "handles": [
+      {
+          "id": 1,
+          "camera": 1,
+          "group": "5837ffa1ad017e2f92000001",
+          "working": false,
+          "attached_params":{
+              "recognized_threshold":80,
+              "stranger_threshold":62,
+              "quality_threshold":0.5,
+              "short_threshold":81,
+              "long_threshold":82,
+              "gate_threshold":78,
+              "forget_time":30000000000,
+              "gate_reserve_time":3000000000,
+              "gate_wait_time":2000000000,
+              "gate_break_time":500000000,
+              "orient":"up"
+              "minface":50,
+              "roi":{
+                  "left":0,
+                  "top":0,
+                  "right":0,
+                  "bottom":0
+              }
+          }
+      },
+      {
+          "id": 2,
+          "camera": 2,
+          "group": "5837ffa1ad017e2f92000002",
+          "working": false,
+          "attached_params":{
+              "recognized_threshold":80,
+              "stranger_threshold":62,
+              "quality_threshold":0.5,
+              "short_threshold":81,
+              "long_threshold":82,
+              "gate_threshold":78,
+              "forget_time":30000000000,
+              "gate_reserve_time":3000000000,
+              "gate_wait_time":2000000000,
+              "gate_break_time":500000000,
+              "orient":"up"
+              "minface":50,
+              "roi":{
+                  "left":0,
+                  "top":0,
+                  "right":0,
+                  "bottom":0
+              }
+          }
+      },
+      {
+          "id": 3,
+          "camera": 3,
+          "group": "5837ffa1ad017e2f92000003",
+          "working": false,
+          "attached_params":{
+              "recognized_threshold":80,
+              "stranger_threshold":62,
+              "quality_threshold":0.5,
+              "short_threshold":81,
+              "long_threshold":82,
+              "gate_threshold":78,
+              "forget_time":30000000000,
+              "gate_reserve_time":3000000000,
+              "gate_wait_time":2000000000,
+              "gate_break_time":500000000,
+              "orient":"up"
+              "minface":50,
+              "roi":{
+                  "left":0,
+                  "top":0,
+                  "right":0,
+                  "bottom":0
+              }
+          }
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>7.获取单个 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="7">/handle/&lt;handle_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>返回某个 <code>Video</code> 调用实例的信息。<code>handle_id</code>表示一个 Video 调用实例，包含 <code>camera_id</code> 和 <code>group_id</code>。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>这里的 <code>[URL_PARAM]</code> 表示这个输入在URL中。发送请求 <code>GET/handle/1</code> ,服务器将 <code>handle_id</code> 为1的 <code>handle</code> 信息返回。</p></li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#2return'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#2json'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p>
+
+<pre><code>{
+  "id": 1,
+  "camera": 1,
+  "group": "5837ffa1ad017e2f92000001",
+  "working": false,
+  "attached_params":{
+      "recognized_threshold":80,
+      "stranger_threshold":62,
+      "quality_threshold":0.5,
+      "short_threshold":81,
+      "long_threshold":82,
+      "gate_threshold":78,
+      "forget_time":30000000000,
+      "gate_reserve_time":3000000000,
+      "gate_wait_time":2000000000,
+      "gate_break_time":500000000,
+      "orient":"up"
+      "minface":50,
+      "roi":{
+          "left":0,
+          "top":0,
+          "right":0,
+          "bottom":0
+      }
+  }
+}
+</code></pre></li>
+</ul>
+
+
+<h3>8.创建 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="8">/handle</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>创建 Handle。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> camera_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> 相机的 ID </td>
+</tr>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> <a href="#attachedParams_model">AttachedParams 模型</a>  </td>
+<td align="left">❎</td>
+<td align="left"> Handle 的附加参数，类型为 Object，其中键与值的定义请参看返回值；所有键均为可选 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#2return'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#2json'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p>
+
+<pre><code>{
+  "id": 4,
+  "camera": 4,
+  "group": "5837ffa1ad017e2f92000001",
+  "working": false,
+  "attached_params":{
+      "recognized_threshold":80,
+      "stranger_threshold":62,
+      "quality_threshold":0.5,
+      "short_threshold":81,
+      "long_threshold":82,
+      "gate_threshold":78,
+      "forget_time":30000000000,
+      "gate_reserve_time":3000000000,
+      "gate_wait_time":2000000000,
+      "gate_break_time":500000000,
+      "orient":"up"
+      "minface":50,
+      "roi":{
+          "left":0,
+          "top":0,
+          "right":0,
+          "bottom":0
+      }
+  }
+}
+</code></pre></li>
+</ul>
+
+
+<h3>9.修改单个 Hanlde</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="9">/handle/&lt;handle_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>PUT</p></li>
+<li><h4>描述：</h4>
+
+<p>修改单个 Hanlde。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> camera_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> 相机的 ID </td>
+</tr>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> attached_params </td>
+<td align="left"> <a href="#attachedParams_model">AttachedParams 模型</a>  </td>
+<td align="left">❎</td>
+<td align="left"> Handle 的附加参数，类型为 Object，其中键与值的定义请参看返回值；所有键均为可选 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#2return'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#2json'>参考接口6，但是这里返回的只是单个 handle 的信息</a></p>
+
+<pre><code>{
+  "id": 1,
+  "camera": 2,
+  "group": "5837ffa1ad017e2f92000001",
+  "working": false,
+  "attached_params":{
+      "recognized_threshold":80,
+      "stranger_threshold":62,
+      "quality_threshold":0.5,
+      "short_threshold":81,
+      "long_threshold":82,
+      "gate_threshold":78,
+      "forget_time":30000000000,
+      "gate_reserve_time":3000000000,
+      "gate_wait_time":2000000000,
+      "gate_break_time":500000000,
+      "orient":"up"
+      "minface":50,
+      "roi":{
+          "left":0,
+          "top":0,
+          "right":0,
+          "bottom":0
+      }
+  }
+}
+</code></pre></li>
+</ul>
+
+
+<h3>10.删除单个 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="10">/handle/&lt;handle_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除 <code>handle_id</code> 的 Video 调用实例。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>11.打开 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="11">/handle/&lt;handle_id&gt;/start</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>将单个 Handle 置于工作状态。处于工作状态的 Handle 会将识别结果写入数据库并使用 result 系列接口查询，并可以调用其 /live 接口。当 ARC-D 重新启动时，所有处于工作状态的 Handle 会被重新打开。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM]  </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>12.停止 Handle</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="12">/handle/&lt;handle_id&gt;/stop</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>将单个 Handle 置于非工作状态。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM]  </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>13.获取 Handle 的输出</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="13">/handle/&lt;handle_id&gt;/live</span></p></li>
+<li><h4>Method:</h4>
+
+<p>WEBSOCKET</p></li>
+<li><h4>描述：</h4>
+
+<p>Websocket 接口。只能对处在工作状态的 Handle 使用。如果成功，会将协议升级为 Websocket，并按照 leaf 格式输出数据。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM]  </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4></li>
+<li>以下是 WebSocket 每次推送消息的若干基本格式。每种格式以 type 区分。</li>
+</ul>
+
+
+<pre><code>{
+  "type": "track",
+  "data": {
+    "track": 1,    
+    "timestamp": 1438847587,
+    "status": "recognized",
+    "quality": 0.7,
+    "face": {
+      "rect": {
+        "left": 0,
+        "top": 0,
+        "width": 100,
+        "height": 100
+      },
+      "image": "Base64 encoded JPEG image"
+    },
+    "person": {
+      "id": "person_1",
+      "tag": "person_1_tag",
+      "confidence": 80.1,
+      "feature_id": 1
+    },
+    "attr": {
+      "age": 23.12312344,
+      "male": 0.92,
+      "female": 0.08
+    }
+  }
+}
+
+{
+  "type": "keepalive"
+}
+</code></pre>
+
+<ul>
+<li><h4>返回值说明：</h4></li>
+</ul>
+
+
+<p>对每个 <code>track</code>，其 <code>status</code> 可能是 <code>recognizing</code>、<code>recognized</code>、<code>unrecognized</code>、<code>gone</code> 四者之一。其中 <code>recognizing</code> 表示识别中，会输出若干次。<code>recognized</code> 表示识别成功，最多输出一次。<code>unrecognized</code> 表示此 <code>Track</code> 分数太低，判断为陌生人，最多输出一次。<code>gone</code> 表示 <code>track</code> 消失，输出一次。
+其中 <code>face</code>, <code>person</code> 两个字段除 <code>gone</code> 以外都会输出，但 <code>recognizing</code> 时 <code>person</code> 只能做参考。 只有 <code>recognized</code> 的 <code>person</code> 才可用于判断输出。</p>
+
+<hr />
+
+<h3>result</h3>
+
+<ul>
+<li><strong>用于查看识别结果</strong></li>
+</ul>
+
+
+<h3>14.查看识别结果</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="14">/result</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>查看识别结果。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> query </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 表示查询条件，以 JSON 编码传入 </td>
+</tr>
+<tr>
+<td align="left"> skip </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示跳过的记录数目， default = 0 </td>
+</tr>
+<tr>
+<td align="left"> limit </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示最多显示的记录数目，default = 50 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>查询条件可以包含：</li>
+<li>键 <code>handle_ids</code>，值类型 <code>int[]</code>，表示来源 <code>Handle</code> 的 <code>ID</code>。</li>
+<li>键 <code>user_ids</code>，值类型 <code>string[]</code>，表示最接近用户的 <code>ID</code>。</li>
+<li>键 <code>status</code>，值类型 <code>string[]</code>，可以包含 <code>recognzied</code>, <code>stranger</code> 或 <code>not_determined</code> 中的若干个，表示记录的结果。</li>
+<li>键 <code>timestamp_min</code>，值类型 <code>int</code>，表示记录产生时间（Unix 纪元）的下限，单位为纳秒。</li>
+<li>键 <code>timestamp_max</code>，值类型 <code>int</code>，表示记录产生时间（Unix 纪元）的上限，单位为纳秒。</li>
+<li><p><code>skip</code>和<code>limit</code>用作分页。</p></li>
+<li><h4>返回值：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> results </td>
+<td align="left"> array </td>
+<td align="left"> result 构成的数组 </td>
+</tr>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> string </td>
+<td align="left"> 产生该条记录的 Handle 的 ID </td>
+</tr>
+<tr>
+<td align="left"> status </td>
+<td align="left"> string </td>
+<td align="left"> 该条记录的最终结果，在 recognized, stranger 和 not_determined 中取值 </td>
+</tr>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left"> 与该条记录的抓拍人像最接近的用户的 ID </td>
+</tr>
+<tr>
+<td align="left"> user_tag </td>
+<td align="left"> object </td>
+<td align="left"> 记录产生时 user_id 对应用户的 Tag</td>
+</tr>
+<tr>
+<td align="left"> timestamp </td>
+<td align="left"> int64 </td>
+<td align="left"> 该条记录产生的时间（Unix 纪元），单位为纳秒 </td>
+</tr>
+<tr>
+<td align="left"> snapshot </td>
+<td align="left"> array </td>
+<td align="left"> 该条记录的抓拍图，以 Base64 编码的 JPEG 格式保存 </td>
+</tr>
+<tr>
+<td align="left"> confidence </td>
+<td align="left"> float </td>
+<td align="left"> 该条记录与最接近用户匹配的置信度 </td>
+</tr>
+<tr>
+<td align="left"> quality </td>
+<td align="left"> float </td>
+<td align="left"> 该条记录抓拍人像的质量分数</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="2json">返回JSON：</span></h4>
+
+<pre><code>{
+  "results": [
+      {
+        "handle_id": "1",
+        "status": "recognized",
+        "user_id": "583bd338ad017e2f9200000e",
+        "user_tag":{},
+        "timestamp":1244447,
+        "snapshot":"O0tba3uLm6wsPE",
+        "confidence":80,
+        "quality":0.8
+      },
+      {
+        "handle_id": "2",
+        "status": "not_determined",
+        "user_id": "583bd338ad017e2f9200000f",
+        "user_tag":{},
+        "timestamp":1244447,
+        "snapshot":"O0tba3uLm6wsPE",
+        "confidence":70,
+        "quality":0.7
+      },
+      {
+        "handle_id": "3",
+        "status": "stranger",
+        "user_id": "583bd338ad017e2f9200000g",
+        "user_tag":{},
+        "timestamp":1244447,
+        "snapshot":"O0tba3uLm6wsPE",
+        "confidence":50,
+        "quality":0.5
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>15.清空单个 Handle 的识别结果</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="15">/result/&lt;handle_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>清空单个 Handle 的识别结果。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> handle_id </td>
+<td align="left"> int </td>
+<td align="left">✅</td>
+<td align="left"> Handle 的 ID-[URL_PARAM]  </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>16.清空所有识别结果</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="16">/result</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>清空所有识别结果。</p></li>
+<li><h4>参数：</h4>
+
+<p>无</p></li>
+<li><h4>返回值说明：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<hr />
+
+<h2>aqua</h2>
+
+<h3>group</h3>
+
+<ul>
+<li><strong> group 是一组用户。用户可以带有照片 (feature) </strong></li>
+<li><strong> group 用来对用户的组做操作,在 handle 里面需要指定一个 camera 和一个组，也就是一个底库</strong></li>
+</ul>
+
+
+<h3>17.获取所有用户组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="17">/group</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>获取所有组。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> skip </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示跳过的用户组数目， default = 0 </td>
+</tr>
+<tr>
+<td align="left"> limit </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示最多显示的用户组数目，default = 50 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>获取用户组的集合的接口不返回用户组中的用户列表。</li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#3return'>参考接口18，此处 groups 列表中不包含 user 列表</a></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> 用户组列表 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><strong>对 users 键的特别说明：获取所有 group 信息时，不包含 user 列表， users 键的值永远为 null ，以避免庞大的返回体。</strong></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#3json'>参考接口18，此处 groups 列表中不包含 user 列表</a></p>
+
+<pre><code>{
+  "groups": [
+      {
+        "id": "583bd13cad017e2f92000009",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      },
+      {
+        "id": "583bd13cad017e2f92000010",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      },
+      {
+        "id": "583bd13cad017e2f92000011",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>18.创建组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="18">/group</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>创建组。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 任意 Object；以 JSON 编码传入 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='3return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 group 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户组中包含的用户 ID </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="3json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583bd13cad017e2f92000009",
+  "tag": {
+      "some_key_1":"some_value_1",
+      "some_key_2":"some_value_2"
+  },
+  "users":[]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>19.获取单个用户组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="19">/group/&lt;group_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>获取单个用户组的信息，以及组中的用户列表。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='3return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 group 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户组中包含的用户 ID </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="3json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583bd13cad017e2f92000009",
+  "tag": {
+      "some_key_1":"some_value_1",
+      "some_key_2":"some_value_2"
+  },
+  "users":[]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>20.修改单个用户组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="20">/group/&lt;group_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>PUT</p></li>
+<li><h4>描述：</h4>
+
+<p>修改单个用户组。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left">❎</td>
+<td align="left"> 任意 Object；以 JSON 编码传入 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='3return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 group 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户组中包含的用户 ID </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="3json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583bd13cad017e2f92000009",
+  "tag": {
+      "some_key_3":"some_value_3",
+      "some_key_4":"some_value_4"
+  },
+  "users":[]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>21.删除单个用户组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="21">/group/&lt;group_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除单个用户组。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>22.向用户组中加入用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="22">/group/&lt;group_id&gt;/&lt;user_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>向用户组中加入用户。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='3return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 group 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户组中包含的用户 ID </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="3json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583bd13cad017e2f92000009",
+  "tag": {
+      "some_key_3":"some_value_3",
+      "some_key_4":"some_value_4"
+  },
+  "users":[
+      "583bd8ebad017e2f92000015"
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>23.删除用户组中的用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="23">/group/&lt;group_id&gt;/&lt;user_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除用户组中的用户。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> group_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户组的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='3return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户组的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 group 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户组中包含的用户 ID </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="3json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583bd13cad017e2f92000009",
+  "tag": {
+      "some_key_3":"some_value_3",
+      "some_key_4":"some_value_4"
+  },
+  "users":[]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>24.查询用户组</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="24">/group_query</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>通过 query 查询用户组。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> query </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 表示查询条件，类型为 Object ，以 JSON 编码传入 </td>
+</tr>
+<tr>
+<td align="left"> skip </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示跳过的记录数目， default = 0 </td>
+</tr>
+<tr>
+<td align="left"> limit </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示最多显示的记录数目，default = 50 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>查询条件可以包含键 <code>tag</code>，值类型 <code>Object</code>，表示查询 <code>tag</code> 满足该 <code>Object</code> 条件的用户组。满足一个 <code>Object</code> 的条件指的是，对于该 <code>Object</code> 的包含的任意键值对 <code>(k, v)</code>，<code>v</code> 应为基本类型或者数组，如果 <code>v</code> 是基本类型，则 <code>tag</code> 的 <code>k</code> 键对应的值 <code>v'</code> 应该等于 <code>v</code>，或者 <code>v'</code> 是一个包含 <code>v</code> 的数组；如果 <code>v</code> 是数组，那么 <code>v'</code> 应为一个数组，且在集合意义上是 <code>v</code> 的并集。查询条件可以包含键 <code>user_ids</code>，值类型 <code>string[]</code>，内容为用户的 <code>ID</code>，用户组应包含其中至少一个。</p></li>
+<li><code>skip</code>和<code>limit</code>用作分页。</li>
+<li><h4>返回值说明：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> group 构成的数组 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4>
+
+<pre><code>{
+  "groups": [
+      {
+        "id": "583bd13cad017e2f92000009",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      },
+      {
+        "id": "583bd13cad017e2f92000010",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      },
+      {
+        "id": "583bd13cad017e2f92000011",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "users":null
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<hr />
+
+<h3>user</h3>
+
+<ul>
+<li><strong> user 是一个用户，它可以属于一个或者多个 group ，可以给一个用户添加一个底库</strong></li>
+<li>tag 是附加在 user 和 group 上的一个声明，可以依靠它来查询相应的信息。 user_tag 会在 leaf 返回的时候返回出来，而 group_tag 不会。</li>
+</ul>
+
+
+<h3>25.获取所有用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="25">/user</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>返回所有用户信息。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> skip </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示跳过的用户数目， default = 0 </td>
+</tr>
+<tr>
+<td align="left"> limit </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示最多显示的用户数目， default = 50 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>获取用户的集合的接口不返回包含该用户的用户组列表。</li>
+<li><h4>返回值说明：</h4>
+
+<p><a href='#4return'>参考接口26，此处 users 列表中不包含 group 列表</a></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户构成的数组 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p><strong>对 groups 键的特别说明：获取所有 user 信息时，不包含 group 列表， groups 键的值永远为 null ，以避免庞大的返回体。</strong></p></li>
+<li><h4>返回JSON：</h4>
+
+<p><a href='#4json'>参考接口26，此处 users 列表中不包含 group 列表</a></p>
+
+<pre><code>{
+  "users": [
+      {
+        "id": "583bd338ad017e2f9200000e",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000b",
+            "583bfed5ad017e547100000c",
+            "583bfed5ad017e547100000d"
+            ],
+        "disabled":false,
+        "groups":null
+      },
+      {
+        "id": "583bd338ad017e2f9200000f",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000e",
+            "583bfed5ad017e547100000f",
+            "583bfed5ad017e547100000g"
+            ],
+        "disabled":false,
+        "groups":null
+      },
+      {
+        "id": "583bd338ad017e2f9200000g",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000h",
+            "583bfed5ad017e547100000i",
+            "583bfed5ad017e547100000j"
+            ],
+        "disabled":false,
+        "groups":null
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>26.创建用户信息</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="26">/user</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4>
+
+<p>创建用户信息。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 任意 Object；以 JSON 编码传入 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='4return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 user 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> images </td>
+<td align="left"> array </td>
+<td align="left"> 用户的图片 ID 集合 </td>
+</tr>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> 包含该用户的用户组 ID </td>
+</tr>
+<tr>
+<td align="left"> disabled </td>
+<td align="left"> bool </td>
+<td align="left"> 用户是否被禁用 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="4json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583be59aad017e2f9200001b",
+  "tag": {
+      "some_key_1":"some_value_1",
+      "some_key_2":"some_value_2"
+      },
+  "images":[],
+  "groups":[],
+  "disabled":false
+}
+</code></pre></li>
+</ul>
+
+
+<h3>27.获取单个用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="27">/user/&lt;user_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>获取某个用户的信息。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='4return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 user 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> images </td>
+<td align="left"> array </td>
+<td align="left"> 用户的图片 ID 集合 </td>
+</tr>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> 包含该用户的用户组 ID </td>
+</tr>
+<tr>
+<td align="left"> disabled </td>
+<td align="left"> bool </td>
+<td align="left"> 用户是否被禁用 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="4json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583be59aad017e2f9200001b",
+  "tag": {
+      "some_key_1":"some_value_1",
+      "some_key_2":"some_value_2"
+      },
+  "images":[
+      "583bfed5ad017e547100000b",
+      "583bfed5ad017e547100000c",
+      "583bfed5ad017e547100000d"
+      ],
+  "groups":[
+      "5837ffa1ad017e2f92000001",
+      "5837ffa1ad017e2f92000002",
+      "5837ffa1ad017e2f92000003",
+      "5837ffa1ad017e2f92000004"
+      ],
+  "disabled":false
+}
+</code></pre></li>
+</ul>
+
+
+<h3>28.修改单个用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="28">/user/&lt;user_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>PUT</p></li>
+<li><h4>描述：</h4>
+
+<p>修改某个用户的信息。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 任意 Object；以 JSON 编码传入 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='4return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 user 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> images </td>
+<td align="left"> array </td>
+<td align="left"> 用户的图片 ID 集合 </td>
+</tr>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> 包含该用户的用户组 ID </td>
+</tr>
+<tr>
+<td align="left"> disabled </td>
+<td align="left"> bool </td>
+<td align="left"> 用户是否被禁用 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="4json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583be59aad017e2f9200001b",
+  "tag": {
+      "some_key_3":"some_value_3",
+      "some_key_4":"some_value_4"
+      },
+  "images":[
+      "583bfed5ad017e547100000b",
+      "583bfed5ad017e547100000c",
+      "583bfed5ad017e547100000d"
+      ],
+  "groups":[
+      "5837ffa1ad017e2f92000001",
+      "5837ffa1ad017e2f92000002",
+      "5837ffa1ad017e2f92000003",
+      "5837ffa1ad017e2f92000004"
+      ],
+  "disabled":false
+}
+</code></pre></li>
+</ul>
+
+
+<h3>29.删除单个用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="29">/user/&lt;user_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除某个用户的信息。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值：</h4>
+
+<p>无</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>无</p></li>
+</ul>
+
+
+<h3>30.向用户加入图片</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="30">/user/&lt;user_id&gt;/image</span></p></li>
+<li><h4>Method:</h4>
+
+<p>POST</p></li>
+<li><h4>描述：</h4></li>
+<li>上传用户底库照片，从而向底库中增加 Feature 。返回 image_id 和图片质量等信息。</li>
+<li><p>如果该用户的底库照片数量已达上限（典型地，为3张图片），则该接口报错。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> image </td>
+<td align="left"> file </td>
+<td align="left">✅</td>
+<td align="left"> 欲上传的图片 </td>
+</tr>
+<tr>
+<td align="left"> quality_threshold </td>
+<td align="left"> float64 </td>
+<td align="left">❎</td>
+<td align="left"> 质量分数的最低容许值 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='5return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> image_id </td>
+<td align="left"> string </td>
+<td align="left"> 图片的 ID </td>
+</tr>
+<tr>
+<td align="left"> quality </td>
+<td align="left"> float </td>
+<td align="left"> 图片的质量分数 </td>
+</tr>
+<tr>
+<td align="left"> user </td>
+<td align="left"> string </td>
+<td align="left"> 修改后的用户 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>底库照片上限是三张，达到三张如果继续上传， <code>HTTP Status Code</code> 会返回 <code>400 Bad Request</code> ，且返回：</p>
+
+<pre><code>  {
+      "code": 113,
+      "description": "Reach the limit of images",
+      "raw": "Already reach the limit"
+  }
+</code></pre></li>
+<li><h4><span id="5json">返回JSON：</span></h4>
+
+<pre><code>{
+  "image_id":"583bfed9ad017e547100000c",
+  "quality":0.9006577575219373,
+  "user":{
+        "id": “583be59aad017e2f9200001b”,
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed9ad017e547100000f"
+            ],
+        "groups":[
+            "5837ffa1ad017e2f92000001",
+            "5837ffa1ad017e2f92000002",
+            "5837ffa1ad017e2f92000003"
+            ],
+        "disabled":false
+  }
+}
+</code></pre></li>
+</ul>
+
+
+<h3>31.删除用户的图片</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="31">/user/&lt;user_id&gt;/image/&lt;image_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>DELETE</p></li>
+<li><h4>描述：</h4>
+
+<p>删除用户底库照片，从而将底库 feature 一并删除。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> user_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 用户的 ID-[URL_PARAM] </td>
+</tr>
+<tr>
+<td align="left"> image_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 图片的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id='4return'>返回值：</span></h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> id </td>
+<td align="left"> string </td>
+<td align="left"> 用户的 ID </td>
+</tr>
+<tr>
+<td align="left"> tag </td>
+<td align="left"> object </td>
+<td align="left"> 附加在 user 上的一个声明，可以依靠它来查询相应的信息 </td>
+</tr>
+<tr>
+<td align="left"> images </td>
+<td align="left"> array </td>
+<td align="left"> 用户的图片 ID 集合 </td>
+</tr>
+<tr>
+<td align="left"> groups </td>
+<td align="left"> array </td>
+<td align="left"> 包含该用户的用户组 ID </td>
+</tr>
+<tr>
+<td align="left"> disabled </td>
+<td align="left"> bool </td>
+<td align="left"> 用户是否被禁用 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4><span id="4json">返回JSON：</span></h4>
+
+<pre><code>{
+  "id": "583be59aad017e2f9200001b",
+  "tag": {
+      "some_key_1":"some_value_1",
+      "some_key_2":"some_value_2"
+      },
+  "images":[],
+  "groups":[
+      "5837ffa1ad017e2f92000001",
+      "5837ffa1ad017e2f92000002",
+      "5837ffa1ad017e2f92000003"
+  ],
+  "disabled":false
+}
+</code></pre></li>
+</ul>
+
+
+<h3>32.查询用户</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="32">/user_query</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>通过 query 查询用户。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> query </td>
+<td align="left"> string </td>
+<td align="left">❎</td>
+<td align="left"> 表示查询条件，类型为 Object，以 JSON 编码传入 </td>
+</tr>
+<tr>
+<td align="left"> skip </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示跳过的用户数目， default = 0 </td>
+</tr>
+<tr>
+<td align="left"> limit </td>
+<td align="left"> int </td>
+<td align="left">❎</td>
+<td align="left"> 表示最多显示的用户数目，default = 50 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><p>查询条件可以包含:</p></li>
+<li>键 <code>tag</code>，值类型 <code>Object</code>，表示查询 <code>tag</code> 满足该 <code>Object</code> 条件的用户。满足一个 <code>Object</code> 的条件指的是，对于该 <code>Object</code> 的包含的任意键值对 <code>(k, v)</code>，<code>v</code> 应为基本类型或者数组，如果 <code>v</code> 是基本类型，则 <code>tag</code> 的 <code>k</code> 键对应的值 <code>v'</code> 应该等于 <code>v</code>，或者 <code>v'</code> 是一个包含 <code>v</code> 的数组；如果 <code>v</code> 是数组，那么 <code>v'</code> 应为一个数组，且在集合意义上是 <code>v</code> 的并集。</li>
+<li><p>键 <code>group_ids</code>，值类型 <code>string[]</code>，内容为用户组的 <code>ID</code>，用户应包含在其中至少一个组中。</p></li>
+<li><p><code>skip</code>和<code>limit</code>用作分页。</p></li>
+<li><h4>返回值说明：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 字段 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> users </td>
+<td align="left"> array </td>
+<td align="left"> 用户构成的数组 </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回JSON：</h4>
+
+<pre><code>{
+  "users": [
+      {
+        "id": "583bd338ad017e2f9200000e",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000b",
+            "583bfed5ad017e547100000c",
+            "583bfed5ad017e547100000d"
+            ],
+        "disabled":false,
+        "groups":null
+      },
+      {
+        "id": "583bd338ad017e2f9200000f",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000e",
+            "583bfed5ad017e547100000f",
+            "583bfed5ad017e547100000g"
+            ],
+        "disabled":false,
+        "groups":null
+      },
+      {
+        "id": "583bd338ad017e2f9200000g",
+        "tag": {
+            "some_key_1":"some_value_1",
+            "some_key_2":"some_value_2"
+            },
+        "images":[
+            "583bfed5ad017e547100000h",
+            "583bfed5ad017e547100000i",
+            "583bfed5ad017e547100000j"
+            ],
+        "disabled":false,
+        "groups":null
+      }
+  ]
+}
+</code></pre></li>
+</ul>
+
+
+<h3>33.获得图片。</h3>
+
+<ul>
+<li><h4>URL</h4>
+
+<p><span id="33">/image/&lt;image_id&gt;</span></p></li>
+<li><h4>Method:</h4>
+
+<p>GET</p></li>
+<li><h4>描述：</h4>
+
+<p>返回 image_id 对应的图像。</p></li>
+<li><h4>参数：</h4>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 参数 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 必选 </th>
+<th align="left"> 描述 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"> image_id </td>
+<td align="left"> string </td>
+<td align="left">✅</td>
+<td align="left"> 图片的 ID-[URL_PARAM] </td>
+</tr>
+</tbody>
+</table>
+</li>
+<li><h4>返回值说明：</h4>
+
+<p>一个 JPEG 文件，表示底库图片中抓拍的脸部。</p></li>
+<li><h4>返回JSON：</h4>
+
+<p>一个 JPEG 文件，表示底库图片中抓拍的脸部。</p></li>
+</ul>
+
+
+<hr />
+
+<h2>三、<span id="34">模型定义 </span></h2>
+
+<hr />
+
+<p><span id="handle_model"></p>
+
+<h5>Video调用实例handle</h5>
+
+<p></span></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">id</td>
+<td align="left">int</td>
+<td align="left">handle中对应视频源的 ID</td>
+</tr>
+<tr>
+<td align="left">camera_id</td>
+<td align="left">int</td>
+<td align="left">相机(视频源)的 ID</td>
+</tr>
+<tr>
+<td align="left">group_id</td>
+<td align="left">string</td>
+<td align="left">哪一个组(底库)的 ID</td>
+</tr>
+<tr>
+<td align="left">working</td>
+<td align="left">boolean</td>
+<td align="left">是否在工作。如果是 false 的时候， handle 还在，只是未开启状态</td>
+</tr>
+<tr>
+<td align="left">attached_params</td>
+<td align="left"><a href="#attachedParams_model">AttachedParams 模型</a> </td>
+<td align="left">一个对象</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><span id="attachedParams_model"></p>
+
+<h5>Video调用实例AttachedParams</h5>
+
+<p></span></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">recognized_threshold</td>
+<td align="left">float64</td>
+<td align="left">与底库中的照片匹配的阈值</td>
+</tr>
+<tr>
+<td align="left">stranger_threshold</td>
+<td align="left">float64</td>
+<td align="left">与底库中的照片皆不匹配的阈值</td>
+</tr>
+<tr>
+<td align="left">quality_threshold</td>
+<td align="left">float64</td>
+<td align="left">最低容许质量</td>
+</tr>
+<tr>
+<td align="left">short_threshold</td>
+<td align="left">float64</td>
+<td align="left">短时间 Track 去重任务中，认为与之前出现过的某人匹配的阈值</td>
+</tr>
+<tr>
+<td align="left">long_threshold</td>
+<td align="left">float64</td>
+<td align="left">长时间 Track 去重任务中，认为与之前出现过的某人匹配的阈值</td>
+</tr>
+<tr>
+<td align="left">gate_threshold</td>
+<td align="left">float64</td>
+<td align="left">verify 任务中，认为与上传照片匹配的阈值</td>
+</tr>
+<tr>
+<td align="left">forget_time</td>
+<td align="left">time.Duration </td>
+<td align="left">短时间 Track 去重任务中，最长可追溯的时间，单位为纳秒</td>
+</tr>
+<tr>
+<td align="left">gate_reserve_time</td>
+<td align="left">time.Duration </td>
+<td align="left">verify 任务中，最长可追溯的时间，单位为纳秒</td>
+</tr>
+<tr>
+<td align="left">gate_wait_time</td>
+<td align="left">time.Duration </td>
+<td align="left">verify 任务中，最长可等待的时间，单位为纳秒</td>
+</tr>
+<tr>
+<td align="left">gate_break_time</td>
+<td align="left">time.Duration </td>
+<td align="left">verify 任务中，强制重置 Track 的时间，单位为纳秒</td>
+</tr>
+<tr>
+<td align="left">orient</td>
+<td align="left"><a href="#orientEnum_model">orientEnum_params 模型</a> </td>
+<td align="left">视频方向，在 up, right, left 和 right 中取值</td>
+</tr>
+<tr>
+<td align="left">minface</td>
+<td align="left">int</td>
+<td align="left">最小人脸大小</td>
+</tr>
+<tr>
+<td align="left">roi</td>
+<td align="left"><a href="#rect_model">rect_params 模型</a> </td>
+<td align="left">感兴趣区域</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><span id="orientEnum_model"></p>
+
+<h5>OrientEnum枚举类型</h5>
+
+<p></span></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">up</td>
+<td align="left">enum</td>
+<td align="left">视频方向为上</td>
+</tr>
+<tr>
+<td align="left">down</td>
+<td align="left">enum</td>
+<td align="left">视频方向为下</td>
+</tr>
+<tr>
+<td align="left">left</td>
+<td align="left">enum</td>
+<td align="left">视频方向为左</td>
+</tr>
+<tr>
+<td align="left">right</td>
+<td align="left">enum</td>
+<td align="left">视频方向为右</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><span id="rect_model"></p>
+
+<h5>感兴趣区域Rect</h5>
+
+<p></span></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 属性 </th>
+<th align="left"> 类型 </th>
+<th align="left"> 说明 </th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">left</td>
+<td align="left">int</td>
+<td align="left">距离左边距离</td>
+</tr>
+<tr>
+<td align="left">top</td>
+<td align="left">int</td>
+<td align="left">距离上边距离</td>
+</tr>
+<tr>
+<td align="left">right</td>
+<td align="left">int</td>
+<td align="left">距离右边距离</td>
+</tr>
+<tr>
+<td align="left">bottom</td>
+<td align="left">int</td>
+<td align="left">距离下边距离</td>
+</tr>
+</tbody>
+</table>
+
+
+<hr />
+
+<h2>四、<span id="35">错误码定义</span></h2>
+
+<h5>上述所有接口，如果出现错误，会按照下面的方式进行报错</h5>
+
+<p><strong>HTTP Status Code 会提示错误的类别</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left">HTTP Status Code</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">400 Bad Request</td>
+<td align="left">用户的输入不满足要求</td>
+</tr>
+<tr>
+<td align="left">401 Unauthorized</td>
+<td align="left">用户需要登入</td>
+</tr>
+<tr>
+<td align="left">403 Forbidden</td>
+<td align="left">登入用户的权限不足</td>
+</tr>
+<tr>
+<td align="left">404 Not Found</td>
+<td align="left">用户请求的资源不存在</td>
+</tr>
+<tr>
+<td align="left">500 Internal Server Error</td>
+<td align="left">服务器出现异常</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><strong>同时，在返回体中会以下面的格式返回具体错误内容</strong></p>
+
+<pre><code>{
+    "code": 100,
+    "description": "Not found",
+    "raw": "Something happened"
+}
+</code></pre>
+
+<p><strong>其中，code 代表错误码（与 HTTP Status Code 不同）；description 是对错误码的具体解释，与错误码对应；raw 为服务器内部接收到的原生异常。如果出现意外错误，提供 raw 中的信息或许可以提供帮助</strong></p>
+
+<table>
+<thead>
+<tr>
+<th align="left"> 错误码</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">0</td>
+<td align="left">未知错误</td>
+</tr>
+<tr>
+<td align="left">100</td>
+<td align="left">资源不存在</td>
+</tr>
+<tr>
+<td align="left">101</td>
+<td align="left">解析输入出现错误</td>
+</tr>
+<tr>
+<td align="left">102</td>
+<td align="left">将结果转换为 JSON 等输出格式是出现错误</td>
+</tr>
+<tr>
+<td align="left">103</td>
+<td align="left">无法连接到 Leaf 或其他服务器</td>
+</tr>
+<tr>
+<td align="left">104</td>
+<td align="left">请求被 Leaf 拒绝。例如输入图像没有检测到人脸</td>
+</tr>
+<tr>
+<td align="left">105</td>
+<td align="left">执行 SQL 语句时出现错误</td>
+</tr>
+<tr>
+<td align="left">106</td>
+<td align="left">准备 SQL 语句时出现错误</td>
+</tr>
+<tr>
+<td align="left">107</td>
+<td align="left">其他 SQL 错误</td>
+</tr>
+<tr>
+<td align="left">108</td>
+<td align="left">执行 MongoDB 语句时出现错误</td>
+</tr>
+<tr>
+<td align="left">109</td>
+<td align="left">IO 错误</td>
+</tr>
+<tr>
+<td align="left">110</td>
+<td align="left">参数不足</td>
+</tr>
+<tr>
+<td align="left">111</td>
+<td align="left">取得上传文件失败</td>
+</tr>
+<tr>
+<td align="left">112</td>
+<td align="left">Handle 尚未启动</td>
+</tr>
+<tr>
+<td align="left">113</td>
+<td align="left">达到图片上传数量限制</td>
+</tr>
+<tr>
+<td align="left">200</td>
+<td align="left">尚未登录</td>
+</tr>
+<tr>
+<td align="left">201</td>
+<td align="left">权限不足</td>
+</tr>
+</tbody>
+</table>
+
+
+<p><br><br></p>
+</body>
+</html>
