@@ -64,7 +64,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(33, 12);
+            this.textBox1.Location = new System.Drawing.Point(26, 12);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(135, 21);
             this.textBox1.TabIndex = 0;
@@ -72,7 +72,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(174, 12);
+            this.button1.Location = new System.Drawing.Point(167, 12);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 1;
@@ -82,9 +82,9 @@
             // 
             // richTextBox1
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(33, 398);
+            this.richTextBox1.Location = new System.Drawing.Point(24, 398);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(730, 186);
+            this.richTextBox1.Size = new System.Drawing.Size(737, 186);
             this.richTextBox1.TabIndex = 2;
             this.richTextBox1.Text = "";
             // 
@@ -94,9 +94,10 @@
             this.groupBox1.Controls.Add(this.button4);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(33, 41);
+            this.groupBox1.Enabled = false;
+            this.groupBox1.Location = new System.Drawing.Point(24, 41);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(730, 77);
+            this.groupBox1.Size = new System.Drawing.Size(737, 77);
             this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Camera";
@@ -145,9 +146,10 @@
             this.groupBox2.Controls.Add(this.button5);
             this.groupBox2.Controls.Add(this.button6);
             this.groupBox2.Controls.Add(this.button7);
-            this.groupBox2.Location = new System.Drawing.Point(33, 134);
+            this.groupBox2.Enabled = false;
+            this.groupBox2.Location = new System.Drawing.Point(24, 134);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(730, 77);
+            this.groupBox2.Size = new System.Drawing.Size(737, 77);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "User";
@@ -207,9 +209,10 @@
             this.groupBox3.Controls.Add(this.button8);
             this.groupBox3.Controls.Add(this.button9);
             this.groupBox3.Controls.Add(this.button10);
-            this.groupBox3.Location = new System.Drawing.Point(33, 230);
+            this.groupBox3.Enabled = false;
+            this.groupBox3.Location = new System.Drawing.Point(24, 230);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(730, 77);
+            this.groupBox3.Size = new System.Drawing.Size(737, 77);
             this.groupBox3.TabIndex = 5;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "User";
@@ -279,9 +282,10 @@
             this.groupBox4.Controls.Add(this.button15);
             this.groupBox4.Controls.Add(this.button16);
             this.groupBox4.Controls.Add(this.button17);
-            this.groupBox4.Location = new System.Drawing.Point(33, 313);
+            this.groupBox4.Enabled = false;
+            this.groupBox4.Location = new System.Drawing.Point(24, 313);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(730, 77);
+            this.groupBox4.Size = new System.Drawing.Size(737, 77);
             this.groupBox4.TabIndex = 6;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Handle";

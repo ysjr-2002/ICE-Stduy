@@ -40,6 +40,12 @@ namespace NucTest
             constrant = new Constrant();
             constrant.Init(textBox1.Text);
             nuc = new Nuc(constrant);
+
+            button1.Enabled = false;
+            groupBox1.Enabled = true;
+            groupBox2.Enabled = true;
+            groupBox3.Enabled = true;
+            groupBox4.Enabled = true;
         }
 
         private void button2_Click(object sender, EventArgs e)
