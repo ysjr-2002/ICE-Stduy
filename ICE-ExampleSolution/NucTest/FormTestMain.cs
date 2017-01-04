@@ -117,7 +117,7 @@ namespace NucTest
 
         private void button18_Click(object sender, EventArgs e)
         {
-            FrmUploadImage form = new NucTest.FrmUploadImage();
+            FrmUploadImage form = new FrmUploadImage();
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 nuc.PostUserImage(form.userid, form.filepath.ToImageByte());
@@ -137,7 +137,7 @@ namespace NucTest
 
         private void button9_Click(object sender, EventArgs e)
         {
-            FrmGroupNew form = new NucTest.FrmGroupNew();
+            FrmGroupNew form = new FrmGroupNew();
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 nuc.CreateGroup(form.Tag.ToString());
@@ -159,7 +159,7 @@ namespace NucTest
 
         private void button11_Click(object sender, EventArgs e)
         {
-            FrmGroupUser form = new NucTest.FrmGroupUser();
+            FrmGroupUser form = new FrmGroupUser();
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 nuc.AddUserToGroup(form.group_id, form.user_id);
@@ -169,7 +169,7 @@ namespace NucTest
 
         private void button12_Click(object sender, EventArgs e)
         {
-            FrmGroupUser form = new NucTest.FrmGroupUser();
+            FrmGroupUser form = new FrmGroupUser();
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 nuc.DeleteGroupUser(form.group_id, form.user_id);
@@ -189,7 +189,7 @@ namespace NucTest
 
         private void button16_Click(object sender, EventArgs e)
         {
-            FrmHandleNew form = new NucTest.FrmHandleNew();
+            FrmHandleNew form = new FrmHandleNew();
             if (form.ShowDialog() == DialogResult.Yes)
             {
                 nuc.CreateHandle(form.camera_id, form.group_id);
@@ -235,11 +235,12 @@ namespace NucTest
                 return;
 
             var buffer = Convert.FromBase64String(base64Image);
-            MemoryStream ms = new MemoryStream(buffer);
-            Bitmap bitmap = new Bitmap(ms);
-            bitmap.Save("c:\\nuc.jpg", ImageFormat.Jpeg);
-            bitmap.Dispose();
-            ms.Close();
+            using (MemoryStream ms = new MemoryStream(buffer))
+            {
+                Bitmap bitmap = new Bitmap(ms);
+                bitmap.Save("c:\\nuc.jpg", ImageFormat.Jpeg);
+                bitmap.Dispose();
+            }
         }
     }
 }

@@ -34,7 +34,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(195, 121);
+            this.button1.Location = new System.Drawing.Point(164, 121);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 8;
@@ -44,7 +44,7 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(119, 55);
+            this.textBox1.Location = new System.Drawing.Point(75, 55);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(253, 21);
             this.textBox1.TabIndex = 7;
@@ -54,7 +54,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(490, 198);
+            this.ClientSize = new System.Drawing.Size(403, 157);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.textBox1);
             this.Name = "FrmGroupNew";
