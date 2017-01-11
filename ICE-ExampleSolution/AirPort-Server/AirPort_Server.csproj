@@ -134,6 +134,7 @@
     <None Include="Document\人脸识别系统接口需求_v1.0.docx" />
     <None Include="Document\接口.docx" />
     <None Include="Document\接口说明.docx" />
+    <None Include="Document\部署说明.docx" />
     <None Include="packages.config" />
     <EntityDeploy Include="Repository\personrepository.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

@@ -15,11 +15,11 @@ namespace AirPort.Server.WebAPI
             var result = HttpMethod.Get<VersionResult>(Constrants.url_version, null);
             if (result != null)
             {
-                Console.WriteLine("service ok");
+                Console.WriteLine("faceservice ok");
             }
             else
             {
-                Console.WriteLine("service error");
+                Console.WriteLine("faceservice error");
             }
         }
         /// <summary>

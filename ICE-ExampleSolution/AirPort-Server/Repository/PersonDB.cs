@@ -19,11 +19,11 @@ namespace AirPort.Server.Repository
                 try
                 {
                     var count = db.persons.Count();
-                    print("test ok->" + count);
+                    print("database ok->" + count);
                 }
                 catch
                 {
-                    print("test error");
+                    print("database error");
                 }
             }
         }
