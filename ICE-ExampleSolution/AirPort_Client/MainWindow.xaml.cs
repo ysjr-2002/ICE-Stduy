@@ -43,13 +43,13 @@ namespace AirPort.Client
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             CompareWindow compare = new CompareWindow();
-            compare.ShowDialog();
+            compare.Show();
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             RtspWindow rtsp = new RtspWindow();
-            rtsp.ShowDialog();
+            rtsp.Show();
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
