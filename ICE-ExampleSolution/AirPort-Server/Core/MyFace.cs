@@ -564,10 +564,12 @@ namespace AirPort.Server.Core
             var signatureCode = doc.GetNodeText("signatureCode");
             var threshold = doc.GetNodeText("threshold").ToFloat();
             var size = doc.GetNodeText("size").ToInt32();
+            var validtime = doc.GetNodeText("validTime").ToInt32();
 
             print("signatureCode->" + signatureCode);
             print("threshold->" + threshold);
             print("size->" + size);
+            print("validtime->" + validtime);
             print("匹配标签");
             var tagNodes = doc.GetSelecteNodes("tags/tag");
             List<string> tags = new List<string>();
@@ -587,7 +589,7 @@ namespace AirPort.Server.Core
                 Pagesize = size,
             };
             //查询数据库
-            var persons = db.Search1VN(page, filterfaceID, tags.ToArray());
+            var persons = db.Search1VN(page, filterfaceID, tags.ToArray(), validtime);
 
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());

@@ -122,6 +122,8 @@ namespace AirPort.Client
                 sb.Append("tags".ElementEnd());
             }
 
+            sb.Append("validTime".ElementText(txtValidTime.Text.ToInt32().ToString()));
+
             var data = sb.ToString();
             var xml = XmlParse.GetXml("verifySignatureCode", data);
             Stopwatch sw = Stopwatch.StartNew();

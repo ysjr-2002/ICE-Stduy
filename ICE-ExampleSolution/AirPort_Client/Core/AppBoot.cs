@@ -18,7 +18,7 @@ namespace AirPort.Client
 
         protected override DependencyObject CreateShell()
         {
-            MainWindow window = new AirPort.Client.MainWindow();
+            var window = new MainWindow();
             return window;
         }
 

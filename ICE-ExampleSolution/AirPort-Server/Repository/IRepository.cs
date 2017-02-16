@@ -18,7 +18,7 @@ namespace AirPort.Server.Repository
 
         IEnumerable<T> Search(Pagequery page, string faceId, string uuid, string code, string[] tags);
 
-        IEnumerable<person> Search1VN(Pagequery page, string[] faceId, string[] tags);
+        IEnumerable<person> Search1VN(Pagequery page, string[] faceId, string[] tags, long validTime);
 
         void AddPersonTag(string faceId, string[] tags);
 

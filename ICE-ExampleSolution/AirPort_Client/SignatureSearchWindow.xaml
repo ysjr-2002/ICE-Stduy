@@ -63,6 +63,12 @@
                          Width="60"
                          Text="10" />
 
+                <Label Margin="10,0,0,0" Content="有效时间范围：" />
+                <TextBox Name="txtValidTime"
+                         Width="60"
+                         Text="1800" />
+                <Label Content="(秒)" Foreground="Red" />
+
                 <Label Width="100" Content="图像：" />
                 <Image Name="imgSource" Width="100" />
                 <Button Click="btnChoice_click" Content="选择" />

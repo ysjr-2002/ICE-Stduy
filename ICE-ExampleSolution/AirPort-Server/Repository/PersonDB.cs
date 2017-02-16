@@ -119,7 +119,7 @@ namespace AirPort.Server.Repository
             return list;
         }
 
-        public IEnumerable<person> Search1VN(Pagequery page, string[] faceIds, string[] tags)
+        public IEnumerable<person> Search1VN(Pagequery page, string[] faceIds, string[] tags, long validTime)
         {
             List<person> list = new List<Repository.person>();
             using (var db = new personrepositoryEntities())
@@ -137,6 +137,13 @@ namespace AirPort.Server.Repository
                     {
                         query = query.Where(p => tagtofaceID.Contains(p.FaceID));
                     }
+
+                    if (validTime > 0)
+                    {
+                        var startTime = DateTime.Now.AddSeconds(validTime * -1);
+                        query = query.Where(s => s.CreateTime >= startTime);
+                    }
+
                     query = query.Where(p => faceIds.Contains(p.FaceID)).OrderBy(s => s.CreateTime);
                     page.TotalCount = query.Count();
                     query = query.Skip(page.Offset).Take(page.Pagesize);
