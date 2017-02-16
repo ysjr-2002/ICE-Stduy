@@ -126,11 +126,11 @@ namespace AirPort.Client
 
         private void btnQueryPerson_click(object sender, RoutedEventArgs e)
         {
-            if (GetSelectedTags().Count == 0)
-            {
-                WarnDialog("请选择标签！");
-                return;
-            }
+            //if (GetSelectedTags().Count == 0)
+            //{
+            //    WarnDialog("请选择标签！");
+            //    return;
+            //}
             queryPersons();
         }
 
