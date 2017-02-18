@@ -582,7 +582,7 @@ namespace AirPort.Server.Core
             var result = fs.Search(group, signatureCode, size, "", false, null);
             var filterResult = GetfilterID(result, threshold);
 
-            var filterfaceID = filterResult.Select(s => s.faceId).ToArray();
+            var filterfaceID = new string[] { "1" }; //filterResult.Select(s => s.faceId).ToArray();
             Pagequery page = new Pagequery()
             {
                 Offset = 0,
