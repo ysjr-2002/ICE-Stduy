@@ -120,7 +120,7 @@ namespace NucTest
             FrmUploadImage form = new FrmUploadImage();
             if (form.ShowDialog() == DialogResult.Yes)
             {
-                nuc.PostUserImage(form.userid, form.filepath.ToImageByte());
+                //nuc.PostUserImage(form.userid, form.filepath.ToImageByte());
                 Log("加入图片成功");
             }
         }
