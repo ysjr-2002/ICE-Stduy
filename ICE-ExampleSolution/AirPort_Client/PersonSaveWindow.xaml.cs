@@ -100,13 +100,13 @@ namespace AirPort.Client
             sb.Append("uuid".ElementText(txtuuid.Text));
             sb.Append("code".ElementText(txtCode.Text));
             sb.Append("name".ElementText(txtName.Text));
-            sb.Append("description".ElementText("description"));
-            sb.Append("imgData1".ElementText(image1));
-            sb.Append("signatureCode1".ElementText(image1));
-            sb.Append("imgData2".ElementText(image2));
-            sb.Append("signatureCode2".ElementText(image2));
-            sb.Append("imgData3".ElementText(image3));
-            sb.Append("signatureCode3".ElementText(image3));
+            sb.Append("description".ElementImage("description"));
+            sb.Append("imgData1".ElementImage(image1));
+            sb.Append("signatureCode1".ElementImage(image1));
+            sb.Append("imgData2".ElementImage(image2));
+            sb.Append("signatureCode2".ElementImage(image2));
+            sb.Append("imgData3".ElementImage(image3));
+            sb.Append("signatureCode3".ElementImage(image3));
             sb.Append("tags".ElementBegin());
             foreach (var tagContent in tagList)
             {

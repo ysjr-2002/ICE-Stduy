@@ -62,7 +62,7 @@ namespace AirPort.Client
             var base64Image = buffer.ToBase64();
 
             var sb = new StringBuilder();
-            sb.Append("imgData".ElementText(base64Image));
+            sb.Append("imgData".ElementImage(base64Image));
             sb.Append("threshold".ElementText(txtThrold.Text));
             sb.Append("maxImageCount".ElementText(txtFaceMax.Text));
             var data = sb.ToString();

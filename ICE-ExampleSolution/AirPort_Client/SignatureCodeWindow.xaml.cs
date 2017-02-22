@@ -49,7 +49,7 @@ namespace AirPort.Client
             }
             var base64Image = imagefile.FileToBase64();
             var sb = new StringBuilder();
-            sb.Append("imgData".ElementText(base64Image));
+            sb.Append("imgData".ElementImage(base64Image));
             var data = sb.ToString();
             var xml = XmlParse.GetXml("convertSignatureCode", data);
 

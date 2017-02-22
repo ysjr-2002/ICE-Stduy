@@ -167,7 +167,7 @@ namespace AirPort.Server.Core
                         continue;
                     }
                     sb.Append("person".ElementBegin());
-                    sb.Append("imgData".ElementText(face.crop.image));
+                    sb.Append("imgData".ElementImage(face.crop.image));
                     sb.Append("posX".ElementText(face.Rect.Left.ToString()));
                     sb.Append("posY".ElementText(face.Rect.Top.ToString()));
                     sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
@@ -232,7 +232,7 @@ namespace AirPort.Server.Core
                     }
                     else
                     {
-                        var content = GetDynamicResutl(face);
+                        var content = GetDynamicResutl(rtspId, face);
                         client.proxy?.onRecv(content);
                     }
                 }
@@ -248,7 +248,7 @@ namespace AirPort.Server.Core
                 {
                     print("响应客户端轮询");
                     var face = client.Value.queue.Dequeue();
-                    var data = GetDynamicResutl(face);
+                    var data = GetDynamicResutl("1", face);
                     return data;
                 }
                 else
@@ -317,7 +317,7 @@ namespace AirPort.Server.Core
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText(code));
-            sb.Append("signatureCode".ElementText(feature));
+            sb.Append("signatureCode".ElementImage(feature));
             sb.Append("xml".ElementEnd());
             return sb.ToString();
         }
@@ -526,12 +526,12 @@ namespace AirPort.Server.Core
                 sb.Append("uuid".ElementText(p.UUID));
                 sb.Append("code".ElementText(p.Code));
                 sb.Append("name".ElementText(p.Name));
-                sb.Append("description".ElementText(p.Description));
-                sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
+                sb.Append("description".ElementImage(p.Description));
+                sb.Append("imgData1".ElementImage(FileManager.ReadFile(p.ImageData1)));
                 sb.Append("hasSignatureCode1".ElementText(hasSignaturecode(p.ImageData1)));
-                sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
+                sb.Append("imgData2".ElementImage(FileManager.ReadFile(p.ImageData2)));
                 sb.Append("hasSignatureCode2".ElementText(hasSignaturecode(p.ImageData2)));
-                sb.Append("imgData3".ElementText(FileManager.ReadFile(p.ImageData3)));
+                sb.Append("imgData3".ElementImage(FileManager.ReadFile(p.ImageData3)));
                 sb.Append("hasSignatureCode3".ElementText(hasSignaturecode(p.ImageData3)));
                 sb.Append("person".ElementEnd());
             }
@@ -603,7 +603,7 @@ namespace AirPort.Server.Core
                 sb.Append("uuid".ElementText(p.UUID));
                 sb.Append("code".ElementText(p.Code));
                 sb.Append("name".ElementText(p.Name));
-                sb.Append("description".ElementText(p.Description));
+                sb.Append("description".ElementImage(p.Description));
 
                 sb.Append("tags".ElementBegin());
                 var personTags = db.GetPersonTags(p.FaceID);
@@ -613,9 +613,9 @@ namespace AirPort.Server.Core
                 }
                 sb.Append("tags".ElementEnd());
 
-                sb.Append("imgData1".ElementText(FileManager.ReadFile(p.ImageData1)));
-                sb.Append("imgData2".ElementText(FileManager.ReadFile(p.ImageData2)));
-                sb.Append("imgData3".ElementText(FileManager.ReadFile(p.ImageData3)));
+                sb.Append("imgData1".ElementImage(FileManager.ReadFile(p.ImageData1)));
+                sb.Append("imgData2".ElementImage(FileManager.ReadFile(p.ImageData2)));
+                sb.Append("imgData3".ElementImage(FileManager.ReadFile(p.ImageData3)));
 
                 sb.Append("matchPerson".ElementEnd());
             }
@@ -658,15 +658,15 @@ namespace AirPort.Server.Core
             return list;
         }
 
-        private string GetDynamicResutl(DynamicFaceResult face)
+        private string GetDynamicResutl(string rtspId, DynamicFaceResult face)
         {
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("type".ElementText("dynamicDetectResult"));
-            sb.Append("rtspId".ElementText("1"));
+            sb.Append("rtspId".ElementText(rtspId));
             sb.Append("persons".ElementBegin());
             sb.Append("person".ElementBegin());
-            sb.Append("imgData".ElementText(face.Face.Image));
+            sb.Append("imgData".ElementImage(face.Face.Image));
             sb.Append("posX".ElementText(face.Result.Face.Rect.Left.ToString()));
             sb.Append("posY".ElementText(face.Result.Face.Rect.Top.ToString()));
             sb.Append("imgWidth".ElementText(face.Result.Face.Rect.Width.ToString()));

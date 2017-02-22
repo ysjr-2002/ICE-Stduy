@@ -76,7 +76,7 @@ namespace AirPort.Client
             var base64Image = buffer.ToBase64();
 
             var sb = new StringBuilder();
-            sb.Append("imgData".ElementText(base64Image));
+            sb.Append("imgData".ElementImage(base64Image));
             var data = sb.ToString();
 
             var xml = XmlParse.GetXml("convertSignatureCode", data);
@@ -107,7 +107,7 @@ namespace AirPort.Client
             var sb = new StringBuilder();
 
             var feature = GetImageFeature(filepath);
-            sb.Append("signatureCode".ElementText(feature));
+            sb.Append("signatureCode".ElementImage(feature));
             sb.Append("threshold".ElementText(txtthrold.Text));
             sb.Append("size".ElementText(txtsize.Text));
 
