@@ -82,6 +82,10 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="XmlExt, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\XmlExt.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -228,12 +232,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Share\XmlExt.csproj">
-      <Project>{1847de81-ea14-4555-8760-50bda89a85d1}</Project>
-      <Name>XmlExt</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
     <Content Include="dll\MahApps.Metro.dll" />
@@ -243,6 +241,7 @@
     <Content Include="dll\Microsoft.Practices.ServiceLocation.dll" />
     <Content Include="dll\Microsoft.Practices.Unity.dll" />
     <Content Include="dll\System.Windows.Interactivity.dll" />
+    <Content Include="dll\XmlExt.dll" />
     <Resource Include="Images\close.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

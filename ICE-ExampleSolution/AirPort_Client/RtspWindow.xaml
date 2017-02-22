@@ -33,7 +33,7 @@
 
                     <Label Width="80" Content="地址：" />
                     <TextBox Name="txtrtsp"
-                             Width="300"
+                             Width="450"
                              Text="" />
                 </StackPanel>
 
@@ -63,7 +63,7 @@
                 </StackPanel>
 
             </StackPanel>
-            <StackPanel VerticalAlignment="Center" Orientation="Vertical">
+            <StackPanel VerticalAlignment="Bottom" Orientation="Vertical">
                 <Button Name="btnStart"
                         Click="btnStart_click"
                         Content="开始检测" />

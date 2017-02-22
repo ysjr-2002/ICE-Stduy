@@ -15,11 +15,11 @@ namespace AirPort.Server.WebAPI
             var result = HttpMethod.Get<VersionResult>(Constrants.url_version, null);
             if (result != null)
             {
-                Console.WriteLine("faceservice ok");
+                print("faceservice ok");
             }
             else
             {
-                Console.WriteLine("faceservice error");
+                print("faceservice error");
             }
         }
         /// <summary>
@@ -115,13 +115,18 @@ namespace AirPort.Server.WebAPI
             if (result == null)
                 return;
 
-            Console.WriteLine(result.name);
-            Console.WriteLine(result.total_photos);
-            Console.WriteLine(result.next_cursor);
+            print(result.name);
+            print(result.total_photos.ToString());
+            print(result.next_cursor.ToString());
             foreach (var item in result.photos)
             {
-                Console.WriteLine(string.Format("{0} {1}", item.Id, item.Tag));
+                print(string.Format("{0} {1}", item.Id, item.Tag));
             }
+        }
+
+        private void print(string str)
+        {
+            Console.WriteLine(string.Format("iceserver:{0}", str));
         }
     }
 }

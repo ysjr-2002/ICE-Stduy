@@ -115,8 +115,7 @@ namespace AirPort.Server.Core
 
         private void print(string str)
         {
-            Console.WriteLine(str);
-            //LogHelper.Info(str);
+            Console.WriteLine(string.Format("iceserver:{0}", str));
         }
 
         private string ResponseOk()
@@ -582,7 +581,7 @@ namespace AirPort.Server.Core
             var result = fs.Search(group, signatureCode, size, "", false, null);
             var filterResult = GetfilterID(result, threshold);
 
-            var filterfaceID = new string[] { "1" }; //filterResult.Select(s => s.faceId).ToArray();
+            var filterfaceID = filterResult.Select(s => s.faceId).ToArray();
             Pagequery page = new Pagequery()
             {
                 Offset = 0,

@@ -35,7 +35,8 @@ namespace AirPort.Client
         public RtspWindow()
         {
             InitializeComponent();
-            this.txtrtsp.Text = "rtsp://192.168.1.151/live1.sdp";
+            //this.txtrtsp.Text = "rtsp://192.168.1.151/live1.sdp";
+            this.txtrtsp.Text = "rtsp://10.101.0.157/user=admin&password=&channel=1&stream=0.sdp";
         }
 
         private bool CheckInput()
@@ -63,7 +64,7 @@ namespace AirPort.Client
             var sb = new StringBuilder();
             sb.Append("threshold".ElementText(txtthreshold.Text));
             sb.Append("rtspId".ElementText(txtrtspId.Text));
-            sb.Append("rtspPath".ElementText(txtrtsp.Text));
+            sb.Append("rtspPath".ElementImage(txtrtsp.Text));
             sb.Append("responseType".ElementBegin());
 
             var messageType = ((ComboBoxItem)cmbMessageType.SelectedItem).Content.ToString();

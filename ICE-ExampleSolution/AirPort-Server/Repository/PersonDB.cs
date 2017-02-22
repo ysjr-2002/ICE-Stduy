@@ -291,7 +291,7 @@ namespace AirPort.Server.Repository
 
         private void print(string content)
         {
-            LogHelper.Info(content);
+            Console.WriteLine(string.Format("iceserver:{0}", content));
         }
     }
 }

@@ -64,7 +64,7 @@ namespace AirPort.Server
             adapter.add(faceServant, communicator().stringToIdentity("myface"));
             adapter.activate();
 
-            Console.Out.WriteLine("server start...");
+            print("server start...");
             communicator().waitForShutdown();
             return 0;
         }
@@ -73,6 +73,11 @@ namespace AirPort.Server
         {
             App app = new App();
             return app.main(args, "config.server");
+        }
+
+        private static void print(string content)
+        {
+            Console.WriteLine(string.Format("iceserver:{0}", content));
         }
     }
 }
