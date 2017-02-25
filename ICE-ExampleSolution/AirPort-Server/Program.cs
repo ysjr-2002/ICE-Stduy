@@ -72,6 +72,14 @@ namespace AirPort.Server
         static int Main(string[] args)
         {
             App app = new App();
+
+            //Ice.Properties properties = Ice.Util.createProperties();
+            //properties.setProperty("Ice.MessageSizeMax", "2097152");//2gb in kb
+            //properties.setProperty("Face.Endpoints", "tcp -h 127.0.0.1 -p 9996");
+            //Ice.InitializationData data = new Ice.InitializationData();
+            //data.properties = properties;
+            //return app.main(args, data);
+
             return app.main(args, "config.server");
         }
 

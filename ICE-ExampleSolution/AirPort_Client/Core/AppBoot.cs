@@ -44,7 +44,15 @@ namespace AirPort.Client
             {
                 string[] args = new string[0];
 
-                proxy.main(args, "config.client");
+                //proxy.main(args, "config.client");
+
+                Ice.Properties properties = Ice.Util.createProperties();
+                properties.setProperty("Ice.MessageSizeMax", "2097152");//2gb in kb 2097152
+                properties.setProperty("Face.Proxy", "myface:tcp -h 127.0.0.1 -p 9996");
+                Ice.InitializationData data = new Ice.InitializationData();
+                data.properties = properties;
+
+                proxy.main(args, data);
             }).Start();
         }
     }

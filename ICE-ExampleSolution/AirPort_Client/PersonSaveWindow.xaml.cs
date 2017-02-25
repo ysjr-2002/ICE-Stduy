@@ -1,5 +1,6 @@
 ﻿using AirPort.Client.Core;
 using Common;
+using Common.Log;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -115,6 +116,9 @@ namespace AirPort.Client
             sb.Append("tags".ElementEnd());
             var data = sb.ToString();
 
+            var size = ToKB(data);
+            LogHelper.Info("数据包->" + size);
+
             var xml = XmlParse.GetXml("createOrUpdatePerson", data);
             var content = FaceServices.FaceProxy.send(xml);
             if (content.IsEmpty())
@@ -130,6 +134,13 @@ namespace AirPort.Client
             Item("faceId->" + faceId);
             if (code.ToInt32() == status_ok)
                 MessageBox.Show("保存成功=" + faceId);
+        }
+
+        private string ToKB(string data)
+        {
+            var buffer = Encoding.UTF8.GetBytes(data);
+            var kb = buffer.Length / 1000;
+            return kb + "KB";
         }
 
         private void btnClose_click(object sender, RoutedEventArgs e)
