@@ -579,7 +579,7 @@ namespace AirPort.Server.Core
             }
 
             var result = fs.Search(group, signatureCode, size, "", false, null);
-            var filterResult = GetfilterID(result, threshold);
+            var filterResult = GetfilterID(new SearchResut(), threshold);
             var filterfaceID = filterResult.Select(s => s.faceId).ToArray();
 
             Pagequery page = new Pagequery()
@@ -593,11 +593,12 @@ namespace AirPort.Server.Core
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
-            sb.Append("result".ElementBegin());
+            sb.Append("totalCount".ElementText(persons.Count().ToString()));
+            sb.Append("persons".ElementBegin());
 
             foreach (var p in persons)
             {
-                sb.Append("matchPerson".ElementBegin());
+                sb.Append("person".ElementBegin());
                 sb.Append("similarity".ElementText(Getsimilarity(p.FaceID, filterResult).ToString()));
                 sb.Append("faceId".ElementText(p.FaceID));
                 sb.Append("uuid".ElementText(p.UUID));
@@ -617,10 +618,10 @@ namespace AirPort.Server.Core
                 sb.Append("imgData2".ElementImage(FileManager.ReadFile(p.ImageData2)));
                 sb.Append("imgData3".ElementImage(FileManager.ReadFile(p.ImageData3)));
 
-                sb.Append("matchPerson".ElementEnd());
+                sb.Append("person".ElementEnd());
             }
 
-            sb.Append("result".ElementEnd());
+            sb.Append("persons".ElementEnd());
             sb.Append("xml".ElementEnd());
 
             var data = sb.ToString();
@@ -655,6 +656,15 @@ namespace AirPort.Server.Core
                             }).ToList();
                 }
             }
+
+            #region  Test Data
+            //list.Add(new FaceScore { faceId = "2", score = 90 });
+            //list.Add(new FaceScore { faceId = "3", score = 90 });
+            //list.Add(new FaceScore { faceId = "4", score = 90 });
+            //list.Add(new FaceScore { faceId = "5", score = 90 });
+            //list.Add(new FaceScore { faceId = "6", score = 90 }); 
+            #endregion
+
             return list;
         }
 

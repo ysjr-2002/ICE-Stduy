@@ -141,7 +141,7 @@ namespace AirPort.Client
             }
 
             Item("code->" + code);
-            var personNodes = doc.SelectNodes("/xml/result/matchPerson");
+            var personNodes = doc.SelectNodes("/xml/persons/person");
             Item("匹配人物数量->" + personNodes.Count);
             lblpersoncount.Content = personNodes.Count.ToString();
 
