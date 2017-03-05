@@ -37,7 +37,7 @@ namespace NucCore
                     return serialize.Deserialize<T>(content);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return default(T);
             }
@@ -160,7 +160,7 @@ namespace NucCore
             StringBuilder prestr = new StringBuilder();
             foreach (KeyValuePair<string, string> temp in dicArray)
             {
-                prestr.Append(temp.Key + "=" + HttpUtility.UrlEncode(temp.Value) + "&");
+                prestr.Append(temp.Key + "=" + temp.Value + "&");
             }
 
             //去掉最後一個&字符
