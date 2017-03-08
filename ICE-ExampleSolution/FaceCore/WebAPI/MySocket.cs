@@ -10,19 +10,26 @@ namespace AirPort.Server.WebAPI
 {
     public class MySocket
     {
+        private WebSocketSharp.WebSocket ws = null;
+        public event VideoFaceDetectEventHandler OnFaceDetect;
+        public delegate void VideoFaceDetectEventHandler(string rtspId, DynamicFaceResult face);
+
+        public MySocket()
+        {
+            IsConnected = false;
+        }
+
         public string rtstpId
         {
             get; set;
         }
-        private WebSocketSharp.WebSocket ws = null;
-        public delegate void VideoFaceDetectEventHandler(string rtspId, DynamicFaceResult face);
-        public event VideoFaceDetectEventHandler OnFaceDetect;
+
+        public bool IsConnected { get; set; }
 
         public void Run(string rtstpId, string videourl, float threshold)
         {
             this.rtstpId = rtstpId;
             //videourl = "rtsp://192.168.1.151/user=admin&password=&channel=1&stream=0.sdp?";
-            Console.WriteLine(videourl);
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("url", videourl);
             //抓拍的人脸张数（根据业务传）
@@ -39,34 +46,33 @@ namespace AirPort.Server.WebAPI
             param.Add("name", "snap");
 
             var url = Constrants.url_video;
-
             var ext = HttpCore.CreateLinkString(param);
             url = url + "?" + ext;
 
             ws = new WebSocketSharp.WebSocket(url);
             ws.OnOpen += (a, b) =>
             {
-                Console.WriteLine("opened");
+                print("webscoket opened");
+                IsConnected = true;
             };
             ws.OnClose += (a, b) =>
             {
-                Console.WriteLine("close");
+                print("webscoket close");
             };
             ws.OnMessage += (a, m) =>
             {
-                Console.WriteLine("message coming...");
                 if (m.IsText)
                 {
-                    Console.WriteLine("is text");
                     var result = GetFaceResult(m.Data);
                     if (result.Type == "recognize")
                     {
+                        print("recognize");
                         if (result.Result.Face.Quality > threshold)
                         {
                             var temp = GetFaceResult(m.Data);
                             temp.Face.Image = "";
                             var json = ToJson(temp);
-                            Console.WriteLine(json);
+                            //Console.WriteLine(json);
                             if (OnFaceDetect != null)
                             {
                                 OnFaceDetect(this.rtstpId, result);
@@ -74,20 +80,19 @@ namespace AirPort.Server.WebAPI
                         }
                         else
                         {
-                            Console.WriteLine("低于阈值->" + result.Result.Face.Quality);
+                            print("低于阈值->" + result.Result.Face.Quality);
                         }
                     }
                     else
                     {
-                        Console.WriteLine("type=" + result.Type);
+                        print("type=" + result.Type);
                     }
                 }
                 if (m.IsBinary)
-                    Console.WriteLine("is binary");
+                    print("is binary");
 
                 if (m.IsPing)
-                    Console.WriteLine("is ping");
-
+                    print("is ping");
             };
             ws.Connect();
         }
@@ -97,18 +102,23 @@ namespace AirPort.Server.WebAPI
             ws.Close();
         }
 
-        private DynamicFaceResult GetFaceResult(string content)
+        private static DynamicFaceResult GetFaceResult(string content)
         {
             JavaScriptSerializer serialize = new JavaScriptSerializer();
             var result = serialize.Deserialize<DynamicFaceResult>(content);
             return result;
         }
 
-        private string ToJson(DynamicFaceResult content)
+        private static string ToJson(DynamicFaceResult content)
         {
             JavaScriptSerializer serialize = new JavaScriptSerializer();
             var result = serialize.Serialize(content);
             return result;
+        }
+
+        private void print(string content)
+        {
+            Console.WriteLine(string.Format("iceserver:{0}", content));
         }
     }
 }

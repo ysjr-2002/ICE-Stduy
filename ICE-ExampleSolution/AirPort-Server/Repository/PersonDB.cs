@@ -117,7 +117,7 @@ namespace AirPort.Server.Repository
                     list = query.Select(n => n).OrderBy(n => n.CreateTime).Skip(page.Offset).Take(page.Pagesize).ToList();
 
                     sw.Stop();
-                    Console.WriteLine("查询->" + sw.ElapsedMilliseconds);
+                    print("查询耗时->" + sw.ElapsedMilliseconds);
                 }
                 catch (DbEntityValidationException ex)
                 {

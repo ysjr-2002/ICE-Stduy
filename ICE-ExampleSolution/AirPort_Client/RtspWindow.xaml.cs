@@ -19,6 +19,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Xml;
 using System.ComponentModel;
+using Common.Dialog;
 
 namespace AirPort.Client
 {
@@ -100,6 +101,10 @@ namespace AirPort.Client
                     Loopquery();
                 }
                 btnStart.IsEnabled = false;
+            }
+            else
+            {
+                CustomDialog.Show("操作返回错误！");
             }
         }
 

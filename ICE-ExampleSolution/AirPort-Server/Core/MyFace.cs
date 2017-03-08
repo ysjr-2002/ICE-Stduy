@@ -50,13 +50,21 @@ namespace AirPort.Server.Core
 
         public override string send(string xml, Current current__)
         {
-            var content = "";
-            var conn = current__.con;
-            var endPoint = conn.getEndpoint();
-            var ip = current__.con.ToString();
-            print("ip->" + ip);
-            content = ParseXml(xml);
-            return content;
+            try
+            {
+                var content = "";
+                var conn = current__.con;
+                var endPoint = conn.getEndpoint();
+                var ip = current__.con.ToString();
+                print("ip->" + ip.Replace('\n', ' '));
+                content = ParseXml(xml);
+                return content;
+            }
+            catch (System.Exception ex)
+            {
+                Console.WriteLine("返回数据异常");
+                return string.Empty;
+            }
         }
 
         private string ParseXml(string xml)
@@ -64,7 +72,9 @@ namespace AirPort.Server.Core
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
             var typename = doc.GetNodeText("type");
+            Console.ForegroundColor = ConsoleColor.Red;
             print(typename);
+            Console.ForegroundColor = ConsoleColor.White;
             var content = "";
             switch (typename)
             {
@@ -202,20 +212,29 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
             print("frames->" + frames);
 
-            MySocket websocket = new WebAPI.MySocket();
+            if (clientProxyList.ContainsKey(rtspId))
+            {
+                shutdownDynamicDetect(rtspId);
+            }
+
+            MySocket websocket = new MySocket();
             websocket.OnFaceDetect += Websocket_OnFaceDetect;
             websocket.Run(rtspId, rtspPath, threshold.ToFloat());
-
-            ClientData client = new ClientData()
+            if (websocket.IsConnected)
             {
-                messageType = type,
-                socket = websocket,
-                queue = new Queue<DynamicFaceResult>(size.ToInt32())
-            };
-
-            clientProxyList.Add(rtspId, client);
-
-            return ResponseOk();
+                ClientData client = new ClientData()
+                {
+                    messageType = type,
+                    socket = websocket,
+                    queue = new Queue<DynamicFaceResult>(size.ToInt32())
+                };
+                clientProxyList.Add(rtspId, client);
+                return ResponseOk();
+            }
+            else
+            {
+                return GetResponseError();
+            }
         }
 
         private void Websocket_OnFaceDetect(string rtspId, DynamicFaceResult face)
@@ -264,13 +283,28 @@ namespace AirPort.Server.Core
             lock (this)
             {
                 var rtspId = doc.GetNodeText("rtspId");
-                print("关闭动态检测->" + rtspId);
+                print("关闭动态检测开始->" + rtspId);
                 if (clientProxyList.ContainsKey(rtspId))
                 {
                     clientProxyList[rtspId].socket.Stop();
                     clientProxyList.Remove(rtspId);
                 }
-                return ResponseOk();
+                print("关闭动态检测结束->" + rtspId);
+            }
+            return ResponseOk();
+        }
+
+        private void shutdownDynamicDetect(string rtspId)
+        {
+            lock (this)
+            {
+                print("关闭动态检测开始->" + rtspId);
+                if (clientProxyList.ContainsKey(rtspId))
+                {
+                    clientProxyList[rtspId].socket.Stop();
+                    clientProxyList.Remove(rtspId);
+                }
+                print("关闭动态检测结束->" + rtspId);
             }
         }
 
@@ -396,7 +430,6 @@ namespace AirPort.Server.Core
         {
             var tagNodes = doc.GetSelecteNodes("tags/tag");
             print("人物标签");
-
             List<string> tags = new List<string>();
             foreach (XmlNode t in tagNodes)
             {
@@ -579,7 +612,7 @@ namespace AirPort.Server.Core
             }
 
             var result = fs.Search(group, signatureCode, size, "", false, null);
-            var filterResult = GetfilterID(new SearchResut(), threshold);
+            var filterResult = GetfilterID(result, threshold);
             var filterfaceID = filterResult.Select(s => s.faceId).ToArray();
 
             Pagequery page = new Pagequery()
@@ -701,6 +734,16 @@ namespace AirPort.Server.Core
             sb.Append("rtspId".ElementText("1"));
             sb.Append("persons".ElementBegin());
             sb.Append("persons".ElementEnd());
+            sb.Append("xml".ElementEnd());
+            var data = sb.ToString();
+            return data;
+        }
+
+        private string GetResponseError()
+        {
+            var sb = new StringBuilder();
+            sb.Append("xml".ElementBegin());
+            sb.Append("code".ElementText("-1"));
             sb.Append("xml".ElementEnd());
             var data = sb.ToString();
             return data;
