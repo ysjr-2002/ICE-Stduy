@@ -545,7 +545,7 @@ namespace AirPort.Server.Core
 
             var persons = db.Search(page, id, uuid, code, tags.ToArray());
             var count = page.TotalCount.ToString();
-            print("匹配记录数:" + count + "条");
+            print("match record:" + count);
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText("0"));
@@ -580,7 +580,7 @@ namespace AirPort.Server.Core
         {
             var buffer = Encoding.UTF8.GetBytes(data);
             var kb = buffer.Length / 1000;
-            print("返回总字节数->" + kb + "KB");
+            print("back total bytes->" + kb + "KB");
         }
 
         private string hasSignaturecode(string val)
@@ -602,7 +602,7 @@ namespace AirPort.Server.Core
             print("threshold->" + threshold);
             print("size->" + size);
             print("validtime->" + validtime);
-            print("匹配标签");
+            print("match tag");
             var tagNodes = doc.GetSelecteNodes("tags/tag");
             List<string> tags = new List<string>();
             foreach (XmlNode tag in tagNodes)

@@ -85,6 +85,7 @@ namespace AirPort.Server
 
         private static void print(string content)
         {
+            //https://github.com/dengly/Ice-demo/blob/master/Ice%203.6.1%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E8%AF%B4%E6%98%8E.md
             Console.WriteLine(string.Format("iceserver:{0}", content));
         }
     }

@@ -3,6 +3,22 @@
 #
 #
 #
-#Ice.MessageSizeMax=2048
+Ice.MessageSizeMax=2048
+#
+#Ice.Trace.ThreadPool=1
+#
+Ice.ThreadPool.Server.Size=20
+#
+#Ice.ThreadPool.Server.SizeWarn=2
 #
 Face.Endpoints=tcp -h 192.168.1.116 -p 9996
+
+#
+# Network Tracing
+#
+# 0 = no network tracing
+# 1 = trace connection establishment and closure
+# 2 = like 1, but more detailed
+# 3 = like 2, but also trace data transfer
+#
+#Ice.Trace.Network=1
