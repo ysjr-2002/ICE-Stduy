@@ -101,7 +101,7 @@
     <Compile Include="Repository\person.cs">
       <DependentUpon>personrepository.tt</DependentUpon>
     </Compile>
-    <Compile Include="Repository\PersonDB.cs" />
+    <Compile Include="Repository\PersonMySql.cs" />
     <Compile Include="Repository\personrepository.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

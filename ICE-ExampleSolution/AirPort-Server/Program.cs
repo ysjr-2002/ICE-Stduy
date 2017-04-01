@@ -56,8 +56,8 @@ namespace AirPort.Server
             AutoRun();
 
             Console.Title = "ICE-Server";
-            PersonDB db = new PersonDB();
-            db.Test();
+            PersonMySql db = new PersonMySql();
+            db.Connect();
 
             Ice.ObjectAdapter adapter = communicator().createObjectAdapter("Face");
             Ice.Object faceServant = new MyFace(db);

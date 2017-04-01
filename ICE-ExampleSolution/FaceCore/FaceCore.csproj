@@ -65,8 +65,6 @@
   <ItemGroup>
     <Content Include="dll\Common.dll" />
     <Content Include="dll\Iaspec.Net.Common.dll" />
-    <Content Include="dll\MySql.Data.dll" />
-    <Content Include="dll\MySql.Data.Entity.EF6.dll" />
     <Content Include="dll\websocket-sharp.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

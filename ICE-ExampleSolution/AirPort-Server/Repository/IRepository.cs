@@ -8,7 +8,7 @@ namespace AirPort.Server.Repository
 {
     public interface IRepository<T>
     {
-        void Test();
+        void Connect();
 
         void Add(T t);
 

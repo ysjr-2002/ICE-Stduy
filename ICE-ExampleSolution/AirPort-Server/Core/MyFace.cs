@@ -22,14 +22,14 @@ namespace AirPort.Server.Core
 
         private Queue<string> queue = new Queue<string>();
         private FaceServices fs = null;
-        private PersonDB db = null;
+        private PersonMySql db = null;
 
         private string currentRtspId = "";
         private const string queueMessageType = "messageQueue";
 
         private Dictionary<string, ClientData> clientProxyList = new Dictionary<string, ClientData>();
 
-        public MyFace(PersonDB db)
+        public MyFace(PersonMySql db)
         {
             var faceServer = ConfigurationManager.AppSettings["faceserver"];
             Constrants.Init(faceServer);

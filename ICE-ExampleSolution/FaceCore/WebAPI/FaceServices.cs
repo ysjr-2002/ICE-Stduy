@@ -106,24 +106,6 @@ namespace AirPort.Server.WebAPI
             return searchResult;
         }
 
-        public void QueryGroupPhotoes()
-        {
-            var groupname = "by";
-            Dictionary<string, string> param = new Dictionary<string, string>();
-            var result = HttpMethod.Get<GroupPhotoResult>(Constrants.url_g + "/" + groupname, param);
-
-            if (result == null)
-                return;
-
-            print(result.name);
-            print(result.total_photos.ToString());
-            print(result.next_cursor.ToString());
-            foreach (var item in result.photos)
-            {
-                print(string.Format("{0} {1}", item.Id, item.Tag));
-            }
-        }
-
         private void print(string str)
         {
             Console.WriteLine(string.Format("iceserver:{0}", str));

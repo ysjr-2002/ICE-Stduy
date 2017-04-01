@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 using Common;
 namespace AirPort.Server.Repository
 {
-    class PersonDB : IRepository<person>
+    class PersonMySql : IRepository<person>
     {
-        public void Test()
+        public void Connect()
         {
             using (var db = new personrepositoryEntities())
             {

@@ -24,12 +24,14 @@ namespace AirPort.Server.WebAPI
             get; set;
         }
 
-        public bool IsConnected { get; set; }
+        public bool IsConnected
+        {
+            get; set;
+        }
 
         public void Run(string rtstpId, string videourl, float threshold)
         {
             this.rtstpId = rtstpId;
-            //videourl = "rtsp://192.168.1.151/user=admin&password=&channel=1&stream=0.sdp?";
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("url", videourl);
             //抓拍的人脸张数（根据业务传）
@@ -69,10 +71,6 @@ namespace AirPort.Server.WebAPI
                         print("recognize");
                         if (result.Result.Face.Quality > threshold)
                         {
-                            var temp = GetFaceResult(m.Data);
-                            temp.Face.Image = "";
-                            var json = ToJson(temp);
-                            //Console.WriteLine(json);
                             if (OnFaceDetect != null)
                             {
                                 OnFaceDetect(this.rtstpId, result);
