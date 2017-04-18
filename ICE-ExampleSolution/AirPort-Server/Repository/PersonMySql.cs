@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using Common;
 namespace AirPort.Server.Repository
 {
+    /// <summary>
+    /// MySql版本为5.5以上
+    /// </summary>
     class PersonMySql : IRepository<person>
     {
         public void Connect()
