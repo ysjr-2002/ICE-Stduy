@@ -33,7 +33,7 @@
 
                     <Label Width="80" Content="地址：" />
                     <TextBox Name="txtrtsp"
-                             Width="450"
+                             Width="600"
                              Text="" />
                 </StackPanel>
 
