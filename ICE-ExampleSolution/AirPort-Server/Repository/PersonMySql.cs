@@ -96,16 +96,17 @@ namespace AirPort.Server.Repository
                         })).Distinct();
 
                     IQueryable<person> query = null;
-                    if (persontags.Count() > 0)
-
+                    //if (persontags.Count() > 0)
+                    //{
                         query = (from n in db.persons
                                  join tag in persontags on n.FaceID equals tag.FaceID
                                  select n);
-                    else
-                    {
-                        query = (from n in db.persons
-                                 select n);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    query = (from n in db.persons
+                    //             select n);
+                    //}
 
                     if (!faceId.IsEmpty())
                         query = query.Where(s => s.FaceID.StartsWith(faceId));

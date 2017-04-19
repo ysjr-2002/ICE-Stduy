@@ -11,7 +11,7 @@ Ice.ThreadPool.Server.Size=16
 #
 #Ice.ThreadPool.Server.SizeWarn=2
 #
-Face.Endpoints=tcp -h 192.168.1.116 -p 9996
+Face.Endpoints=tcp -h 192.168.1.60 -p 9996
 
 #
 # Network Tracing
