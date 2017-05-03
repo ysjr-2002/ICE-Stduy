@@ -25,7 +25,6 @@ namespace server_callback
                         Thread.Sleep(1000);
                     }
                 });
-              
             }
             catch (System.Exception ex)
             {
