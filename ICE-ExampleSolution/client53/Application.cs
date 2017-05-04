@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace client553
 {
-    class App : Ice.Application
+    class Application : Ice.Application
     {
         public override int run(string[] args)
         {

@@ -8,7 +8,7 @@ using Ice;
 
 namespace server53
 {
-    class MyServer : demo.PrinterDisp_
+    class PrinterI : demo.PrinterDisp_
     {
         private ICallbackPrx callbackpxy = null;
         public override void InitCallback(ICallbackPrx callback, Current current__)
@@ -17,9 +17,9 @@ namespace server53
             callback.doback("ttt");
         }
 
-        public override void printString(string s, Current current__)
+        public override void printString(string input, Current current__)
         {
-            Console.WriteLine("coming");
+            Console.WriteLine("coming->" + input);
         }
 
         public override void sendImage(byte[] seq, string name, Current current__)

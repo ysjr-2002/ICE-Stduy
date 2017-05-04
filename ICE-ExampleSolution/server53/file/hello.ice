@@ -14,4 +14,9 @@ module demo
 	    void printString(string s);
 		void sendImage(ByteSeq seq,string name);
 	};
+
+	interface Dgl
+	{
+	    void Where(string name);
+	};
 };

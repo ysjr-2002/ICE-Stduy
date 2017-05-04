@@ -59,6 +59,21 @@ namespace demo
     public partial interface Printer : Ice.Object, PrinterOperations_, PrinterOperationsNC_
     {
     }
+
+    [_System.Runtime.InteropServices.ComVisible(false)]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1707")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1709")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1715")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1720")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1722")]
+    [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1724")]
+    public partial interface Dgl : Ice.Object, DglOperations_, DglOperationsNC_
+    {
+    }
 }
 
 namespace demo
@@ -74,6 +89,9 @@ namespace demo
 
     [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
     public delegate void Callback_Printer_sendImage();
+
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public delegate void Callback_Dgl_Where();
 }
 
 namespace demo
@@ -141,6 +159,24 @@ namespace demo
 
         void end_sendImage(Ice.AsyncResult r__);
     }
+
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public interface DglPrx : Ice.ObjectPrx
+    {
+        void Where(string name);
+
+        void Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__);
+
+        Ice.AsyncResult<demo.Callback_Dgl_Where> begin_Where(string name);
+
+        Ice.AsyncResult<demo.Callback_Dgl_Where> begin_Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__);
+
+        Ice.AsyncResult begin_Where(string name, Ice.AsyncCallback cb__, object cookie__);
+
+        Ice.AsyncResult begin_Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__);
+
+        void end_Where(Ice.AsyncResult r__);
+    }
 }
 
 namespace demo
@@ -175,6 +211,18 @@ namespace demo
         void printString(string s);
 
         void sendImage(byte[] seq, string name);
+    }
+
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public interface DglOperations_
+    {
+        void Where(string name, Ice.Current current__);
+    }
+
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public interface DglOperationsNC_
+    {
+        void Where(string name);
     }
 }
 
@@ -790,6 +838,231 @@ namespace demo
 
         #endregion
     }
+
+    [_System.Runtime.InteropServices.ComVisible(false)]
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public sealed class DglPrxHelper : Ice.ObjectPrxHelperBase, DglPrx
+    {
+        #region Synchronous operations
+
+        public void Where(string name)
+        {
+            this.Where(name, null, false);
+        }
+
+        public void Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__)
+        {
+            this.Where(name, ctx__, true);
+        }
+
+        private void Where(string name, _System.Collections.Generic.Dictionary<string, string> context__, bool explicitCtx__)
+        {
+            end_Where(begin_Where(name, context__, explicitCtx__, true, null, null));
+        }
+
+        #endregion
+
+        #region Asynchronous operations
+
+        public Ice.AsyncResult<demo.Callback_Dgl_Where> begin_Where(string name)
+        {
+            return begin_Where(name, null, false, false, null, null);
+        }
+
+        public Ice.AsyncResult<demo.Callback_Dgl_Where> begin_Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__)
+        {
+            return begin_Where(name, ctx__, true, false, null, null);
+        }
+
+        public Ice.AsyncResult begin_Where(string name, Ice.AsyncCallback cb__, object cookie__)
+        {
+            return begin_Where(name, null, false, false, cb__, cookie__);
+        }
+
+        public Ice.AsyncResult begin_Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__, Ice.AsyncCallback cb__, object cookie__)
+        {
+            return begin_Where(name, ctx__, true, false, cb__, cookie__);
+        }
+
+        private const string __Where_name = "Where";
+
+        public void end_Where(Ice.AsyncResult r__)
+        {
+            end__(r__, __Where_name);
+        }
+
+        private Ice.AsyncResult<demo.Callback_Dgl_Where> begin_Where(string name, _System.Collections.Generic.Dictionary<string, string> ctx__, bool explicitContext__, bool synchronous__, Ice.AsyncCallback cb__, object cookie__)
+        {
+            IceInternal.OnewayOutgoingAsync<demo.Callback_Dgl_Where> result__ = getOnewayOutgoingAsync<demo.Callback_Dgl_Where>(__Where_name, Where_completed__, cookie__);
+            if(cb__ != null)
+            {
+                result__.whenCompletedWithAsyncCallback(cb__);
+            }
+            try
+            {
+                result__.prepare(__Where_name, Ice.OperationMode.Normal, ctx__, explicitContext__, synchronous__);
+                IceInternal.BasicStream os__ = result__.startWriteParams(Ice.FormatType.DefaultFormat);
+                os__.writeString(name);
+                result__.endWriteParams();
+                result__.invoke();
+            }
+            catch(Ice.Exception ex__)
+            {
+                result__.abort(ex__);
+            }
+            return result__;
+        }
+
+        private void Where_completed__(demo.Callback_Dgl_Where cb__)
+        {
+            if(cb__ != null)
+            {
+                cb__();
+            }
+        }
+
+        #endregion
+
+        #region Checked and unchecked cast operations
+
+        public static DglPrx checkedCast(Ice.ObjectPrx b)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            DglPrx r = b as DglPrx;
+            if((r == null) && b.ice_isA(ice_staticId()))
+            {
+                DglPrxHelper h = new DglPrxHelper();
+                h.copyFrom__(b);
+                r = h;
+            }
+            return r;
+        }
+
+        public static DglPrx checkedCast(Ice.ObjectPrx b, _System.Collections.Generic.Dictionary<string, string> ctx)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            DglPrx r = b as DglPrx;
+            if((r == null) && b.ice_isA(ice_staticId(), ctx))
+            {
+                DglPrxHelper h = new DglPrxHelper();
+                h.copyFrom__(b);
+                r = h;
+            }
+            return r;
+        }
+
+        public static DglPrx checkedCast(Ice.ObjectPrx b, string f)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            Ice.ObjectPrx bb = b.ice_facet(f);
+            try
+            {
+                if(bb.ice_isA(ice_staticId()))
+                {
+                    DglPrxHelper h = new DglPrxHelper();
+                    h.copyFrom__(bb);
+                    return h;
+                }
+            }
+            catch(Ice.FacetNotExistException)
+            {
+            }
+            return null;
+        }
+
+        public static DglPrx checkedCast(Ice.ObjectPrx b, string f, _System.Collections.Generic.Dictionary<string, string> ctx)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            Ice.ObjectPrx bb = b.ice_facet(f);
+            try
+            {
+                if(bb.ice_isA(ice_staticId(), ctx))
+                {
+                    DglPrxHelper h = new DglPrxHelper();
+                    h.copyFrom__(bb);
+                    return h;
+                }
+            }
+            catch(Ice.FacetNotExistException)
+            {
+            }
+            return null;
+        }
+
+        public static DglPrx uncheckedCast(Ice.ObjectPrx b)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            DglPrx r = b as DglPrx;
+            if(r == null)
+            {
+                DglPrxHelper h = new DglPrxHelper();
+                h.copyFrom__(b);
+                r = h;
+            }
+            return r;
+        }
+
+        public static DglPrx uncheckedCast(Ice.ObjectPrx b, string f)
+        {
+            if(b == null)
+            {
+                return null;
+            }
+            Ice.ObjectPrx bb = b.ice_facet(f);
+            DglPrxHelper h = new DglPrxHelper();
+            h.copyFrom__(bb);
+            return h;
+        }
+
+        public static readonly string[] ids__ =
+        {
+            "::Ice::Object",
+            "::demo::Dgl"
+        };
+
+        public static string ice_staticId()
+        {
+            return ids__[1];
+        }
+
+        #endregion
+
+        #region Marshaling support
+
+        public static void write__(IceInternal.BasicStream os__, DglPrx v__)
+        {
+            os__.writeProxy(v__);
+        }
+
+        public static DglPrx read__(IceInternal.BasicStream is__)
+        {
+            Ice.ObjectPrx proxy = is__.readProxy();
+            if(proxy != null)
+            {
+                DglPrxHelper result = new DglPrxHelper();
+                result.copyFrom__(proxy);
+                return result;
+            }
+            return null;
+        }
+
+        #endregion
+    }
 }
 
 namespace demo
@@ -1098,6 +1371,145 @@ namespace demo
                 case 6:
                 {
                     return sendImage___(this, inS__, current__);
+                }
+            }
+
+            _System.Diagnostics.Debug.Assert(false);
+            throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
+        }
+
+        #endregion
+
+        #region Marshaling support
+
+        protected override void writeImpl__(IceInternal.BasicStream os__)
+        {
+            os__.startWriteSlice(ice_staticId(), -1, true);
+            os__.endWriteSlice();
+        }
+
+        protected override void readImpl__(IceInternal.BasicStream is__)
+        {
+            is__.startReadSlice();
+            is__.endReadSlice();
+        }
+
+        #endregion
+    }
+
+    [_System.Runtime.InteropServices.ComVisible(false)]
+    [_System.CodeDom.Compiler.GeneratedCodeAttribute("slice2cs", "3.6.3")]
+    public abstract class DglDisp_ : Ice.ObjectImpl, Dgl
+    {
+        #region Slice operations
+
+        public void Where(string name)
+        {
+            Where(name, Ice.ObjectImpl.defaultCurrent);
+        }
+
+        public abstract void Where(string name, Ice.Current current__);
+
+        #endregion
+
+        #region Slice type-related members
+
+        public static new readonly string[] ids__ = 
+        {
+            "::Ice::Object",
+            "::demo::Dgl"
+        };
+
+        public override bool ice_isA(string s)
+        {
+            return _System.Array.BinarySearch(ids__, s, IceUtilInternal.StringUtil.OrdinalStringComparer) >= 0;
+        }
+
+        public override bool ice_isA(string s, Ice.Current current__)
+        {
+            return _System.Array.BinarySearch(ids__, s, IceUtilInternal.StringUtil.OrdinalStringComparer) >= 0;
+        }
+
+        public override string[] ice_ids()
+        {
+            return ids__;
+        }
+
+        public override string[] ice_ids(Ice.Current current__)
+        {
+            return ids__;
+        }
+
+        public override string ice_id()
+        {
+            return ids__[1];
+        }
+
+        public override string ice_id(Ice.Current current__)
+        {
+            return ids__[1];
+        }
+
+        public static new string ice_staticId()
+        {
+            return ids__[1];
+        }
+
+        #endregion
+
+        #region Operation dispatch
+
+        [_System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011")]
+        public static Ice.DispatchStatus Where___(Dgl obj__, IceInternal.Incoming inS__, Ice.Current current__)
+        {
+            Ice.ObjectImpl.checkMode__(Ice.OperationMode.Normal, current__.mode);
+            IceInternal.BasicStream is__ = inS__.startReadParams();
+            string name;
+            name = is__.readString();
+            inS__.endReadParams();
+            obj__.Where(name, current__);
+            inS__.writeEmptyParams__();
+            return Ice.DispatchStatus.DispatchOK;
+        }
+
+        private static string[] all__ =
+        {
+            "Where",
+            "ice_id",
+            "ice_ids",
+            "ice_isA",
+            "ice_ping"
+        };
+
+        public override Ice.DispatchStatus dispatch__(IceInternal.Incoming inS__, Ice.Current current__)
+        {
+            int pos = _System.Array.BinarySearch(all__, current__.operation, IceUtilInternal.StringUtil.OrdinalStringComparer);
+            if(pos < 0)
+            {
+                throw new Ice.OperationNotExistException(current__.id, current__.facet, current__.operation);
+            }
+
+            switch(pos)
+            {
+                case 0:
+                {
+                    return Where___(this, inS__, current__);
+                }
+                case 1:
+                {
+                    return Ice.ObjectImpl.ice_id___(this, inS__, current__);
+                }
+                case 2:
+                {
+                    return Ice.ObjectImpl.ice_ids___(this, inS__, current__);
+                }
+                case 3:
+                {
+                    return Ice.ObjectImpl.ice_isA___(this, inS__, current__);
+                }
+                case 4:
+                {
+                    return Ice.ObjectImpl.ice_ping___(this, inS__, current__);
                 }
             }
 

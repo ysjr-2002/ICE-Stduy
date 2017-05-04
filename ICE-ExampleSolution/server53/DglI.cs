@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Ice;
 
 namespace server53
 {
-    class Program
+    class DglI : demo.DglDisp_
     {
-        static void Main(string[] args)
+        public override void Where(string name, Current current__)
         {
-            Application app = new Application();
-            app.main(args);
+            Console.Out.WriteLine("你也来了->" + name);
         }
     }
 }
