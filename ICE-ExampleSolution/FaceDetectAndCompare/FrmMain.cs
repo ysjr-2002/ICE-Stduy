@@ -110,14 +110,10 @@ namespace FaceDetectAndCompare
             foreach (XmlNode face in faces)
             {
                 var quality = face.GetNodeText("quality").ToFloat();
-                var w = face.GetNodeText("imgWidth").ToInt32();
-                if (quality <= threshold.ToFloat() || w < 50)
-                {
-                    continue;
-                }
                 var x = face.GetNodeText("posX").ToInt32();
                 var y = face.GetNodeText("posY").ToInt32();
                 var h = face.GetNodeText("imgHeight").ToInt32();
+                var w = face.GetNodeText("imgWidth").ToInt32();
                 var faceimage = face.GetNodeText("imgData");
 
                 var similarity = "";

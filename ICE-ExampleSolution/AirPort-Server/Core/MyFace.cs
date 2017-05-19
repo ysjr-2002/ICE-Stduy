@@ -168,11 +168,13 @@ namespace AirPort.Server.Core
                 foreach (var face in topFaces)
                 {
                     var quality = face.Quality;
+                    var width = face.Rect.Width;
+                    var height = face.Rect.Height;
                     if (quality > 1)
                     {
                         quality = quality / 100;
                     }
-                    if (quality < threshold.ToFloat())
+                    if (quality < threshold.ToFloat() || width < 50 || height < 50)
                     {
                         continue;
                     }
