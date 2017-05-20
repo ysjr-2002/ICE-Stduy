@@ -21,59 +21,69 @@ namespace FaceDetectAndCompare
         private string threshold = "0.78";
         private string facemax = "5";
         private int status_ok = 0;
-        private const string logcontent = "detect[{0}] found {1} person(s) ({2}ms)";
-        private static log4net.ILog log = log4net.LogManager.GetLogger("face");
+        private const string detect_logtemplate = "detect[{0}] found {1} person(s) ({2}ms)";
+        private const string compare_logtemplate = "img[{0}]-{1} quality:{2} similarity:{3} ({4}ms)";
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("face");
+
+        private string root = @"F:\airdata\wrong\wrong";
+        private List<FileItem> fileItems = new List<FileItem>();
+        private static readonly object sync = new object();
         public FrmMain()
         {
             InitializeComponent();
         }
 
-        private int key(string path)
-        {
-            var filename = Path.GetFileName(path);
-            var idpos = filename.IndexOf('_');
-            var id = filename.Substring(0, idpos);
-            return Int32.Parse(id);
-        }
-
-        private List<FileItem> fileItems = new List<FileItem>();
-
         private async void button1_Click(object sender, EventArgs e)
         {
-            File.Delete("data.json");
+            var folder = new FolderBrowserDialog();
+            folder.SelectedPath = root;
+            var dialog = folder.ShowDialog();
+            if (dialog != DialogResult.OK)
+            {
+                return;
+            }
+            root = folder.SelectedPath;
+
+            var datafile = Path.Combine(root, "data.json");
+            File.Delete(datafile);
+
             Stopwatch sw = Stopwatch.StartNew();
-            var files = Directory.GetFiles(@"d:\data1", "*.jpg").ToList().
-                OrderBy(s => key(s)).ToArray();
+            var files = Directory.GetFiles(root, "*.jpg").ToList().
+                OrderBy(s => Tools.GetFileGroupId(s)).ToArray();
             sw.Stop();
 
-            var first = files.Take(files.Length / 2).ToArray();
-            var second = files.Skip(files.Length / 2).ToArray();
+            int threadcount = Int32.Parse(txtThreadcount.Text);
+            List<string[]> list = Tools.DivideArray(files, threadcount);
+            Task[] tasks = new Task[threadcount];
 
             sw.Restart();
-            var t1 = Task.Factory.StartNew(() =>
+            tasks[0] = Task.Factory.StartNew(() =>
             {
-                Work(files);
+                Work(list[0]);
             });
-            //var t2 = Task.Factory.StartNew(() =>
-            //{
-            //    Work(second);
-            //});
-            await t1;
-            //await t2;
+            tasks[1] = Task.Factory.StartNew(() =>
+            {
+                Work(list[1]);
+            });
+
+            for (int i = 0; i < threadcount; i++)
+            {
+                await tasks[i];
+            }
+            sw.Stop();
             Console.WriteLine("耗时->" + sw.ElapsedMilliseconds);
-            Console.WriteLine("结束->" + fileItems.Count);
+            Console.WriteLine("文件数量->" + fileItems.Count);
 
             JavaScriptSerializer js = new JavaScriptSerializer();
             var json = js.Serialize(fileItems);
-            File.WriteAllText("data.json", json);
+            File.WriteAllText(datafile, json);
         }
 
-        private static readonly object sync = new object();
         private void Work(string[] files)
         {
             foreach (var file in files)
             {
-                var filegroupId = GetFileId(file);
+                var filegroupId = Tools.GetFileGroupId(file);
                 FileItem exist = null;
                 lock (sync)
                 {
@@ -85,7 +95,7 @@ namespace FaceDetectAndCompare
                     {
                         this.label1.Text = filegroupId;
                     }));
-                    var fi = GetFileItem(filegroupId, file, files);
+                    var fi = Tools.GetFileItem(filegroupId, file, files);
                     if (string.IsNullOrEmpty(fi.CardFile))
                     {
                         continue;
@@ -98,51 +108,28 @@ namespace FaceDetectAndCompare
             }
         }
 
-        private string GetFileName(string filepath)
-        {
-            return Path.GetFileName(filepath);
-        }
-
-        private string GetFileId(string filepath)
-        {
-            var filename = Path.GetFileName(filepath);
-            var start = filename.IndexOf('_');
-            var id = filename.Substring(0, start);
-            return id;
-        }
-
-        private FileItem GetFileItem(string id, string filepath, IEnumerable<string> files)
-        {
-            var idfiles = files.Where(s => Path.GetFileName(s).StartsWith(id + "_"));
-            FileItem fi = new FileItem();
-            fi.ID = id;
-            fi.CardFile = idfiles.FirstOrDefault(s => s.Contains("card"));
-            fi.OtherFiles = idfiles.Where(s => !s.Contains("card")).ToList();
-            return fi;
-        }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            Task.Run(new Action(() =>
-            {
-                IceApp app = new IceApp();
-                app.main(new string[1] { "" }, "config.client");
-            }));
+            //Task.Run(new Action(() =>
+            //{
+            //    IceApp app = new IceApp();
+            //    app.main(new string[1] { "" }, "config.client");
+            //}));
         }
 
         private async void button2_Click(object sender, EventArgs e)
         {
+            var datafile = Path.Combine(root, "data.json");
             JavaScriptSerializer js = new JavaScriptSerializer();
-            fileItems = js.Deserialize<List<FileItem>>(File.ReadAllText("data.json"));
+            fileItems = js.Deserialize<List<FileItem>>(datafile);
             Stopwatch sw = Stopwatch.StartNew();
-            fileItems = fileItems.Where(s => Int32.Parse(s.ID) >= 1507).ToList();
             await Task.Run(() =>
             {
                 foreach (var fi in fileItems)
                 {
                     foreach (var file in fi.OtherFiles)
                     {
-                        Detect(file, fi.CardFile);
+                        DetectFace(file, fi.CardFile);
                     }
                 }
             });
@@ -150,19 +137,19 @@ namespace FaceDetectAndCompare
             log.Info("总比对耗时->" + sw.ElapsedMilliseconds);
         }
 
-        private void Detect(string imagefile, string cardfile)
+        private void DetectFace(string filepath, string cardfile)
         {
-            var filename = GetFileName(imagefile);
-            var base64Image = imagefile.FileToBase64();
+            var filename = Tools.GetFileName(filepath);
+            var base64Image = filepath.FileToBase64();
             var sb = new StringBuilder();
             sb.Append("imgData".ElementImage(base64Image));
             sb.Append("threshold".ElementText(threshold));
             sb.Append("maxImageCount".ElementText(facemax));
-            var sendcontent = sb.ToString();
+            var xmlcontent = sb.ToString();
 
-            var xml = XmlParse.GetXml("staticDetect", sendcontent);
+            var sendxml = XmlParse.GetXml("staticDetect", xmlcontent);
             Stopwatch sw = Stopwatch.StartNew();
-            var content = IceApp.facePxy.send(xml);
+            var content = IceApp.facePxy.send(sendxml);
             sw.Stop();
 
             if (content.IsEmpty())
@@ -174,20 +161,18 @@ namespace FaceDetectAndCompare
             var code = doc.GetNodeText("code");
             if (code.ToInt32() != status_ok)
             {
-                var data = string.Format(logcontent, filename, facecount, sw.ElapsedMilliseconds);
+                var data = string.Format(detect_logtemplate, filename, facecount, sw.ElapsedMilliseconds);
                 log.Info(data);
                 return;
             }
             var persons = doc.SelectNodes("/xml/persons/person");
             facecount = persons.Count;
-
-            var temp = string.Format(logcontent, filename, facecount, sw.ElapsedMilliseconds);
+            var temp = string.Format(detect_logtemplate, filename, facecount, sw.ElapsedMilliseconds);
             log.Info(temp);
-
-            DrawFace(persons, filename, cardfile);
+            CompareFaces(persons, filename, cardfile);
         }
 
-        private void DrawFace(XmlNodeList faces, string filename, string cardfile)
+        private void CompareFaces(XmlNodeList faces, string filename, string cardfile)
         {
             var index = 0;
             var cardfilebase = cardfile.FileToBase64();
@@ -201,24 +186,23 @@ namespace FaceDetectAndCompare
                 var faceimage = face.GetNodeText("imgData");
 
                 var similarity = "";
-                long elapseillseconds = 0;
-                compare(faceimage, cardfilebase, ref similarity, ref elapseillseconds);
+                var elapseillseconds = (long)0;
+                Compare(faceimage, cardfilebase, ref similarity, ref elapseillseconds);
 
-                var content = "img[{0}]-{1} similarity:{2} ({3}ms)";
-                content = string.Format(content, filename, index, similarity, elapseillseconds);
-                log.Info(content);
+                var temp = string.Format(compare_logtemplate, filename, index, quality, similarity, elapseillseconds);
+                log.Info(temp);
                 index++;
             }
         }
 
-        private void compare(string imagebaseA, string imagebaseB, ref string similarity, ref long elapsemillseconds)
+        private void Compare(string imagebaseA, string imagebaseB, ref string similarity, ref long elapsemillseconds)
         {
             var sb = new StringBuilder();
             sb.Append("srcImgData".ElementImage(imagebaseA));
             sb.Append("destImgData".ElementImage(imagebaseB));
-            var xml = XmlParse.GetXml("compare", sb.ToString());
+            var sendxml = XmlParse.GetXml("compare", sb.ToString());
             Stopwatch sw = Stopwatch.StartNew();
-            var content = IceApp.facePxy.send(xml);
+            var content = IceApp.facePxy.send(sendxml);
             sw.Stop();
             elapsemillseconds = sw.ElapsedMilliseconds;
 
