@@ -58,11 +58,9 @@ namespace AirPort.Server
         public override int run(string[] args)
         {
             AutoRun();
-
             Console.Title = "ICE-Server";
             PersonMySql db = new PersonMySql();
             db.Connect();
-
             try
             {
                 Ice.ObjectAdapter adapter = communicator().createObjectAdapter("Face");
@@ -89,7 +87,6 @@ namespace AirPort.Server
         static int Main(string[] args)
         {
             App app = new App();
-
             Task.Factory.StartNew(() =>
             {
                 GetIp();

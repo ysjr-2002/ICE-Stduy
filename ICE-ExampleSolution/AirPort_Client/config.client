@@ -4,6 +4,6 @@
 #
 #
 #
-Ice.MessageMaxSize=2048
+Ice.MessageSizeMax=2048
 #
 Face.Proxy=myface:tcp -h 192.168.1.60 -p 9996

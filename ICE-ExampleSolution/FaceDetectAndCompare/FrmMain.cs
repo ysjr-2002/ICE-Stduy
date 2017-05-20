@@ -12,14 +12,16 @@ using Common;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using System.Web.Script.Serialization;
 
 namespace FaceDetectAndCompare
 {
     public partial class FrmMain : Form
     {
         private string threshold = "0.78";
-        private string facemax = "8";
+        private string facemax = "5";
         private int status_ok = 0;
+        private const string logcontent = "detect[{0}] found {1} person(s) ({2}ms)";
         private static log4net.ILog log = log4net.LogManager.GetLogger("face");
         public FrmMain()
         {
@@ -34,52 +36,131 @@ namespace FaceDetectAndCompare
             return Int32.Parse(id);
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private List<FileItem> fileItems = new List<FileItem>();
+
+        private async void button1_Click(object sender, EventArgs e)
         {
+            File.Delete("data.json");
             Stopwatch sw = Stopwatch.StartNew();
-            var files = Directory.GetFiles(@"F:\data1", "*.jpg").ToList().
-                OrderBy(s => key(s)).
-                GroupBy(s => key(s)).
-                Select(g => new
-                {
-                    key = g.Key,
-                    c = g.Count()
-                });
-
+            var files = Directory.GetFiles(@"d:\data1", "*.jpg").ToList().
+                OrderBy(s => key(s)).ToArray();
             sw.Stop();
-            Console.WriteLine("耗时->" + sw.ElapsedMilliseconds);
 
-            //Task.Factory.StartNew(() =>
-            //{
-            //    foreach (var file in files)
-            //    {
-            //        //Detect(file, Path.GetFileName(file));
-            //        Console.WriteLine(Path.GetFileName(file));
-            //    }
-            //});
+            var first = files.Take(files.Length / 2).ToArray();
+            var second = files.Skip(files.Length / 2).ToArray();
 
-            foreach (var item in files)
+            sw.Restart();
+            var t1 = Task.Factory.StartNew(() =>
             {
-                log.Info(item.key + "->" + item.c);
+                Work(files);
+            });
+            //var t2 = Task.Factory.StartNew(() =>
+            //{
+            //    Work(second);
+            //});
+            await t1;
+            //await t2;
+            Console.WriteLine("耗时->" + sw.ElapsedMilliseconds);
+            Console.WriteLine("结束->" + fileItems.Count);
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            var json = js.Serialize(fileItems);
+            File.WriteAllText("data.json", json);
+        }
+
+        private static readonly object sync = new object();
+        private void Work(string[] files)
+        {
+            foreach (var file in files)
+            {
+                var filegroupId = GetFileId(file);
+                FileItem exist = null;
+                lock (sync)
+                {
+                    exist = fileItems.SingleOrDefault(s => s.ID == filegroupId);
+                }
+                if (exist == null)
+                {
+                    this.Invoke(new Action(() =>
+                    {
+                        this.label1.Text = filegroupId;
+                    }));
+                    var fi = GetFileItem(filegroupId, file, files);
+                    if (string.IsNullOrEmpty(fi.CardFile))
+                    {
+                        continue;
+                    }
+                    lock (sync)
+                    {
+                        fileItems.Add(fi);
+                    }
+                }
             }
         }
-        private void Form1_Load(object sender, EventArgs e)
+
+        private string GetFileName(string filepath)
         {
-            IceApp app = new IceApp();
-            app.main(null, "config.client");
+            return Path.GetFileName(filepath);
         }
 
-        private void Detect(string imagefile, string filename)
+        private string GetFileId(string filepath)
         {
-            var base64Image = imagefile.FileToBase64();
+            var filename = Path.GetFileName(filepath);
+            var start = filename.IndexOf('_');
+            var id = filename.Substring(0, start);
+            return id;
+        }
 
+        private FileItem GetFileItem(string id, string filepath, IEnumerable<string> files)
+        {
+            var idfiles = files.Where(s => Path.GetFileName(s).StartsWith(id + "_"));
+            FileItem fi = new FileItem();
+            fi.ID = id;
+            fi.CardFile = idfiles.FirstOrDefault(s => s.Contains("card"));
+            fi.OtherFiles = idfiles.Where(s => !s.Contains("card")).ToList();
+            return fi;
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            Task.Run(new Action(() =>
+            {
+                IceApp app = new IceApp();
+                app.main(new string[1] { "" }, "config.client");
+            }));
+        }
+
+        private async void button2_Click(object sender, EventArgs e)
+        {
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            fileItems = js.Deserialize<List<FileItem>>(File.ReadAllText("data.json"));
+            Stopwatch sw = Stopwatch.StartNew();
+            fileItems = fileItems.Where(s => Int32.Parse(s.ID) >= 1507).ToList();
+            await Task.Run(() =>
+            {
+                foreach (var fi in fileItems)
+                {
+                    foreach (var file in fi.OtherFiles)
+                    {
+                        Detect(file, fi.CardFile);
+                    }
+                }
+            });
+            sw.Stop();
+            log.Info("总比对耗时->" + sw.ElapsedMilliseconds);
+        }
+
+        private void Detect(string imagefile, string cardfile)
+        {
+            var filename = GetFileName(imagefile);
+            var base64Image = imagefile.FileToBase64();
             var sb = new StringBuilder();
             sb.Append("imgData".ElementImage(base64Image));
             sb.Append("threshold".ElementText(threshold));
             sb.Append("maxImageCount".ElementText(facemax));
-            var data = sb.ToString();
+            var sendcontent = sb.ToString();
 
-            var xml = XmlParse.GetXml("staticDetect", data);
+            var xml = XmlParse.GetXml("staticDetect", sendcontent);
             Stopwatch sw = Stopwatch.StartNew();
             var content = IceApp.facePxy.send(xml);
             sw.Stop();
@@ -88,25 +169,28 @@ namespace FaceDetectAndCompare
             {
                 return;
             }
+            var facecount = 0;
             var doc = XmlParse.LoadXml(content);
             var code = doc.GetNodeText("code");
             if (code.ToInt32() != status_ok)
             {
+                var data = string.Format(logcontent, filename, facecount, sw.ElapsedMilliseconds);
+                log.Info(data);
                 return;
             }
             var persons = doc.SelectNodes("/xml/persons/person");
-            var facecount = persons.Count;
+            facecount = persons.Count;
 
-            var logcontent = "detect[{0}] found {1} person(s) ({2}ms)";
-            logcontent = string.Format(logcontent, filename, facecount, sw.ElapsedMilliseconds);
-            log.Info(logcontent);
+            var temp = string.Format(logcontent, filename, facecount, sw.ElapsedMilliseconds);
+            log.Info(temp);
 
-            DrawFace(persons, filename);
+            DrawFace(persons, filename, cardfile);
         }
 
-        private void DrawFace(XmlNodeList faces, string filename)
+        private void DrawFace(XmlNodeList faces, string filename, string cardfile)
         {
             var index = 0;
+            var cardfilebase = cardfile.FileToBase64();
             foreach (XmlNode face in faces)
             {
                 var quality = face.GetNodeText("quality").ToFloat();
@@ -118,9 +202,9 @@ namespace FaceDetectAndCompare
 
                 var similarity = "";
                 long elapseillseconds = 0;
-                compare(faceimage, "", ref similarity, ref elapseillseconds);
+                compare(faceimage, cardfilebase, ref similarity, ref elapseillseconds);
 
-                var content = "img[(0)]-{1} similarity:{2} ({3}ms)";
+                var content = "img[{0}]-{1} similarity:{2} ({3}ms)";
                 content = string.Format(content, filename, index, similarity, elapseillseconds);
                 log.Info(content);
                 index++;
