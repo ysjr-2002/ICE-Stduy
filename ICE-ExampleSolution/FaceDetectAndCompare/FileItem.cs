@@ -8,7 +8,7 @@ namespace FaceDetectAndCompare
 {
     class FileItem
     {
-        public string ID { get; set; }
+        public string FileGroupId { get; set; }
 
         public string CardFile { get; set; }
 

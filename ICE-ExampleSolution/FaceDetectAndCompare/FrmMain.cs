@@ -33,7 +33,8 @@ namespace FaceDetectAndCompare
             InitializeComponent();
         }
 
-        private async void button1_Click(object sender, EventArgs e)
+        //文件分组
+        private async void btnGrouping_Click(object sender, EventArgs e)
         {
             var folder = new FolderBrowserDialog();
             folder.SelectedPath = root;
@@ -59,11 +60,11 @@ namespace FaceDetectAndCompare
             sw.Restart();
             tasks[0] = Task.Factory.StartNew(() =>
             {
-                Work(list[0]);
+                FileGroup(list[0]);
             });
             tasks[1] = Task.Factory.StartNew(() =>
             {
-                Work(list[1]);
+                FileGroup(list[1]);
             });
 
             for (int i = 0; i < threadcount; i++)
@@ -79,7 +80,7 @@ namespace FaceDetectAndCompare
             File.WriteAllText(datafile, json);
         }
 
-        private void Work(string[] files)
+        private void FileGroup(string[] files)
         {
             foreach (var file in files)
             {
@@ -87,7 +88,7 @@ namespace FaceDetectAndCompare
                 FileItem exist = null;
                 lock (sync)
                 {
-                    exist = fileItems.SingleOrDefault(s => s.ID == filegroupId);
+                    exist = fileItems.SingleOrDefault(s => s.FileGroupId == filegroupId);
                 }
                 if (exist == null)
                 {
@@ -110,14 +111,19 @@ namespace FaceDetectAndCompare
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            //Task.Run(new Action(() =>
-            //{
-            //    IceApp app = new IceApp();
-            //    app.main(new string[1] { "" }, "config.client");
-            //}));
+            Task.Run(new Action(() =>
+            {
+                IceApp app = new IceApp();
+                app.main(new string[1] { "" }, "config.client");
+            }));
         }
 
-        private async void button2_Click(object sender, EventArgs e)
+        /// <summary>
+        /// 分组和检测
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void btnDetectAndComapare_Click(object sender, EventArgs e)
         {
             var datafile = Path.Combine(root, "data.json");
             JavaScriptSerializer js = new JavaScriptSerializer();

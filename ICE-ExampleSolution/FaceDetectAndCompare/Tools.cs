@@ -47,7 +47,7 @@ namespace FaceDetectAndCompare
         {
             var idfiles = files.Where(s => Path.GetFileName(s).StartsWith(groupId + "_"));
             FileItem fi = new FileItem();
-            fi.ID = groupId;
+            fi.FileGroupId = groupId;
             fi.CardFile = idfiles.FirstOrDefault(s => s.Contains("card"));
             fi.OtherFiles = idfiles.Where(s => !s.Contains("card")).ToList();
             return fi;
