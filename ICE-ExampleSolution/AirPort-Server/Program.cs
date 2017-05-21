@@ -66,6 +66,13 @@ namespace AirPort.Server
                 Ice.ObjectAdapter adapter = communicator().createObjectAdapter("Face");
                 Ice.Object faceServant = new MyFace(db);
                 adapter.add(faceServant, communicator().stringToIdentity("myface"));
+
+                //Ice.Object faceServant1 = new MyFace(db);
+                //adapter.add(faceServant1, communicator().stringToIdentity("myface1"));
+
+                //Ice.Object faceServant2 = new MyFace(db);
+                //adapter.add(faceServant2, communicator().stringToIdentity("myface2"));
+
                 adapter.activate();
 
                 print("server start...");
@@ -98,8 +105,13 @@ namespace AirPort.Server
             Ice.Properties properties = Ice.Util.createProperties();
             properties.load("config.server");
             properties.setProperty("Ice.ThreadPool.Server.Size", "16");
-            properties.setProperty("Ice.ThreadPool.Server.SizeMax", "100");
-            properties.setProperty("Ice.ThreadPool.Server.SizeWarn", "0");
+            properties.setProperty("Ice.ThreadPool.Server.SizeMax", "64");
+            properties.setProperty("Ice.ThreadPool.Server.SizeWarn", "32");
+
+            properties.setProperty("Ice.ThreadPool.Client.Size", "16");
+            properties.setProperty("Ice.ThreadPool.Client.SizeMax", "64");
+            properties.setProperty("Ice.ThreadPool.Client.SizeWarn", "32");
+
             Ice.InitializationData data = new Ice.InitializationData();
             data.properties = properties;
             return app.main(args, data);

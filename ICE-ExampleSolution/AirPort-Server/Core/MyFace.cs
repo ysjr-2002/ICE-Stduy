@@ -34,7 +34,7 @@ namespace AirPort.Server.Core
             var faceServer = ConfigurationManager.AppSettings["faceserver"];
             Constrants.Init(faceServer);
             fs = new FaceServices();
-            fs.GetVersion();
+            //fs.GetVersion();
             this.db = db;
             print("create a server object");
         }
@@ -164,17 +164,18 @@ namespace AirPort.Server.Core
             if (result != null && result.Faces != null)
             {
                 count = result.Faces.Length;
-                var topFaces = result.Faces.OrderByDescending(s => s.Quality).Take(maxImageCount.ToInt32());
+                var topFaces = result.Faces.OrderByDescending(s => s.Rect.Width * s.Rect.Height)
+                    .Take(maxImageCount.ToInt32());
                 foreach (var face in topFaces)
                 {
-                    var quality = face.Quality;
+                    var confidence = face.confidence;
                     var width = face.Rect.Width;
                     var height = face.Rect.Height;
-                    if (quality > 1)
+                    if (confidence > 1)
                     {
-                        quality = quality / 100;
+                        confidence = confidence / 100;
                     }
-                    if (quality < threshold.ToFloat() || width < 50 || height < 50)
+                    if (confidence < threshold.ToFloat() || width < 50 || height < 50)
                     {
                         continue;
                     }
@@ -184,7 +185,7 @@ namespace AirPort.Server.Core
                     sb.Append("posY".ElementText(face.Rect.Top.ToString()));
                     sb.Append("imgWidth".ElementText(face.Rect.Width.ToString()));
                     sb.Append("imgHeight".ElementText(face.Rect.Height.ToString()));
-                    sb.Append("quality".ElementText(quality.ToString()));
+                    sb.Append("quality".ElementText(confidence.ToString()));
                     sb.Append("person".ElementEnd());
                 }
             }

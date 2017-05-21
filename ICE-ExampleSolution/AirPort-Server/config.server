@@ -7,7 +7,7 @@ Ice.MessageSizeMax=2048
 #
 Ice.Trace.ThreadPool=1
 #
-Face.Endpoints=tcp -h 192.168.1.60 -p 9996
+Face.Endpoints=tcp -h 192.168.0.4 -p 9996
 
 #
 # Network Tracing

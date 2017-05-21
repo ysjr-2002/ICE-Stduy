@@ -65,9 +65,8 @@ namespace AirPort.Server.WebAPI
         {
             Dictionary<string, string> param = new Dictionary<string, string>();
             param.Add("image_maxsize", "0");
-            param.Add("analyze", "true");
+            //param.Add("analyze", "true");
             param.Add("crop", "true");
-
             var detectResult = HttpMethod.Post<DetectResult>(Constrants.url_detect, image, param);
             return detectResult;
         }

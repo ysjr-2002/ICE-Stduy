@@ -75,6 +75,7 @@ namespace AirPort.Server
         public Rect Rect { get; set; }
         public Attrs Attrs { get; set; }
         public float Quality { get; set; }
+        public float confidence { get; set; }
         public crop crop { get; set; }
     }
 

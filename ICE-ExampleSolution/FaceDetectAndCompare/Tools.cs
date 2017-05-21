@@ -35,21 +35,21 @@ namespace FaceDetectAndCompare
             return Path.GetFileName(filepath);
         }
 
-        public static string GetFileGroupId(string filepath)
+        public static int GetFileGroupId(string filepath)
         {
             var filename = Path.GetFileName(filepath);
             var start = filename.IndexOf('_');
             var id = filename.Substring(0, start);
-            return id;
+            return Int32.Parse(id);
         }
 
-        public static FileItem GetFileItem(string groupId, string filepath, IEnumerable<string> files)
+        public static FileItem GetFileItem(int groupId, string filepath, IEnumerable<string> files)
         {
             var idfiles = files.Where(s => Path.GetFileName(s).StartsWith(groupId + "_"));
             FileItem fi = new FileItem();
             fi.FileGroupId = groupId;
             fi.CardFile = idfiles.FirstOrDefault(s => s.Contains("card"));
-            fi.OtherFiles = idfiles.Where(s => !s.Contains("card")).ToList();
+            fi.OtherFiles = idfiles.Where(s => !s.Contains("card") && !s.Contains("match")).ToList();
             return fi;
         }
     }
