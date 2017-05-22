@@ -8,6 +8,7 @@ using Ice;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -27,6 +28,7 @@ namespace AirPort.Server.Core
         private string currentRtspId = "";
         private const string queueMessageType = "messageQueue";
 
+        private static readonly log4net.ILog log = log4net.LogManager.GetLogger("App");
         private Dictionary<string, ClientData> clientProxyList = new Dictionary<string, ClientData>();
 
         public MyFace(PersonMySql db)
@@ -34,7 +36,7 @@ namespace AirPort.Server.Core
             var faceServer = ConfigurationManager.AppSettings["faceserver"];
             Constrants.Init(faceServer);
             fs = new FaceServices();
-            //fs.GetVersion();
+            fs.GetVersion();
             this.db = db;
             print("create a server object");
         }
@@ -48,26 +50,32 @@ namespace AirPort.Server.Core
             }
         }
 
+        private static string getIP(Current current__)
+        {
+            var conn = current__.con;
+            var endPoint = conn.getEndpoint();
+            var ip = current__.con.ToString();
+            return ip;
+        }
+
         public override string send(string xml, Current current__)
         {
             try
             {
                 var content = "";
-                var conn = current__.con;
-                var endPoint = conn.getEndpoint();
-                var ip = current__.con.ToString();
+                var ip = getIP(current__);
                 print("ip->" + ip.Replace('\n', ' '));
-                content = ParseXml(xml);
+                content = ParseXml(xml, current__);
                 return content;
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine("返回数据异常");
+                print("返回数据异常");
                 return string.Empty;
             }
         }
 
-        private string ParseXml(string xml)
+        private string ParseXml(string xml, Current current__)
         {
             XmlDocument doc = new XmlDocument();
             doc.LoadXml(xml);
@@ -79,7 +87,10 @@ namespace AirPort.Server.Core
             switch (typename)
             {
                 case "staticDetect": //静态人脸识别，返回图片内的人脸数据
+                    Stopwatch sw = Stopwatch.StartNew();
                     content = staticDetect(doc);
+                    sw.Stop();
+                    log.Info("detect->" + sw.ElapsedMilliseconds + " client->" + getIP(current__));
                     break;
                 case "dynamicDetect": //人脸动态识别接口
                     content = dynamicDetect(doc);
@@ -149,6 +160,7 @@ namespace AirPort.Server.Core
             print("maxImageCount->" + maxImageCount);
 
             var result = fs.Detect(image, false, false);
+            Console.ForegroundColor = ConsoleColor.White;
             var code = "-1";
             if (result != null)
             {

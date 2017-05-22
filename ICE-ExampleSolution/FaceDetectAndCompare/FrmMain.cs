@@ -232,14 +232,13 @@ namespace FaceDetectAndCompare
 
             List<string> logs = new List<string>();
             var bestSimilarity = CompareFaces(persons, filename, cardfile, logs);
-
             //检测日志
             var temp = string.Format(detect_logtemplate, filename, facecount, sw.ElapsedMilliseconds, bestSimilarity);
             log.Info(temp);
 
-            foreach (var piccomparelog in logs)
+            foreach (var facecomparelog in logs)
             {
-                log.Info(piccomparelog);
+                log.Info(facecomparelog);
             }
         }
 
@@ -262,12 +261,10 @@ namespace FaceDetectAndCompare
                 Compare(faceimage, cardfilebase, ref similarity, ref elapseillseconds);
 
                 var fn = Path.GetFileNameWithoutExtension(filename);
-
                 var smallpicname = string.Format("{0}_{1}_{2}_{3}", fn, index, w, h);
                 smallpicname = string.Concat(smallpicname, ".jpg");
                 var temp = string.Format(compare_logtemplate, smallpicname, index, similarity, elapseillseconds);
                 logs.Add(temp);
-                //log.Info(temp);
 
                 SaveImage(faceimage.Base64ToByte(), smallpicname);
                 index++;

@@ -89,6 +89,10 @@ namespace AirPort.Server.WebAPI
             {
                 return default(T);
             }
+            finally
+            {
+                response?.Close();
+            }
         }
 
         public static T PostNoImage<T>(string url, Dictionary<string, string> param)
@@ -121,6 +125,10 @@ namespace AirPort.Server.WebAPI
             catch (Exception ex)
             {
                 return default(T);
+            }
+            finally
+            {
+                response?.Close();
             }
         }
 
@@ -197,6 +205,10 @@ namespace AirPort.Server.WebAPI
             catch (Exception ex)
             {
                 return default(T);
+            }
+            finally
+            {
+                response?.Close();
             }
         }
 

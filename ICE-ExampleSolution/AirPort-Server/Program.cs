@@ -66,15 +66,7 @@ namespace AirPort.Server
                 Ice.ObjectAdapter adapter = communicator().createObjectAdapter("Face");
                 Ice.Object faceServant = new MyFace(db);
                 adapter.add(faceServant, communicator().stringToIdentity("myface"));
-
-                //Ice.Object faceServant1 = new MyFace(db);
-                //adapter.add(faceServant1, communicator().stringToIdentity("myface1"));
-
-                //Ice.Object faceServant2 = new MyFace(db);
-                //adapter.add(faceServant2, communicator().stringToIdentity("myface2"));
-
                 adapter.activate();
-
                 print("server start...");
                 communicator().waitForShutdown();
                 return 0;
@@ -115,9 +107,6 @@ namespace AirPort.Server
             Ice.InitializationData data = new Ice.InitializationData();
             data.properties = properties;
             return app.main(args, data);
-
-            //配置文件方式
-            //return app.main(args, "config.server");
         }
 
         static AutoResetEvent auto = new AutoResetEvent(false);
