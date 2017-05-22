@@ -15,11 +15,15 @@ namespace AirPort.Server.WebAPI
             var result = HttpMethod.Get<VersionResult>(Constrants.url_version, null);
             if (result != null)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 print("faceservice ok");
+                Console.ForegroundColor = ConsoleColor.White;
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 print("faceservice error");
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
         /// <summary>

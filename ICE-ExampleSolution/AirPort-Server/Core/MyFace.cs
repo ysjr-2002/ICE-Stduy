@@ -87,10 +87,7 @@ namespace AirPort.Server.Core
             switch (typename)
             {
                 case "staticDetect": //静态人脸识别，返回图片内的人脸数据
-                    Stopwatch sw = Stopwatch.StartNew();
                     content = staticDetect(doc);
-                    sw.Stop();
-                    log.Info("detect->" + sw.ElapsedMilliseconds + " client->" + getIP(current__));
                     break;
                 case "dynamicDetect": //人脸动态识别接口
                     content = dynamicDetect(doc);
