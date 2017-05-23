@@ -338,6 +338,7 @@ namespace AirPort.Server.Core
             if (similarity > 1)
                 similarity = similarity / 100;
             similarity = Math.Round(similarity, 2);
+            print(string.Format("similarity:{0}", similarity));
             var sb = new StringBuilder();
             sb.Append("xml".ElementBegin());
             sb.Append("code".ElementText(code));

@@ -47,6 +47,9 @@ namespace AirPort.Server
 
     class App : Ice.Application
     {
+        private const string thread_init_size = "32";
+        private const string thread_max_size = "100";
+
         private void AutoRun()
         {
             var appname = "byiceserver";
@@ -67,7 +70,7 @@ namespace AirPort.Server
                 Ice.Object faceServant = new MyFace(db);
                 adapter.add(faceServant, communicator().stringToIdentity("myface"));
                 adapter.activate();
-                print("server start...");
+                print("Server start...");
                 communicator().waitForShutdown();
                 return 0;
             }
@@ -93,16 +96,14 @@ namespace AirPort.Server
             auto.WaitOne();
             Console.Clear();
 
-            //自定义方式
+            //自定义方式            
             Ice.Properties properties = Ice.Util.createProperties();
             properties.load("config.server");
-            properties.setProperty("Ice.ThreadPool.Server.Size", "16");
-            properties.setProperty("Ice.ThreadPool.Server.SizeMax", "64");
-            properties.setProperty("Ice.ThreadPool.Server.SizeWarn", "32");
+            properties.setProperty("Ice.ThreadPool.Server.Size", thread_init_size);
+            properties.setProperty("Ice.ThreadPool.Server.SizeMax", thread_max_size);
 
-            properties.setProperty("Ice.ThreadPool.Client.Size", "16");
-            properties.setProperty("Ice.ThreadPool.Client.SizeMax", "64");
-            properties.setProperty("Ice.ThreadPool.Client.SizeWarn", "32");
+            properties.setProperty("Ice.ThreadPool.Client.Size", thread_init_size);
+            properties.setProperty("Ice.ThreadPool.Client.SizeMax", thread_max_size);
 
             Ice.InitializationData data = new Ice.InitializationData();
             data.properties = properties;
