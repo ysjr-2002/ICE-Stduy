@@ -88,6 +88,8 @@ namespace AirPort.Server
 
         static int Main(string[] args)
         {
+            System.Net.ServicePointManager.DefaultConnectionLimit = 128;
+
             App app = new App();
             Task.Factory.StartNew(() =>
             {
