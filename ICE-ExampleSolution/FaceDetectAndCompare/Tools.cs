@@ -43,7 +43,7 @@ namespace FaceDetectAndCompare
             return Int32.Parse(id);
         }
 
-        public static FileItem GetFileItem(int groupId, string filepath, IEnumerable<string> files)
+        public static FileItem GetFileItem(int groupId, IEnumerable<string> files)
         {
             var idfiles = files.Where(s => Path.GetFileName(s).StartsWith(groupId + "_"));
             FileItem fi = new FileItem();

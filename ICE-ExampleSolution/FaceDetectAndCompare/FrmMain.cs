@@ -63,7 +63,7 @@ namespace FaceDetectAndCompare
                 btnDetectAndCompare.PerformClick();
             }
         }
-
+        private object ok = new object();
         //文件分组
         private async void btnGrouping_Click(object sender, EventArgs e)
         {
@@ -75,35 +75,44 @@ namespace FaceDetectAndCompare
                 return;
             }
             root = folder.SelectedPath;
-
             var datafile = Path.Combine(root, "data.json");
-            File.Delete(datafile);
-
-            Stopwatch sw = Stopwatch.StartNew();
+            if (File.Exists(datafile))
+            {
+                File.Delete(datafile);
+            }
             var files = Directory.GetFiles(root, "*.jpg").ToList().
                 OrderBy(s => Tools.GetFileGroupId(s)).ToArray();
-            sw.Stop();
-
             log.Info("总文件数量->" + files.Length);
+            int threadCount = Int32.Parse(txtThreadcount.Text);
+            List<string[]> list = Tools.DivideArray(files, threadCount);
+            Task[] tasks = new Task[threadCount];
 
-            int threadcount = Int32.Parse(txtThreadcount.Text);
-            List<string[]> list = Tools.DivideArray(files, threadcount);
-            Task[] tasks = new Task[threadcount];
-
-            sw.Restart();
-            tasks[0] = Task.Factory.StartNew(() =>
+            Stopwatch sw = Stopwatch.StartNew();
+            for (int j = 0; j < threadCount; j++)
             {
-                FileGroup(list[0]);
-            });
-            tasks[1] = Task.Factory.StartNew(() =>
-            {
-                FileGroup(list[1]);
-            });
-
-            for (int i = 0; i < threadcount; i++)
-            {
-                await tasks[i];
+                Console.WriteLine(j);
+                lock (ok)
+                {
+                    //tasks[j] = Task.Factory.StartNew(() =>
+                    //{
+                    //    FileGroup(list[j]);
+                    //});
+                    var task = FileGroup(list[j]);
+                    tasks[j] = task;
+                }
             }
+
+            //tasks[1] = Task.Factory.StartNew(() =>
+            //{
+            //    FileGroup(list[1]);
+            //});
+            //for (int i = 0; i < threadCount; i++)
+            //{
+            //    await tasks[i];
+            //}
+
+            await Task.WhenAll(tasks);
+
             sw.Stop();
             log.Info("文件分组耗时->" + sw.ElapsedMilliseconds);
             log.Info("总文件组数量->" + fileItems.Count);
@@ -113,33 +122,37 @@ namespace FaceDetectAndCompare
             File.WriteAllText(datafile, json);
         }
 
-        private void FileGroup(string[] files)
+        private Task FileGroup(string[] files)
         {
-            foreach (var file in files)
+            return Task.Factory.StartNew(() =>
             {
-                var filegroupId = Tools.GetFileGroupId(file);
-                FileItem exist = null;
-                lock (sync)
+                foreach (var file in files)
                 {
-                    exist = fileItems.SingleOrDefault(s => s.FileGroupId == filegroupId);
-                }
-                if (exist == null)
-                {
-                    this.Invoke(new Action(() =>
-                    {
-                        this.label1.Text = filegroupId.ToString();
-                    }));
-                    var fi = Tools.GetFileItem(filegroupId, file, files);
-                    if (string.IsNullOrEmpty(fi.CardFile))
-                    {
-                        continue;
-                    }
+                    var filegroupId = Tools.GetFileGroupId(file);
+                    FileItem exist = null;
                     lock (sync)
                     {
-                        fileItems.Add(fi);
+                        exist = fileItems.SingleOrDefault(s => s.FileGroupId == filegroupId);
+                    }
+                    if (exist == null)
+                    {
+                        this.Invoke(new Action(() =>
+                        {
+                            this.label1.Text = filegroupId.ToString();
+                        }));
+                        var fi = Tools.GetFileItem(filegroupId, files);
+                        if (string.IsNullOrEmpty(fi.CardFile))
+                        {
+                            continue;
+                        }
+                        lock (sync)
+                        {
+                            fileItems.Add(fi);
+                        }
                     }
                 }
-            }
+            });
+
         }
 
         int count = 1;
@@ -331,6 +344,127 @@ namespace FaceDetectAndCompare
                 return;
             }
             smallpicPath = folder.SelectedPath;
+        }
+
+        private async void button3_Click(object sender, EventArgs e)
+        {
+            var folder = new FolderBrowserDialog();
+            folder.SelectedPath = root;
+            var dialog = folder.ShowDialog();
+            if (dialog != DialogResult.OK)
+            {
+                return;
+            }
+            root = folder.SelectedPath;
+
+            count = 0;
+            File.Delete(folderFile);
+            Stopwatch sw = Stopwatch.StartNew();
+            var task1 = Task.Factory.StartNew(() =>
+            {
+                Work(root);
+            });
+            await task1;
+            sw.Stop();
+            label3.Text = ("耗时=" + sw.ElapsedMilliseconds);
+            MessageBox.Show("结束！");
+        }
+
+        string folderFile = "c:\\dir.txt";
+        private void Work(string path)
+        {
+            var directory = Directory.GetDirectories(path);
+            if (directory.Length == 0)
+            {
+                var files = Directory.GetFiles(path, "*.jpg");
+                if (files.Length > 1)
+                {
+                    count++;
+                    this.Invoke(new Action(() =>
+                    {
+                        this.label1.Text = count.ToString();
+                    }));
+                    var fs = File.AppendText(folderFile);
+                    fs.WriteLine(path);
+                    fs.Close();
+                    return;
+                }
+                return;
+            }
+            foreach (var dir in directory)
+            {
+                Work(dir);
+            }
+        }
+
+        private volatile bool stop = false;
+        private async void button4_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(smallpicPath))
+            {
+                MessageBox.Show("请设置小图存放路径！");
+                return;
+            }
+            count = 0;
+            stop = false;
+            string[] folders = File.ReadAllLines(folderFile);
+            label5.Text = "共" + folders.Length + "组";
+            Stopwatch sw = Stopwatch.StartNew();
+            log.Info("开始比对=" + DateTime.Now.ToStandard());
+            await Task.Factory.StartNew(() =>
+            {
+                foreach (var folder in folders)
+                {
+                    if (stop)
+                        break;
+                    count++;
+                    Detect(folder);
+                    this.Invoke(new Action(() =>
+                    {
+                        this.label6.Text = "比对" + count.ToString() + "组";
+                    }));
+                }
+            });
+            sw.Stop();
+            log.Info("结束比对=" + DateTime.Now.ToStandard());
+            log.Info("耗时时间=" + sw.ElapsedMilliseconds / 1000);
+        }
+
+        private void Detect(string folder)
+        {
+            var files = Directory.GetFiles(folder, "*.jpg");
+            FileItem fi = new FileItem();
+            fi.CardFile = files.FirstOrDefault(s => s.Contains("card"));
+            if (fi.CardFile != null)
+            {
+                fi.OtherFiles = files.Where(s => !s.Contains("card")).ToList();
+            }
+
+            if (fi.CardFile == null)
+                return;
+
+            log.Info(string.Format("组:{0},共{1}张照片", count, fi.OtherFiles.Count));
+            foreach (var file in fi.OtherFiles)
+            {
+                DetectFace(file, fi.CardFile);
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            var folder = new FolderBrowserDialog();
+            folder.SelectedPath = root;
+            var dialog = folder.ShowDialog();
+            if (dialog != DialogResult.OK)
+            {
+                return;
+            }
+            smallpicPath = folder.SelectedPath;
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            stop = true;
         }
     }
 }
